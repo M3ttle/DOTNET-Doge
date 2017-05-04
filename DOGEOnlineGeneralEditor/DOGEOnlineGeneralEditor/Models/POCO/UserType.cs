@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿/*
+using System.Collections.Generic;
 
 namespace DOGEOnlineGeneralEditor.Models.POCO
 {
@@ -9,3 +10,4 @@ namespace DOGEOnlineGeneralEditor.Models.POCO
         public virtual List<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
+*/

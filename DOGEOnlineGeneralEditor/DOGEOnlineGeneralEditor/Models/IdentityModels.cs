@@ -11,6 +11,8 @@ namespace DOGEOnlineGeneralEditor.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        public User User { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -19,8 +21,18 @@ namespace DOGEOnlineGeneralEditor.Models
             return userIdentity;
         }
     }
+    public interface IAppDataContext
+    {
+        IDbSet<Project> Project { get; set; }
+        IDbSet<UserProject> UserProject { get; set; }
+        IDbSet<User> User { get; set; }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+        IDbSet<LanguageType> LanguageType { get; set; }
+        IDbSet<File> File { get; set; }
+        int SaveChanges();
+    }
+
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IAppDataContext
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -29,12 +41,12 @@ namespace DOGEOnlineGeneralEditor.Models
         }
 
         
-        public DbSet<Project> Project { get; set; }
-        public DbSet<UserProject> UserProject { get; set; }
-        public DbSet<UserType> UserType { get; set; }
+        public IDbSet<Project> Project { get; set; }
+        public IDbSet<UserProject> UserProject { get; set; }
+        public IDbSet<User> User { get; set; }
      
-        public DbSet<LanguageType> LanguageType { get; set; }
-        public DbSet<File> File { get; set; }
+        public IDbSet<LanguageType> LanguageType { get; set; }
+        public IDbSet<File> File { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
