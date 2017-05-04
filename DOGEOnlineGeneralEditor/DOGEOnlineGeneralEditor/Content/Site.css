@@ -47,8 +47,10 @@ textarea {
     }
 }
 
-/*DOGEOnlineGeneralEditor css*/
 
+
+
+/*DOGEOnlineGeneralEditor css*/
 
 /*Home Page*/
 #homeeditor {
@@ -253,7 +255,7 @@ main {
 }
 
 /* Used for submit buttons, to center them */
-div.form-group button[type=submit] {
+div.form-group input[type=submit] {
     width: 150px;
     height: 50px;
     margin-top: 60px;
