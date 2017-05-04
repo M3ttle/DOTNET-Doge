@@ -18,18 +18,15 @@ namespace DOGEOnlineGeneralEditor.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ApplicationDbContext _context;
 
         public AccountController()
         {
-            _context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            _context = new ApplicationDbContext();
         }
 
         public ApplicationSignInManager SignInManager
@@ -161,7 +158,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
               
                 {
                     User ourUser = new User { Name = model.Email, UserType =  UserType.Student, DateCreated = DateTime.Now};
-                    _context = new ApplicationDbContext();
+                    ApplicationDbContext _context = new ApplicationDbContext();
                     _context.User.Add(ourUser);
                     _context.SaveChanges();
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
