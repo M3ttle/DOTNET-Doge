@@ -26,5 +26,10 @@ namespace DOGE.Controllers
 
             return View();
         }
+
+        public ActionResult SignalR()
+        {
+            return View();
+        }
     }
 }

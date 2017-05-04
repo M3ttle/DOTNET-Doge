@@ -10,7 +10,7 @@ namespace DOGE.Models.POCO
         public int ID { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
-        [Column(TypeName = "DateTime")]
+        //[Column(TypeName = "DateTime")]
         public DateTime DateCreated { get; set; }
         public int ProjectID { get; set; }
         public int LanguageTypeID { get; set; }
