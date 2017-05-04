@@ -11,12 +11,12 @@ namespace DOGEOnlineGeneralEditor.Models.POCO
         public int FileCount { get; set; }
         [Column(TypeName = "DateTime")]
         public DateTime DateCreated { get; set; }
-        public virtual ApplicationUser Owner { get; set; }
+        public int OwnerID { get; set; }
         public bool IsPublic { get; set; }
         public int LanguageTypeID { get; set; }
         public virtual LanguageType LanguageType { get; set; }
         public virtual List<File> Files { get; set; }
-        public virtual List<UserProject> UserProject { get; set; }
+        public virtual List<UserProject> UserProjects { get; set; }
         
     }
 }

@@ -26,9 +26,9 @@ namespace DOGEOnlineGeneralEditor.Models
         IDbSet<Project> Project { get; set; }
         IDbSet<UserProject> UserProject { get; set; }
         IDbSet<User> User { get; set; }
-
         IDbSet<LanguageType> LanguageType { get; set; }
         IDbSet<File> File { get; set; }
+        IDbSet<UserType> UserType { get; set; }
         int SaveChanges();
     }
 
@@ -39,13 +39,13 @@ namespace DOGEOnlineGeneralEditor.Models
         { 
             
         }
-
         
         public IDbSet<Project> Project { get; set; }
         public IDbSet<UserProject> UserProject { get; set; }
         public IDbSet<User> User { get; set; }
         public IDbSet<LanguageType> LanguageType { get; set; }
         public IDbSet<File> File { get; set; }
+        public IDbSet<UserType> UserType { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

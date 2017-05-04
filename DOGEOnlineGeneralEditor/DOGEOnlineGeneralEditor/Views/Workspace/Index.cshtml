@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "User Home Page";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div class="hometext">
+    <h1>Catchy Description</h1>
+    <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur condimentum risus est, quis mattis felis ornare quis. Donec tempus eros a dolor rhoncus fermentum. Aliquam erat volutpat. Suspendisse quis metus nisl. Suspendisse cursus metus eget facilisis tempus. Ut sit amet tellus velit. Curabitur tempus velit eu nulla pretium, suscipit accumsan lectus mollis. Etiam aliquet ex sit amet sem auctor tempor ut ut ex. Vivamus mollis, orci sit amet hendrerit faucibus, augue libero pharetra orci, nec fermentum elit enim vitae lectus. Sed a velit ex. In finibus mauris non erat interdum, non ornare velit tristique. Aliquam posuere in odio vitae hendrerit.</p>
+</div>
+
+<hr />
+
+<div id="signupbutton">
+    <button onclick="window.location.href='/Account/Register'">Sign Up</button>
+</div>
+
+<hr />
+<div id="homeeditor">
+    function foo(items) {
+    var x = "All this is syntax highlighted";
+    return x;
+    }
+</div>
+
+<script>
+    var editor = ace.edit("homeeditor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/javascript");
+</script>
