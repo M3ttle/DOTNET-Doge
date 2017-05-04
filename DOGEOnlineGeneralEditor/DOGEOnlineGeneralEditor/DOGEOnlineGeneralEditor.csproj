@@ -194,7 +194,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WorkspaceController.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -277,10 +277,10 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\User\Editor.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\MyProjects.cshtml" />
-    <Content Include="Views\User\PublicProjects.cshtml" />
+    <Content Include="Views\Workspace\Editor.cshtml" />
+    <Content Include="Views\Workspace\Index.cshtml" />
+    <Content Include="Views\Workspace\MyProjects.cshtml" />
+    <Content Include="Views\Workspace\PublicProjects.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
   </ItemGroup>
