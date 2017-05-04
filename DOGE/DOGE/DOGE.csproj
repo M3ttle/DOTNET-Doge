@@ -197,6 +197,11 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\POCO\File.cs" />
+    <Compile Include="Models\POCO\LanguageType.cs" />
+    <Compile Include="Models\POCO\Project.cs" />
+    <Compile Include="Models\POCO\UserProject.cs" />
+    <Compile Include="Models\POCO\UserType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
