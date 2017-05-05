@@ -6,6 +6,7 @@ using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
 using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Utilities;
+using System.Web.Mvc;
 
 namespace DOGEOnlineGeneralEditor.Services
 {
@@ -91,26 +92,19 @@ namespace DOGEOnlineGeneralEditor.Services
             };
         }
 
-        /// <summary>
-        /// Function that adds a user to the database 
-        /// </summary>
-        /// <param name="applicationUser"></param>
-        /// <returns>bool</returns>
-        bool AddUser(ApplicationUser applicationUser)
+        public void createUser(RegisterViewModel model)
         {
-            User user = new User
+            var user = new User
             {
-                Name = applicationUser.UserName,
+                Name = model.Name,
+                Email = model.Email,
                 DateCreated = DateTime.Now,
-                //ná í UserType og Gender
+                Gender = model.Gender,
+                UserTypeID = model.UserTypeID
             };
-            database.User.Add(user);
 
-            if(database.SaveChanges() == 1)
-            {
-                return true;
-            }
-            return false;
+            database.User.Add(user);
+            database.SaveChanges();
         }
 
         /// <summary>
@@ -128,6 +122,44 @@ namespace DOGEOnlineGeneralEditor.Services
                 return true;
             }
             return false;
+        }
+        #endregion
+
+        #region HelperFunctions
+        public List<SelectListItem> getGenders()
+        {
+            var genders = new List<SelectListItem>();
+            genders.Add(new SelectListItem() { Text = "Male", Value = "Male" });
+            genders.Add(new SelectListItem() { Text = "Female", Value = "Female" });
+            genders.Add(new SelectListItem() { Text = "Other", Value = "Other" });
+            return genders;
+        }
+
+        public List<SelectListItem> getUserTypes()
+        {
+            var userTypes = new List<SelectListItem>();
+            // THIS NEEDS TO GET STUFF FROM THE DATABASE, THIS IS JUST FOR TESTING!!
+            /*var result = (from x in database.UserType
+                          where x.Name == "Student"
+                          select x);
+                          
+            if(result == null)
+            {
+                database.UserType.Add(new UserType { Name = "Student" });
+                database.UserType.Add(new UserType { Name = "Teacher" });
+                database.UserType.Add(new UserType { Name = "Programmer" });
+                database.UserType.Add(new UserType { Name = "Other" });
+            }
+            
+            foreach(UserType type in database.UserType)
+            {
+                userTypes.Add(new SelectListItem() { Text = type.Name, Value = type.ID.ToString() });
+            }*/
+
+            userTypes.Add(new SelectListItem() { Text = "Student", Value = "1" });
+            userTypes.Add(new SelectListItem() { Text = "Teacher", Value = "2" });
+            userTypes.Add(new SelectListItem() { Text = "Programmer", Value = "3" });
+            return userTypes;
         }
         #endregion
     }
