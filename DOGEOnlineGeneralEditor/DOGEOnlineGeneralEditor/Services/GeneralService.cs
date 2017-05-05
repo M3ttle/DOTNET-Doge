@@ -57,6 +57,11 @@ namespace DOGEOnlineGeneralEditor.Services
         /// <param name="projectName"></param>
         /// <returns></returns>
         #region ProjectService
+        public bool projectExists(string userName, string projectName)
+        {
+            UserViewModel user = getUserByUserName(userName);
+            return projectExists(user.UserID, projectName);
+        }
         public bool projectExists(int userID, string projectName)
         {
             Project project = (from x in database.UserProject
@@ -70,6 +75,20 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
 
+        
+        public void addProjectToDatabase(ProjectViewModel model)
+        {
+            int ownerID = getUserIDByName(model.Owner);
+            Project project = new Project
+            {
+                Name = model.Name,
+                OwnerID = ownerID,
+                DateCreated = model.DateCreated,
+                LanguageTypeID = model.LanguageTypeID
+            };
+            database.Project.Add(project);
+            database.SaveChanges();
+        }
         public MyProjectsViewModel getMyProjectsByName(string userName)
         {
             int userID = getUserIDByName(userName);
@@ -135,6 +154,16 @@ namespace DOGEOnlineGeneralEditor.Services
 
             return model;
         }
+        private int getProjectIDFromViewModel(ProjectViewModel model)
+        {
+            int userID = getUserIDByName(model.Owner);
+            var project = (from x in database.Project
+                           where x.Name == model.Name
+                           && x.OwnerID == userID
+                           select x).SingleOrDefault();
+            return project.ID;
+        }
+        
         #endregion
 
         #region UserService
@@ -165,10 +194,10 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="username"></param>
         /// <returns>UserViewModel</returns>
-        public UserViewModel getUserByUsername(string username)
+        public UserViewModel getUserByUserName(string username)
         {
             User user = (from x in database.User
-                         where x.Name.Contains(username)
+                         where x.Name == username
                          select x).SingleOrDefault();
             if(user == null)
             {
@@ -217,6 +246,18 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
 
+        public bool userProjectExists(int userID, int projectID)
+        {
+            UserProject userProject = (from x in database.UserProject
+                                       where x.UserID == userID
+                                       && x.ProjectID == projectID
+                                       select x).SingleOrDefault();
+            if(userProject != null)
+            {
+                return true;
+            }
+            return false;
+        }
         public int getUserIDByName(string userName)
         {
             int id = (from x in database.User
@@ -231,6 +272,22 @@ namespace DOGEOnlineGeneralEditor.Services
                            where x.ID == userID
                            select x.Name).SingleOrDefault();
             return name;
+        }
+        public void addUserToProject(string userName, ProjectViewModel project)
+        {
+            int userID = getUserIDByName(userName);
+            int projectID = getProjectIDFromViewModel(project);
+            UserProject userProject = new UserProject
+            {
+                UserID = userID,
+                ProjectID = projectID
+            };
+            if(userProjectExists(userID, projectID))
+            {
+                // duplicateexception
+            }
+            database.UserProject.Add(userProject);
+            database.SaveChanges();
         }
         #endregion
 
