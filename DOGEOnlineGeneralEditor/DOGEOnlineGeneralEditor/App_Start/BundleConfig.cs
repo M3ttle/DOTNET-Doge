@@ -29,8 +29,9 @@ namespace DOGEOnlineGeneralEditor
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
-                    "~/Scripts/editorHubProxy.js",
-                    "~/signalr/hubs"));
+                    "~/Scripts/jquery.signalR-2.2.2.min.js",
+                    "~/signalr/hubs",
+                    "~/Scripts/editorHubProxy.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/ace").Include(
                        "~/Scripts/ace-min-noconflict/ace.js"));
