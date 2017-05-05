@@ -12,4 +12,9 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
         public string Owner { get; set; }
         public DateTime DateCreated { get; set; }
     }
+
+    public class MyProjectsViewModel
+    {
+        public List<ProjectViewModel> MyProjects { get; set; }
+    }
 }
