@@ -291,5 +291,10 @@ div.form-group input[type=submit] {
     }
 }
 
-
+.form-container a {
+    color: black;
+    text-decoration: underline;
+    display: block;
+    text-align: center;
+}
 
