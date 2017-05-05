@@ -15,7 +15,7 @@ var broadcastChanges = function (editor, signal)
 
 $(function () {
     //Enable logging
-    //$.connection.hub.logging = true; here
+    //$.connection.hub.logging = true;
 
     // Create a proxy to the file hub
     //var fileProxy = $.connection.fileHub; here
