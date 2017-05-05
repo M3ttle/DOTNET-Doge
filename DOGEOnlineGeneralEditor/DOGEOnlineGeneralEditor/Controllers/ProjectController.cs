@@ -20,7 +20,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         public ProjectController()
         {
             service = new GeneralService(null);
-    }
+        }
 
         // GET: Projects
         public ActionResult Index()
@@ -47,7 +47,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
-            ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name");
+            ViewBag.LanguageTypeID = service.getLanguageTypes();
             return View();
         }
 
@@ -58,24 +58,21 @@ namespace DOGEOnlineGeneralEditor.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Name,IsPublic,LanguageTypeID")] ProjectViewModel model)
         {
-            model.DateCreated = DateTime.Now;
-            UserViewModel userViewModel = service.getUserByUserName(User.Identity.Name);
-            model.Owner = User.Identity.Name;
-            if(service.projectExists(User.Identity.Name, model.Name))
+            var userName = User.Identity.Name;
+            if(service.projectExists(userName, model.Name))
             {
                 //Error duplicate project name
+                throw new Exception();
             }
             if (ModelState.IsValid)
             {
+                model.Owner = userName;
                 service.addProjectToDatabase(model);
-                service.addUserToProject(model.Owner, model);
-                //db.Project.Add(model);
-                //db.SaveChanges();
+                service.addUserToProject(userName, model);
                 
                 return RedirectToAction("Index");
             }
-
-            ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name", model.LanguageTypeID);
+            ViewBag.LanguageTypeID = service.getLanguageTypes(model.LanguageTypeID);
             return View(model);
         }
 
@@ -100,7 +97,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,FileCount,DateCreated,OwnerID,IsPublic,LanguageTypeID")] Project project)
+        public ActionResult Edit([Bind(Include = "ID,Name,OwnerID,IsPublic,LanguageTypeID")] Project project)
         {
             if (ModelState.IsValid)
             {

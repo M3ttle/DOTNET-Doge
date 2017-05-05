@@ -1,4 +1,7 @@
-﻿@{
+﻿@using DOGEOnlineGeneralEditor.Models.ViewModels;
+@model PublicProjectsViewModel
+
+@{
     ViewData["Title"] = "Public Projects";
 }
 <ul class="top-nav">
@@ -7,8 +10,6 @@
     <li><a href="/Account">My Account</a></li>
 </ul>
 
-
-<!--ForEach-->
 
 
 <div class="project-table">
@@ -21,133 +22,21 @@
                 <tr>
                     <th>Name of project</th>
                     <th>Number of Files</th>
+                    <th>Owner</th>
                     <th>Date Created</th>
-                    <th>Last Edited</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
-                <tr>
-                    <td>Kibast</td>
-                    <td>4</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2017</td>
-                </tr>
-                <tr>
-                    <td>Brics</td>
-                    <td>5</td>
-                    <td>20/04/2017</td>
-                    <td>20/04/2016</td>
-                </tr>
+                @foreach (var item in Model.PublicProjects)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.FileCount</td>
+                        <td>@item.Owner</td>
+                        <td>@item.DateCreated</td>
+                    </tr>
+                }
             </tbody>
         </table>
-
     </div>
 </div>
