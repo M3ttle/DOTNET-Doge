@@ -321,6 +321,12 @@
             editor.setTheme(theme);
         });
 
+        $('#savefile').on('click', function (e) {
+            // Broadcast changes through our editorHubProxy
+            broadcastChanges(editor);
+            return false;
+        });
+
 
     });
 </script>

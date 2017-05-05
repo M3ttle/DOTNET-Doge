@@ -1,17 +1,11 @@
 ﻿
-var myTempFunction = function ()
+var broadcastChanges = function (editor)
 {
-
+    console.log($('#saveTextArea').text(editor.getSession().getValue()));
 }
 
 
 $(function () {
-    $('#savefile').on('click', function (e) {
-        myTempFunction();
 
-        //$('#saveTextArea').text(editor.getSession().getValue());
-
-        return false;
-    });
 
 });
