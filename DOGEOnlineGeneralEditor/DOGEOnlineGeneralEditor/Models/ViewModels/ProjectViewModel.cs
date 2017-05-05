@@ -16,5 +16,6 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
     public class MyProjectsViewModel
     {
         public List<ProjectViewModel> MyProjects { get; set; }
+        public List<ProjectViewModel> CollaborationProjects { get; set; }
     }
 }

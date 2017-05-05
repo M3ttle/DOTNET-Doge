@@ -1,4 +1,6 @@
-﻿@{
+﻿@using DOGEOnlineGeneralEditor.Models.ViewModels
+@model MyProjectsViewModel
+@{
     ViewData["Title"] = "My Projects";
 }
 <ul class="top-nav">
@@ -7,7 +9,19 @@
     <li><a href="/Account">My Account</a></li>
 </ul>
 
-
+<ul>
+    <li>test</li>
+    @foreach (var item in Model.MyProjects)
+    {
+        <li>@item.Name</li>
+    }
+</ul>
+<ul>
+    @foreach (var item in Model.CollaborationProjects)
+    {
+        <li>@item.Name</li>
+    }
+</ul>
 <!--ForEach-->
 
 

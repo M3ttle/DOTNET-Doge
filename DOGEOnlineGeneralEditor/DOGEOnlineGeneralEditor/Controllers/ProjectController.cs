@@ -59,7 +59,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         public ActionResult Create([Bind(Include = "Name,IsPublic,LanguageTypeID")] Project project)
         {
             project.DateCreated = DateTime.Now;
-            UserViewModel userViewModel = service.getUserbyUsername(User.Identity.Name);
+            UserViewModel userViewModel = service.getUserByName(User.Identity.Name);
             project.OwnerID = userViewModel.UserID;
             project.LanguageType = new LanguageType { Name = "Javascript"};
             if (ModelState.IsValid)

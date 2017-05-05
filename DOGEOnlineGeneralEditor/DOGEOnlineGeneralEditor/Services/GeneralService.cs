@@ -46,6 +46,8 @@ namespace DOGEOnlineGeneralEditor.Services
             }
             return false;
         }
+
+
         #endregion
         /// <summary>
         /// Function that returns true if a user with the given Id has access to a project
@@ -68,7 +70,73 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
 
+        public MyProjectsViewModel getMyProjectsByName(string userName)
+        {
+            int userID = getUserIDByName(userName);
+
+            var OwnedProjects = getOwnedProjects(userID);
+            List<ProjectViewModel> OwnedProjectsViewModels = new List<ProjectViewModel>();
+            foreach (var project in OwnedProjects)
+            {
+                var projectVieModel = convertProjectToViewModel(project);
+                OwnedProjectsViewModels.Add(projectVieModel);
+            }
+
+            var CollaborationProjects = getCollaborationProjects(userID);
+            List<ProjectViewModel> CollaboartionProjectsViewModel = new List<ProjectViewModel>();
+            foreach (var project in CollaborationProjects)
+            {
+                var projectVieModel = convertProjectToViewModel(project);
+                CollaboartionProjectsViewModel.Add(projectVieModel);
+            }
+
+            MyProjectsViewModel model = new MyProjectsViewModel
+            {
+                MyProjects = OwnedProjectsViewModels,
+                CollaborationProjects = CollaboartionProjectsViewModel
+            };
+
+            return model;
+        }
+
         #endregion
+
+        #region Private ProjectService
+        private List<Project> getOwnedProjects(int userID)
+        {
+            var result = (from p in database.Project
+                          join up in database.UserProject
+                          on p.ID equals up.ProjectID
+                          where up.UserID == userID
+                          && p.OwnerID == userID
+                          select p).ToList();
+            return result;
+        }
+        private List<Project> getCollaborationProjects(int userID)
+        {
+            var result = (from p in database.Project
+                          join up in database.UserProject
+                          on p.ID equals up.ProjectID
+                          where up.UserID == userID
+                          && p.OwnerID != userID
+                          select p).ToList();
+            return result;
+        }
+        private ProjectViewModel convertProjectToViewModel(Project project)
+        {
+            string userName = getUserNameByID(project.OwnerID);
+            ProjectViewModel model = new ProjectViewModel
+            {
+                ProjectID = project.ID,
+                Name = project.Name,
+                Owner = userName,
+                DateCreated = project.DateCreated
+            };
+
+            return model;
+        }
+        #endregion
+
         #region UserService
         /// <summary>
         /// Function that returns a viewmodel of a user from the database. 
@@ -92,7 +160,7 @@ namespace DOGEOnlineGeneralEditor.Services
             };
         }
 
-        public UserViewModel getUserbyUsername(string username)
+        public UserViewModel getUserByName(string username)
         {
             User user = (from x in database.User
                          where x.Name.Contains(username)
@@ -112,7 +180,6 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="applicationUser"></param>
         /// <returns>bool</returns>
-
         public void createUser(RegisterViewModel model)
         {
             var user = new User
@@ -144,7 +211,24 @@ namespace DOGEOnlineGeneralEditor.Services
             }
             return false;
         }
+
+        public int getUserIDByName(string userName)
+        {
+            int id = (from x in database.User
+                      where x.Name == userName
+                      select x.ID).SingleOrDefault();
+            return id;
+        }
+
+        public string getUserNameByID(int userID)
+        {
+            string name = (from x in database.User
+                           where x.ID == userID
+                           select x.Name).SingleOrDefault();
+            return name;
+        }
         #endregion
+
 
         #region HelperFunctions
         public List<SelectListItem> getGenders()
