@@ -17,6 +17,7 @@ namespace DOGEOnlineGeneralEditor.Models.POCO
         [Column(TypeName = "DateTime")]
         public DateTime DateCreated { get; set; }
         public Gender Gender { get; set; }
+        public int UserTypeID { get; set; }
         public UserType UserType { get; set; }
         public string Email { get; set; }
         public List<UserProject> UserProjects { get; set; }

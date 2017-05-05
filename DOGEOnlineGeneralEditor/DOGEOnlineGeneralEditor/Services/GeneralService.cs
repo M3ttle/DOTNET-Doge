@@ -6,6 +6,7 @@ using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
 using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Utilities;
+using System.Web.Mvc;
 
 namespace DOGEOnlineGeneralEditor.Services
 {
@@ -75,7 +76,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>UserViewModel</returns>
-        public UserViewModel getUser(int userID)
+        public UserViewModel getUserbyID(int userID)
         {
             User user = (from x in database.User
                         where x.ID == userID
@@ -91,26 +92,40 @@ namespace DOGEOnlineGeneralEditor.Services
             };
         }
 
+        public UserViewModel getUserbyUsername(string username)
+        {
+            User user = (from x in database.User
+                         where x.Name.Contains(username)
+                         select x).SingleOrDefault();
+            if(user == null)
+            {
+                throw new UserNotFoundException();
+            }
+            return new UserViewModel
+            {
+                UserID = user.ID,
+                UserName = user.Name
+            };
+        }
         /// <summary>
         /// Function that adds a user to the database 
         /// </summary>
         /// <param name="applicationUser"></param>
         /// <returns>bool</returns>
-        bool AddUser(ApplicationUser applicationUser)
-        {
-            User user = new User
-            {
-                Name = applicationUser.UserName,
-                DateCreated = DateTime.Now,
-                //ná í UserType og Gender
-            };
-            database.User.Add(user);
 
-            if(database.SaveChanges() == 1)
+        public void createUser(RegisterViewModel model)
+        {
+            var user = new User
             {
-                return true;
-            }
-            return false;
+                Name = model.Name,
+                Email = model.Email,
+                DateCreated = DateTime.Now,
+                Gender = model.Gender,
+                UserTypeID = model.UserTypeID
+            };
+
+            database.User.Add(user);
+            database.SaveChanges();
         }
 
         /// <summary>
@@ -128,6 +143,44 @@ namespace DOGEOnlineGeneralEditor.Services
                 return true;
             }
             return false;
+        }
+        #endregion
+
+        #region HelperFunctions
+        public List<SelectListItem> getGenders()
+        {
+            var genders = new List<SelectListItem>();
+            genders.Add(new SelectListItem() { Text = "Male", Value = "Male" });
+            genders.Add(new SelectListItem() { Text = "Female", Value = "Female" });
+            genders.Add(new SelectListItem() { Text = "Other", Value = "Other" });
+            return genders;
+        }
+
+        public List<SelectListItem> getUserTypes()
+        {
+            var userTypes = new List<SelectListItem>();
+            // THIS NEEDS TO GET STUFF FROM THE DATABASE, THIS IS JUST FOR TESTING!!
+            /*var result = (from x in database.UserType
+                          where x.Name == "Student"
+                          select x);
+                          
+            if(result == null)
+            {
+                database.UserType.Add(new UserType { Name = "Student" });
+                database.UserType.Add(new UserType { Name = "Teacher" });
+                database.UserType.Add(new UserType { Name = "Programmer" });
+                database.UserType.Add(new UserType { Name = "Other" });
+            }
+            
+            foreach(UserType type in database.UserType)
+            {
+                userTypes.Add(new SelectListItem() { Text = type.Name, Value = type.ID.ToString() });
+            }*/
+
+            userTypes.Add(new SelectListItem() { Text = "Student", Value = "1" });
+            userTypes.Add(new SelectListItem() { Text = "Teacher", Value = "2" });
+            userTypes.Add(new SelectListItem() { Text = "Programmer", Value = "3" });
+            return userTypes;
         }
         #endregion
     }

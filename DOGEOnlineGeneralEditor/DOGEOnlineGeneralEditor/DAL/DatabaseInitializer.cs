@@ -49,6 +49,7 @@ namespace DOGEOnlineGeneralEditor.Data
                     {
                         UserName = "Arnar",
                         Email = "arnart08@ru.is",
+                        User = new User {Name = "Arnar", Email = "arnart08@ru.is"}
                         //Gender = "Male",
                         //DateJoined = DateTime.Parse("2000-01-01"),
                         //UserTypeID = 1
@@ -59,6 +60,7 @@ namespace DOGEOnlineGeneralEditor.Data
                     {
                         UserName = "Aþena",
                         Email = "Aþena08@ru.is",
+                        User = new User {Name = "Aþena", Email = "Aþena@ru.is"}
                         //Gender = "Male",
                         //DateJoined = DateTime.Parse("2000-01-01"),
                         //UserTypeID = 3
@@ -68,6 +70,7 @@ namespace DOGEOnlineGeneralEditor.Data
                     {
                         UserName = "Mattías",
                         Email = "Mattías08@ru.is",
+                        User = new User {Name = "Mattías", Email = "Mattías@ru.is"}
                         //Gender = "Male",
                         //DateJoined = DateTime.Parse("2000-01-01"),
                         //UserTypeID = 2
@@ -77,6 +80,7 @@ namespace DOGEOnlineGeneralEditor.Data
                     {
                         UserName = "Andri",
                         Email = "Andri08@ru.is",
+                        User = new User {Name = "Andri", Email = "Andri@ru.is"}
                         //Gender = "Male",
                         //DateJoined = DateTime.Parse("2000-01-01"),
                         //UserTypeID = 1
@@ -86,6 +90,7 @@ namespace DOGEOnlineGeneralEditor.Data
                     {
                         UserName = "Jón",
                         Email = "Jón08@ru.is",
+                        User = new User {Name = "Jón", Email = "Jón@ru.is"}
                         //Gender = "Male",
                         //DateJoined = DateTime.Parse("2000-01-01"),
                         //UserTypeID = 2
@@ -102,39 +107,39 @@ namespace DOGEOnlineGeneralEditor.Data
             {
                 new Project{Name="Doge",
                     FileCount =1, DateCreated=DateTime.Parse("2000-01-01"),
-                    IsPublic =true, LanguageTypeID = 1, Owner = applicationUsers[0]
+                    IsPublic =true, LanguageTypeID = 1, OwnerID = 1
                     },
                 new Project{Name="Alpha",
                     FileCount =1, DateCreated=DateTime.Parse("2000-01-01"),
-                    IsPublic =true, LanguageTypeID = 1, Owner = applicationUsers[0]
+                    IsPublic =true, LanguageTypeID = 1, OwnerID = 1
                     },
                 new Project{Name="Bravo",
                     FileCount =1, DateCreated=DateTime.Parse("2000-01-01"),
-                    IsPublic =true, LanguageTypeID = 1, Owner = applicationUsers[1]
+                    IsPublic =true, LanguageTypeID = 1, OwnerID = 1
                     },
                 new Project{Name="Charlie",
                     FileCount =1, DateCreated=DateTime.Parse("2000-01-01"),
-                    IsPublic =true, LanguageTypeID = 1, Owner = applicationUsers[1]
+                    IsPublic =true, LanguageTypeID = 1, OwnerID = 1
                     },
                 new Project{Name="Delta",
                     FileCount =1, DateCreated=DateTime.Parse("2000-01-01"),
-                    IsPublic =true, LanguageTypeID = 1, Owner = applicationUsers[2]
+                    IsPublic =true, LanguageTypeID = 1, OwnerID = 1
                     },
                 new Project{Name="Enigma",
                     FileCount =1, DateCreated=DateTime.Parse("2000-01-01"),
-                    IsPublic =true, LanguageTypeID = 1, Owner = applicationUsers[2]
+                    IsPublic =true, LanguageTypeID = 1, OwnerID = 1
                     },
                 new Project{Name="Faraday",
                     FileCount =1, DateCreated=DateTime.Parse("2000-01-01"),
-                    IsPublic =true, LanguageTypeID = 1, Owner = applicationUsers[3]
+                    IsPublic =true, LanguageTypeID = 1, OwnerID = 1
                     },
                 new Project{Name="Groundhog",
                     FileCount =1, DateCreated=DateTime.Parse("2000-01-01"),
-                    IsPublic =true, LanguageTypeID = 1, Owner = applicationUsers[3]
+                    IsPublic =true, LanguageTypeID = 1, OwnerID = 1
                     },
                 new Project{Name="Hellstorm",
                     FileCount =1, DateCreated=DateTime.Parse("2000-01-01"),
-                    IsPublic =true, LanguageTypeID = 1, Owner = applicationUsers[4]
+                    IsPublic =true, LanguageTypeID = 1, OwnerID = 1
                     },
 
             };
@@ -149,29 +154,29 @@ namespace DOGEOnlineGeneralEditor.Data
 
             UserProject[] userProjects = new UserProject[]
             {
-                new UserProject{ApplicationUserID=1, ProjectID=1},
-                new UserProject{ApplicationUserID=1, ProjectID=2},
-                new UserProject{ApplicationUserID=1, ProjectID=3},
-                new UserProject{ApplicationUserID=1, ProjectID=4},
-                new UserProject{ApplicationUserID=1, ProjectID=5},
-                new UserProject{ApplicationUserID=1, ProjectID=6},
-                new UserProject{ApplicationUserID=2, ProjectID=3},
-                new UserProject{ApplicationUserID=2, ProjectID=4},
-                new UserProject{ApplicationUserID=2, ProjectID=6},
-                new UserProject{ApplicationUserID=2, ProjectID=7},
-                new UserProject{ApplicationUserID=2, ProjectID=9},
-                new UserProject{ApplicationUserID=3, ProjectID=5},
-                new UserProject{ApplicationUserID=3, ProjectID=6},
-                new UserProject{ApplicationUserID=3, ProjectID=7},
-                new UserProject{ApplicationUserID=3, ProjectID=1},
-                new UserProject{ApplicationUserID=4, ProjectID=7},
-                new UserProject{ApplicationUserID=4, ProjectID=8},
-                new UserProject{ApplicationUserID=4, ProjectID=9},
-                new UserProject{ApplicationUserID=4, ProjectID=1},
-                new UserProject{ApplicationUserID=5, ProjectID=9},
-                new UserProject{ApplicationUserID=5, ProjectID=4},
-                new UserProject{ApplicationUserID=5, ProjectID=6},
-                new UserProject{ApplicationUserID=5, ProjectID=2}
+                new UserProject{UserID=1, ProjectID=1},
+                new UserProject{UserID=1, ProjectID=2},
+                new UserProject{UserID=1, ProjectID=3},
+                new UserProject{UserID=1, ProjectID=4},
+                new UserProject{UserID=1, ProjectID=5},
+                new UserProject{UserID=1, ProjectID=6},
+                new UserProject{UserID=2, ProjectID=3},
+                new UserProject{UserID=2, ProjectID=4},
+                new UserProject{UserID=2, ProjectID=6},
+                new UserProject{UserID=2, ProjectID=7},
+                new UserProject{UserID=2, ProjectID=9},
+                new UserProject{UserID=3, ProjectID=5},
+                new UserProject{UserID=3, ProjectID=6},
+                new UserProject{UserID=3, ProjectID=7},
+                new UserProject{UserID=3, ProjectID=1},
+                new UserProject{UserID=4, ProjectID=7},
+                new UserProject{UserID=4, ProjectID=8},
+                new UserProject{UserID=4, ProjectID=9},
+                new UserProject{UserID=4, ProjectID=1},
+                new UserProject{UserID=5, ProjectID=9},
+                new UserProject{UserID=5, ProjectID=4},
+                new UserProject{UserID=5, ProjectID=6},
+                new UserProject{UserID=5, ProjectID=2}
                 
             };
 
@@ -195,6 +200,6 @@ namespace DOGEOnlineGeneralEditor.Data
             }
             context.SaveChanges();
             }
-      */
+     */
     }
 }
