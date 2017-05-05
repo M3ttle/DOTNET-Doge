@@ -47,17 +47,23 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
 
+		public void addFileToDatabase(File file)
+		{
+			database.File.Add(file);
+			database.SaveChanges();
+		}
 
-        #endregion
-        /// <summary>
-        /// Function that returns true if a user with the given Id has access to a project
-        /// whose name is projectName
-        /// </summary>
-        /// <param name="userID"></param>
-        /// <param name="projectName"></param>
-        /// <returns></returns>
-        #region ProjectService
-        public bool projectExists(string userName, string projectName)
+
+		#endregion
+		/// <summary>
+		/// Function that returns true if a user with the given Id has access to a project
+		/// whose name is projectName
+		/// </summary>
+		/// <param name="userID"></param>
+		/// <param name="projectName"></param>
+		/// <returns></returns>
+		#region ProjectService
+		public bool projectExists(string userName, string projectName)
         {
             UserViewModel user = getUserByUserName(userName);
             return projectExists(user.UserID, projectName);

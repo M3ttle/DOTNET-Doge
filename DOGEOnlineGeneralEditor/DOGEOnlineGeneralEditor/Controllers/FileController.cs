@@ -60,11 +60,9 @@ namespace DOGEOnlineGeneralEditor.Controllers
         public ActionResult Create([Bind(Include = "Name,Location,LanguageTypeID")] File file)
         {
             file.DateCreated = DateTime.Now;
-            file.ProjectID = file.ProjectID;
             if (ModelState.IsValid)
             {
-                db.File.Add(file);
-                db.SaveChanges();
+				service.addFileToDatabase(file);
                 return RedirectToAction("Index");
             }
 
