@@ -8,12 +8,19 @@ using System.Web;
 using System.Web.Mvc;
 using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
+using DOGEOnlineGeneralEditor.Models.ViewModels;
+using DOGEOnlineGeneralEditor.Services;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
     public class ProjectController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private GeneralService service;
+        public ProjectController()
+        {
+            service = new GeneralService(null);
+        }
 
         // GET: Projects
         public ActionResult Index()
@@ -52,10 +59,11 @@ namespace DOGEOnlineGeneralEditor.Controllers
         public ActionResult Create([Bind(Include = "Name,IsPublic,LanguageTypeID")] Project project)
         {
             project.DateCreated = DateTime.Now;
-            project.OwnerID = 1;
-
+            UserViewModel userViewModel = service.getUserbyUsername(User.Identity.Name);
+            project.OwnerID = userViewModel.UserID;
+            project.LanguageType = new LanguageType { Name = "Javascript"};
             if (ModelState.IsValid)
-            {
+            { 
                 db.Project.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");
