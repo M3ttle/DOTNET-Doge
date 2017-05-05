@@ -29,7 +29,11 @@ namespace DOGEOnlineGeneralEditor
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
-                    "~/Scripts/editorHubProxy.js"));
+                    "~/Scripts/editorHubProxy.js",
+                    "~/signalr/hubs"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ace").Include(
+                       "~/Scripts/ace-min-noconflict/ace.js"));
         }
     }
 }
