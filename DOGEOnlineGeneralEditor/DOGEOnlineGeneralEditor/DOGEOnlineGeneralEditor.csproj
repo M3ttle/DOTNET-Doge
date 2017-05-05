@@ -223,10 +223,16 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Doge_black.png" />
+    <Content Include="Images\Doge_black.svg" />
+    <Content Include="Images\Doge_brown.png" />
+    <Content Include="Images\Doge_white.png" />
+    <Content Include="Images\Doge_white.svg" />
+    <Content Include="Images\Doge_yellow.png" />
+    <Content Include="Images\WDF_706095.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -273,7 +279,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
@@ -286,7 +291,7 @@
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Workspace\Editor.cshtml" />
-    <Content Include="Views\Workspace\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Workspace\MyProjects.cshtml" />
     <Content Include="Views\Workspace\PublicProjects.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
