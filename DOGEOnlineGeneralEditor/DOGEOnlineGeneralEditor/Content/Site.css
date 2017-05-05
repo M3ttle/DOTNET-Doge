@@ -248,9 +248,7 @@ main {
 .form-container {
     margin: 30px auto;
     padding: 25px 50px;
-    max-width: 500px;
-    display: flex;
-    justify-content: center;
+    display: table;
     background-color: gray;
     border: 2px solid;
     border-radius: 25px;
@@ -264,3 +262,39 @@ div.form-group input[type=submit] {
     display: table;
     margin: auto;
 }
+
+@media (min-width: 768px) {
+    .control-label {
+        width: auto;
+    }
+}
+
+@media (min-width: 992px) {
+    .control-label {
+        width: auto;
+    }
+
+    .radio label, .checkbox label {
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .radio input[type="radio"],
+    .radio-inline input[type="radio"],
+    .checkbox input[type="checkbox"],
+    .checkbox-inline input[type="checkbox"] {
+    margin-left: 0px;
+    }
+    .checkbox {
+    display: table;
+    }
+}
+
+.form-container a {
+    color: black;
+    text-decoration: underline;
+    display: block;
+    text-align: center;
+}
+

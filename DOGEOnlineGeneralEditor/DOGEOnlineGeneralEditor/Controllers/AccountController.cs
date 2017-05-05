@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
+using DOGEOnlineGeneralEditor.Services;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
@@ -18,15 +19,18 @@ namespace DOGEOnlineGeneralEditor.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private GeneralService service;
 
         public AccountController()
         {
+            service = new GeneralService(null);
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            service = new GeneralService(null);
         }
 
         public ApplicationSignInManager SignInManager
@@ -76,7 +80,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Name, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -97,6 +101,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewData["Genders"] = service.getGenders();
+            ViewData["UserTypes"] = service.getUserTypes();
             return View();
         }
 
@@ -113,22 +119,9 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    UserType test = new UserType
-                    {
-                        ID = 5,
-                        Name = "Stuff"
-                    };
-                    User ourUser = new User { Name = model.Name, UserType =  test, DateCreated = DateTime.Now};
-                    ApplicationDbContext _context = new ApplicationDbContext();
-                    _context.User.Add(ourUser);
-                    _context.SaveChanges();
+                    service.createUser(model);
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
