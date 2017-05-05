@@ -1,7 +1,7 @@
 ﻿:root {
-    --main-bg-color: #3E3D32 /*#272822*/;
+    --light-bg-color: #3E3D32 /*#272822*/;
     --main-green: #A6E22E;
-    --light-bg-color: #272822 /*#3E3D32*/;
+    --main-bg-color: #272822 /*#3E3D32*/;
     --main-white: #f4f4f4;
     --light-of-gray: #d5d5d5;
     --main-hd-black: #222;
@@ -253,53 +253,7 @@ main {
     width: 100%;
 }
 
-#wrapper {
-    overflow: hidden;
-}
 
-#content {
-    margin-left: 230px; 
-}
-
-.innertube {
-    margin: 0 0 15px 15px;
-    margin-top: 0;
-    background: #373832;
-}
-
-.editorbutton {
-    height: 70px;
-    width: 400px;
-    color: brown;
-}
-
-#projectname {
-    width: 100%;
-    height: 60px;
-    background: #A6E22E;
-}
-
-    #projectname p {
-        display: table;
-        margin: auto auto;
-        line-height: 60px;
-    }
-
-#nav {
-    display: block;
-    background: #373832;
-    color: whitesmoke;
-}
-
-#filenav p {
-    display: inline-block;
-    border: 2px solid black;
-    background: #373832;
-    width: 100px;
-    border-radius: 5px;
-    padding-left: 5px;
-    color: whitesmoke;
-}
 
 /* Used for most forms, makes the small window around the form */
 /* remove "<div class="col-md-offset-2 col-md-10">" around the button */
@@ -308,9 +262,10 @@ main {
     margin: 30px auto;
     padding: 25px 50px;
     display: table;
-    background-color: gray;
+    background-color: var(--light-of-gray);
     border: 2px solid;
     border-radius: 25px;
+    color: var(--main-hd-black)
 }
 
 /* Used for submit buttons, to center them */
@@ -351,7 +306,7 @@ div.form-group input[type=submit] {
 }
 
 .form-container a {
-    color: black;
+    color: var(--main-hd-black);
     text-decoration: underline;
     display: block;
     text-align: center;
