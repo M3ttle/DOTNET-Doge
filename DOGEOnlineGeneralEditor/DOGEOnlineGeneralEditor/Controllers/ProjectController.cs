@@ -66,6 +66,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             { 
                 db.Project.Add(project);
                 db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
 

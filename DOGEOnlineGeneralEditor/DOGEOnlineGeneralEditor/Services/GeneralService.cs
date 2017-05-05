@@ -92,6 +92,11 @@ namespace DOGEOnlineGeneralEditor.Services
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>UserViewModel</returns>
         public UserViewModel getUserbyUsername(string username)
         {
             User user = (from x in database.User
