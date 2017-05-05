@@ -4,11 +4,8 @@ using System.Linq;
 using System.Web;
 using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
-<<<<<<< HEAD
-=======
 using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Utilities;
->>>>>>> arnar
 
 namespace DOGEOnlineGeneralEditor.Services
 {
@@ -20,11 +17,7 @@ namespace DOGEOnlineGeneralEditor.Services
         {
             database = context ?? new ApplicationDbContext();
         }
-<<<<<<< HEAD
-
-=======
         #region FileService
->>>>>>> arnar
         public File getFileById(int id)
         {
             var result = (from x in database.File
@@ -33,8 +26,6 @@ namespace DOGEOnlineGeneralEditor.Services
             return result;
         }
 
-<<<<<<< HEAD
-=======
         /// <summary>
         /// Function that returns true if the project with the given projectID contains a file
         /// whose filename is fileName.
@@ -115,7 +106,7 @@ namespace DOGEOnlineGeneralEditor.Services
             };
             database.User.Add(user);
 
-            if(database.SaveChanges() == 1);
+            if(database.SaveChanges() == 1)
             {
                 return true;
             }
@@ -139,6 +130,5 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
         #endregion
->>>>>>> arnar
     }
 }
