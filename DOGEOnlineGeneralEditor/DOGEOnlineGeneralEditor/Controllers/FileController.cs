@@ -8,12 +8,19 @@ using System.Web;
 using System.Web.Mvc;
 using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
+using DOGEOnlineGeneralEditor.Services;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
     public class FileController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+		private GeneralService service;
+
+		public FileController()
+		{
+			service = new GeneralService(null);
+		}
 
         // GET: Files
         public ActionResult Index()
@@ -53,7 +60,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         public ActionResult Create([Bind(Include = "Name,Location,LanguageTypeID")] File file)
         {
             file.DateCreated = DateTime.Now;
-            file.ProjectID = 2;
+            file.ProjectID = file.ProjectID;
             if (ModelState.IsValid)
             {
                 db.File.Add(file);
