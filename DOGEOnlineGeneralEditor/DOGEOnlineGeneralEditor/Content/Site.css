@@ -48,7 +48,7 @@ textarea {
 }
 
 
-
+/*
 
 /*DOGEOnlineGeneralEditor css*/
 
@@ -248,7 +248,9 @@ main {
 .form-container {
     margin: 30px auto;
     padding: 25px 50px;
-    display: table;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
     background-color: gray;
     border: 2px solid;
     border-radius: 25px;
