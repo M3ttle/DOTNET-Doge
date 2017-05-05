@@ -299,8 +299,6 @@
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/javascript");
 
-
-
         // sækja textann úr editornum þegar klikka á save takkann
         $('#save').on('click', function (e) {
             $('#saveTextArea').text(editor.getSession().getValue());
