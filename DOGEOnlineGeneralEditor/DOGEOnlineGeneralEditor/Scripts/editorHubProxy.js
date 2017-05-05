@@ -15,23 +15,25 @@ var broadcastChanges = function (editor, signal)
 
 $(function () {
     //Enable logging
-    $.connection.hub.logging = true;
+    //$.connection.hub.logging = true; here
+
     // Create a proxy to the file hub
-    var fileProxy = $.connection.fileHub;
+    //var fileProxy = $.connection.fileHub; here
+
     // Create the editor
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
 
     //row, text, groupID
-    fileProxy.client.updateFile = function (editor, groupID) {
+    /*fileProxy.client.updateFile = function (editor, groupID) { here
 
-    }
+    }*/
 
     // Start the connection.
     // $.connection.hub.
-    $.connection.hub.start().done(function () {
-        console.log("started...");
+    /*$.connection.hub.start().done(function () { here
+        console.log("started...");*/
         /*
         $('#sendmessage').click(function () {
             // Call the Send method on the hub.
@@ -42,7 +44,7 @@ $(function () {
         */
 
 
-    });
+    //}); here
 
     // Get text from the editor when save is pressed
     $('#save').on('click', function (e) {

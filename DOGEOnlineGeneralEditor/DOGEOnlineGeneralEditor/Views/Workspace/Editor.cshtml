@@ -2,10 +2,6 @@
     ViewData["Title"] = "Editor";
 }
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 @Scripts.Render("~/bundles/jquery")
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 @Scripts.Render("~/bundles/ace")
@@ -175,41 +171,3 @@
     return x;
     }
 </div>
-
-
-
-<script>
-    $(function () {
-        
-        var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/monokai");
-        editor.getSession().setMode("ace/mode/javascript");
-
-
-
-        
-        $('#save').on('click', function (e) {
-            $('#saveTextArea').text(editor.getSession().getValue());
-            return false;
-        });
-
-        
-        editor.getSession().selection.on('changeCursor', function (e) {
-            $('#saveTextArea').text(editor.getSession().getValue());
-        });
-
-
-        $("#mode").change(function () {
-            var mode = $("#mode").val();
-            editor.getSession().setMode(mode);
-        });
-
-        $("#theme").change(function () {
-            var theme = $("#theme").val();
-            editor.setTheme(theme);
-        });
-    });
-
-</script>
-
-
