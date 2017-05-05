@@ -11,6 +11,7 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
         public string Name { get; set; }
         public string Owner { get; set; }
         public DateTime DateCreated { get; set; }
+        public List<FileViewModel> Files { get; set; }
     }
 
     public class MyProjectsViewModel

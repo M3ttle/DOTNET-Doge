@@ -164,9 +164,46 @@
 </div>
 </header>
 
-<div id="editor">
-    function foo(items) {
-    var x = "All this is syntax highlighted";
-    return x;
-    }
+
+<div id="editor">function foo(items) {
+var x = "All this is syntax highlighted";
+return x;
+}
 </div>
+
+
+
+<script>
+    $(function () {
+        
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/javascript");
+
+
+
+        
+        $('#save').on('click', function (e) {
+            $('#saveTextArea').text(editor.getSession().getValue());
+            return false;
+        });
+
+        
+        editor.getSession().selection.on('changeCursor', function (e) {
+            $('#saveTextArea').text(editor.getSession().getValue());
+        });
+
+
+        $("#mode").change(function () {
+            var mode = $("#mode").val();
+            editor.getSession().setMode(mode);
+        });
+
+        $("#theme").change(function () {
+            var theme = $("#theme").val();
+            editor.setTheme(theme);
+        });
+    });
+
+</script>
+
