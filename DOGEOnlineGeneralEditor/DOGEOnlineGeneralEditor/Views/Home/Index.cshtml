@@ -1,31 +1,36 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewData["Title"] = "User Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div class="home-text">
+    <h1>DOGE Online General Editor</h1>
+    <p> Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur condimentum risus est, quis mattis felis ornare quis. Donec tempus eros a dolor rhoncus fermentum. Aliquam erat volutpat. Suspendisse quis metus nisl. Suspendisse cursus metus eget facilisis tempus. Ut sit amet tellus velit. Curabitur tempus velit eu nulla pretium, suscipit accumsan lectus mollis. Etiam aliquet ex sit amet sem auctor tempor ut ut ex. Vivamus mollis, orci sit amet hendrerit faucibus, augue libero pharetra orci, nec fermentum elit enim vitae lectus. Sed a velit ex. In finibus mauris non erat interdum, non ornare velit tristique. Aliquam posuere in odio vitae hendrerit.</p>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+<div class="full-banner">
+
+    <button class="signup-button" onclick="window.location.href='/Account/Register'">Sign Up</button>
+
+</div>
+
+
+<div class="outer-editor">
+    <div id="home-editor">
+        function foo(items) {
+        var x = "All this is syntax highlighted";
+        return x;
+        }
     </div>
 </div>
+
+
+
+<script>
+    var editor = ace.edit("home-editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/javascript");
+</script>
