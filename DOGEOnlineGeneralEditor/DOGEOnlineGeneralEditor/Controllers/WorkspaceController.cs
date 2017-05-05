@@ -37,7 +37,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
  
  		public ActionResult PublicProjects()
  		{
- 			return View();
+            var model = service.getPublicProjects();
+ 			return View(model);
  		}
  	}
 }

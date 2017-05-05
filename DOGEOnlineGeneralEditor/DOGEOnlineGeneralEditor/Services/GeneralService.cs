@@ -65,22 +65,20 @@ namespace DOGEOnlineGeneralEditor.Services
 		#region ProjectService
 		public bool projectExists(string userName, string projectName)
         {
-            UserViewModel user = getUserByUserName(userName);
-            return projectExists(user.UserID, projectName);
-        }
-        public bool projectExists(int userID, string projectName)
-        {
-            Project project = (from x in database.UserProject
-                               where x.Project.Name == projectName
-                               && x.UserID == userID
-                               select x.Project).SingleOrDefault();
-            if(project != null)
+            int userID = getUserIDByName(userName);
+
+            var project = (from x in database.UserProject
+                           where x.UserID == userID
+                           && x.Project.Name == projectName
+                           && x.Project.OwnerID == userID
+                           select x.Project).SingleOrDefault();
+
+            if (project != null)
             {
                 return true;
             }
             return false;
         }
-
         
         public void addProjectToDatabase(ProjectViewModel model)
         {
@@ -89,36 +87,65 @@ namespace DOGEOnlineGeneralEditor.Services
             {
                 Name = model.Name,
                 OwnerID = ownerID,
-                DateCreated = model.DateCreated,
+                FileCount = 0,
+                IsPublic = model.IsPublic,
+                DateCreated = DateTime.Now,
                 LanguageTypeID = model.LanguageTypeID
             };
             database.Project.Add(project);
             database.SaveChanges();
         }
+        /// <summary>
+        /// Function which returns a MyProjectsViewModel containing both a
+        /// list of project the user owns and list of projects he is collaborating on.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public MyProjectsViewModel getMyProjectsByName(string userName)
         {
             int userID = getUserIDByName(userName);
 
-            var OwnedProjects = getOwnedProjects(userID);
-            List<ProjectViewModel> OwnedProjectsViewModels = new List<ProjectViewModel>();
-            foreach (var project in OwnedProjects)
+            var ownedProjects = getOwnedProjects(userID);
+            List<ProjectViewModel> ownedProjectsViewModels = new List<ProjectViewModel>();
+            foreach (var project in ownedProjects)
             {
                 var projectVieModel = convertProjectToViewModel(project);
-                OwnedProjectsViewModels.Add(projectVieModel);
+                ownedProjectsViewModels.Add(projectVieModel);
             }
 
-            var CollaborationProjects = getCollaborationProjects(userID);
-            List<ProjectViewModel> CollaboartionProjectsViewModel = new List<ProjectViewModel>();
-            foreach (var project in CollaborationProjects)
+            var collaborationProjects = getCollaborationProjects(userID);
+            List<ProjectViewModel> collaboartionProjectsViewModel = new List<ProjectViewModel>();
+            foreach (var project in collaborationProjects)
             {
                 var projectVieModel = convertProjectToViewModel(project);
-                CollaboartionProjectsViewModel.Add(projectVieModel);
+                collaboartionProjectsViewModel.Add(projectVieModel);
             }
 
             MyProjectsViewModel model = new MyProjectsViewModel
             {
-                MyProjects = OwnedProjectsViewModels,
-                CollaborationProjects = CollaboartionProjectsViewModel
+                MyProjects = ownedProjectsViewModels,
+                CollaborationProjects = collaboartionProjectsViewModel
+            };
+
+            return model;
+        }
+
+        public PublicProjectsViewModel getPublicProjects()
+        {
+            List<ProjectViewModel> publicProjects = new List<ProjectViewModel>();
+            var result = (from p in database.Project
+                          where p.IsPublic == true
+                          select p).ToList();
+
+            foreach (var project in result)
+            {
+                var projectViewModel = convertProjectToViewModel(project);
+                publicProjects.Add(projectViewModel);
+            }
+
+            PublicProjectsViewModel model = new PublicProjectsViewModel
+            {
+                PublicProjects = publicProjects
             };
 
             return model;
@@ -127,6 +154,11 @@ namespace DOGEOnlineGeneralEditor.Services
         #endregion
 
         #region Private ProjectService
+        /// <summary>
+        /// Function which returns a list of every project a user owns.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         private List<Project> getOwnedProjects(int userID)
         {
             var result = (from p in database.Project
@@ -137,6 +169,12 @@ namespace DOGEOnlineGeneralEditor.Services
                           select p).ToList();
             return result;
         }
+        /// <summary>
+        /// Function which returns a list of every project a user is
+        /// collaborating on, excluding projects he owns.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         private List<Project> getCollaborationProjects(int userID)
         {
             var result = (from p in database.Project
@@ -154,6 +192,7 @@ namespace DOGEOnlineGeneralEditor.Services
             {
                 ProjectID = project.ID,
                 Name = project.Name,
+                FileCount = project.FileCount,
                 Owner = userName,
                 DateCreated = project.DateCreated
             };
@@ -333,6 +372,16 @@ namespace DOGEOnlineGeneralEditor.Services
             userTypes.Add(new SelectListItem() { Text = "Teacher", Value = "2" });
             userTypes.Add(new SelectListItem() { Text = "Programmer", Value = "3" });
             return userTypes;
+        }
+
+        public SelectList getLanguageTypes()
+        {
+            return new SelectList(database.LanguageType, "ID", "Name");
+        }
+
+        public SelectList getLanguageTypes(int typeID)
+        {
+            return new SelectList(database.LanguageType, "ID", "Name", typeID);
         }
         #endregion
     }

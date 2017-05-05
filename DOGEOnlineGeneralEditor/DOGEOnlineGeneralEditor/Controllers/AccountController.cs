@@ -150,8 +150,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
 
-            var userId = User.Identity.GetUserId();
-            var userName = User.Identity.GetUserName();
+            var userName = User.Identity.Name;
             var model = new IndexViewModel
             {
                 Name = userName
