@@ -20,7 +20,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         public ProjectController()
         {
             service = new GeneralService(null);
-        }
+    }
 
         // GET: Projects
         public ActionResult Index()
@@ -56,21 +56,27 @@ namespace DOGEOnlineGeneralEditor.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,IsPublic,LanguageTypeID")] Project project)
+        public ActionResult Create([Bind(Include = "Name,IsPublic,LanguageTypeID")] ProjectViewModel model)
         {
-            project.DateCreated = DateTime.Now;
-            UserViewModel userViewModel = service.getUserByName(User.Identity.Name);
-            project.OwnerID = userViewModel.UserID;
-            project.LanguageType = new LanguageType { Name = "Javascript"};
+            model.DateCreated = DateTime.Now;
+            UserViewModel userViewModel = service.getUserByUserName(User.Identity.Name);
+            model.Owner = User.Identity.Name;
+            if(service.projectExists(User.Identity.Name, model.Name))
+            {
+                //Error duplicate project name
+            }
             if (ModelState.IsValid)
-            { 
-                db.Project.Add(project);
-                db.SaveChanges();
+            {
+                service.addProjectToDatabase(model);
+                service.addUserToProject(model.Owner, model);
+                //db.Project.Add(model);
+                //db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name", project.LanguageTypeID);
-            return View(project);
+            ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name", model.LanguageTypeID);
+            return View(model);
         }
 
         // GET: Projects/Edit/5
