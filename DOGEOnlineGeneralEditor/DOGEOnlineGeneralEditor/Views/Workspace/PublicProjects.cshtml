@@ -1,22 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Public Projects";
 }
-<ul class="topnav">
-    <li><a class="active" href="#home">My Projects</a></li>
-    <li><a href="#news">Public Projects</a></li>
-    <li><a href="#contact">My Account</a></li>
+<ul class="top-nav">
+    <li><a href="/Workspace/MyProjects">My Projects</a></li>
+    <li><a class="active" href="">Public Projects</a></li>
+    <li><a href="/Account">My Account</a></li>
 </ul>
 
 
 <!--ForEach-->
 
 
-<div class="projecttable">
-    <input type="text" class="search" />
-    <button class="projectbutton">Create Project</button>
-    <button class="projectbutton">Open Project</button>
-    <div class="scrollbig">
-        <table id="publicprojcets">
+<div class="project-table">
+    <input type="text" name="search" placeholder="Search.." id="public-search">
+    <button class="project-button">Create Project</button>
+    <button class="project-button">Open Project</button>
+    <div class="scroll-big">
+        <table id="public-projcets">
             <thead>
                 <tr>
                     <th>Name of project</th>

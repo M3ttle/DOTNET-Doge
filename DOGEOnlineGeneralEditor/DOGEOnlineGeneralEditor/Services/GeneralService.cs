@@ -76,7 +76,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>UserViewModel</returns>
-        public UserViewModel getUser(int userID)
+        public UserViewModel getUserbyID(int userID)
         {
             User user = (from x in database.User
                         where x.ID == userID
@@ -91,6 +91,27 @@ namespace DOGEOnlineGeneralEditor.Services
                 UserName = user.Name
             };
         }
+
+        public UserViewModel getUserbyUsername(string username)
+        {
+            User user = (from x in database.User
+                         where x.Name.Contains(username)
+                         select x).SingleOrDefault();
+            if(user == null)
+            {
+                throw new UserNotFoundException();
+            }
+            return new UserViewModel
+            {
+                UserID = user.ID,
+                UserName = user.Name
+            };
+        }
+        /// <summary>
+        /// Function that adds a user to the database 
+        /// </summary>
+        /// <param name="applicationUser"></param>
+        /// <returns>bool</returns>
 
         public void createUser(RegisterViewModel model)
         {

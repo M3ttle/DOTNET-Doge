@@ -1,20 +1,20 @@
 ﻿@{
     ViewData["Title"] = "My Projects";
 }
-<ul class="topnav">
-    <li><a class="active" href="#home">My Projects</a></li>
-    <li><a href="#news">Public Projects</a></li>
-    <li><a href="#contact">My Account</a></li>
+<ul class="top-nav">
+    <li><a class="active" href="">My Projects</a></li>
+    <li><a href="/Workspace/PublicProjects">Public Projects</a></li>
+    <li><a href="/Account">My Account</a></li>
 </ul>
 
 
 <!--ForEach-->
 
 
-<div class="projecttable">
-    <input type="text" class="search" />
-    <button class="projectbutton">Create Project</button>
-    <button class="projectbutton">Open Project</button>
+<div class="project-table">
+    <input type="text" name="search" placeholder="Search.." id="my-search">
+    <button class="project-button">Create Project</button>
+    <button class="project-button">Open Project</button>
     <div class="scroll">
         <table id="myprojcets">
             <tr>
@@ -86,12 +86,12 @@
         </table>
 
     </div>
-    <button id="deleteproject">Delete Project</button>
+    <button class="delete-button">Delete Project</button>
 </div>
 
-<div class="projecttable">
+<div class="project-table">
     <div class="scroll">
-        <table id="sharedprojects">
+        <table id="shared-projects">
             <tr>
                 <th>Name of project</th>
                 <th>Number of Files</th>
@@ -112,5 +112,5 @@
             </tr>
         </table>
     </div>
-    <button id="leaveproject">Leave Project</button>
+    <button class="leave-button">Leave Project</button>
 </div>
