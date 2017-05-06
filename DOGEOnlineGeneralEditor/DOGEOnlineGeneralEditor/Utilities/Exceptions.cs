@@ -17,4 +17,7 @@ namespace DOGEOnlineGeneralEditor.Utilities
     public class FileNotFoundException : System.Exception
     {
     }
+    public class DuplicateProjectNameException : System.Exception
+    {
+    }
 }

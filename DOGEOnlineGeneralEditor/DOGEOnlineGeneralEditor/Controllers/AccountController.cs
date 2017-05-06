@@ -128,6 +128,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            ViewData["Genders"] = service.getGenders();
+            ViewData["UserTypes"] = service.getUserTypes();
             return View(model);
         }
 

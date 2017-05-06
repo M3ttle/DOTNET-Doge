@@ -10,6 +10,7 @@ using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
 using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Services;
+using DOGEOnlineGeneralEditor.Utilities;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
@@ -63,7 +64,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             if(service.projectExists(userName, model.Name))
             {
                 //Error duplicate project name
-                throw new Exception();
+                ModelState.AddModelError("", "You already have a project with that name");
             }
             if (ModelState.IsValid)
             {

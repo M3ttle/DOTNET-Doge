@@ -1,4 +1,4 @@
-﻿@model DOGEOnlineGeneralEditor.Models.POCO.Project
+﻿@model DOGEOnlineGeneralEditor.Models.ViewModels.ProjectViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -10,7 +10,6 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
         <h4>Project</h4>
         <hr />

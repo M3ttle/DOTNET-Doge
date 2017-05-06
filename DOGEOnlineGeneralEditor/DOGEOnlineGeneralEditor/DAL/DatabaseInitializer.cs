@@ -17,11 +17,14 @@ namespace DOGEOnlineGeneralEditor.Data
             // DB has been seeded
             //    return;
             //}
-        }/*
-            protected override void Seed(ApplicationDbContext context) { 
+        }
+        protected override void Seed(ApplicationDbContext context)
+        { 
             LanguageType[] languageTypes = new LanguageType[]
             {
-                new LanguageType{Name = "Javascript"}
+                new LanguageType{Name = "Javascript"},
+                new LanguageType{Name = "c#"},
+                new LanguageType{Name = "html"},
             };
 
             foreach (LanguageType languageType in languageTypes)
@@ -44,6 +47,7 @@ namespace DOGEOnlineGeneralEditor.Data
             }
 
             context.SaveChanges();
+            /*
             ApplicationUser[] applicationUsers = new ApplicationUser[]
                 { new ApplicationUser
                     {
@@ -199,7 +203,8 @@ namespace DOGEOnlineGeneralEditor.Data
                 context.File.Add(file);
             }
             context.SaveChanges();
-            }
-     */
+          */
+        }
+
     }
 }
