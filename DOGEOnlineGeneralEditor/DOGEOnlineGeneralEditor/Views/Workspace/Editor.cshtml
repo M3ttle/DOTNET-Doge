@@ -182,6 +182,7 @@
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/javascript");
+        editor.focus();
         
         $('#save').on('click', function (e) {
             $('#saveTextArea').text(editor.getSession().getValue());
