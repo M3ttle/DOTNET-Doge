@@ -1,4 +1,7 @@
-﻿@{
+﻿@using DOGEOnlineGeneralEditor.Models.ViewModels
+@model FileViewModel
+
+@{
     ViewData["Title"] = "Editor";
 }
 
@@ -8,7 +11,7 @@
 @Scripts.Render("~/bundles/signalr")
 <script src="~/signalr/hubs"></script>
 
-
+<p>@Model.Name</p>
 
 <header class="header">
     <div class="innertube">
@@ -169,7 +172,8 @@
 </header>
 
 
-<div id="editor">function foo(items) {
+<div id="editor">
+    function foo(items) {
     var x = "All this is syntax highlighted";
     return x;
 }

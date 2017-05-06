@@ -15,7 +15,7 @@
     <ol>
         @foreach(var file in Model.Files)
         {
-            <li>@file.Name</li>
+            <li>@Html.ActionLink(file.Name, "Editor", "Workspace", new { id = file.ID }, null)</li>
         }
     </ol>
     <dl class="dl-horizontal">
