@@ -20,11 +20,11 @@
             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            @Html.DropDownListFor(m => m.Gender, ViewData["Genders"] as List<SelectListItem>))
+            @Html.DropDownListFor(m => m.Gender, ViewData["Genders"] as List<SelectListItem>)
             @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            @Html.DropDownListFor(m => m.UserTypeID, ViewData["UserTypes"] as List<SelectListItem>))
+            @Html.DropDownListFor(m => m.UserTypeID, ViewData["UserTypes"] as List<SelectListItem>)
             @Html.ValidationMessageFor(m => m.UserTypeID, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">

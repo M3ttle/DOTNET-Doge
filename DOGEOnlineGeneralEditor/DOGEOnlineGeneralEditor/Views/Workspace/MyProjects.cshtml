@@ -14,6 +14,7 @@
     @foreach (var item in Model.MyProjects)
     {
         <li>@item.Name</li>
+        <li>@Html.ActionLink("Add File", "Create", "File", new { id = item.ProjectID }, null)</li>
     }
 </ul>
 <ul>

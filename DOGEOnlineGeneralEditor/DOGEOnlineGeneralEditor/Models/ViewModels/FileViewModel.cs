@@ -6,6 +6,12 @@ using DOGEOnlineGeneralEditor.Models.POCO;
 
 namespace DOGEOnlineGeneralEditor.Models.ViewModels
 {
+    public class CreateFileViewModel
+    {
+        public int ProjectID { get; set; }
+        public string Name { get; set; }
+        public int LanguageTypeID { get; set; }
+    }
     public class FileViewModel
     {
         public int ID { get; set; }

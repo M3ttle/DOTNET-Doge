@@ -47,8 +47,15 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
 
-		public void addFileToDatabase(File file)
+		public void addFileToDatabase(CreateFileViewModel model)
 		{
+            File file = new File
+            {
+                Name = model.Name,
+                LanguageTypeID = model.LanguageTypeID,
+                ProjectID = model.ProjectID,
+                DateCreated = DateTime.Now,
+            };
 			database.File.Add(file);
 			database.SaveChanges();
 		}

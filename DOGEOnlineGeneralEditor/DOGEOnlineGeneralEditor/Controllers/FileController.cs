@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
+using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Services;
 
 namespace DOGEOnlineGeneralEditor.Controllers
@@ -44,12 +45,18 @@ namespace DOGEOnlineGeneralEditor.Controllers
             return View(file);
         }
 
-        // GET: Files/Create
-        public ActionResult Create()
+        // GET: File/Create
+        public ActionResult Create(int? id)
         {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name");
-            ViewBag.ProjectID = new SelectList(db.Project, "ID", "Name");
-            return View();
+
+            CreateFileViewModel model = new CreateFileViewModel { ProjectID = id.Value };
+            return View(model);
         }
 
         // POST: Files/Create
@@ -57,9 +64,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Location,LanguageTypeID")] File file)
+        public ActionResult Create(CreateFileViewModel file)
         {
-            file.DateCreated = DateTime.Now;
             if (ModelState.IsValid)
             {
 				service.addFileToDatabase(file);
@@ -67,7 +73,6 @@ namespace DOGEOnlineGeneralEditor.Controllers
             }
 
             ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name", file.LanguageTypeID);
-            ViewBag.ProjectID = new SelectList(db.Project, "ID", "Name", file.ProjectID);
             return View(file);
         }
 
