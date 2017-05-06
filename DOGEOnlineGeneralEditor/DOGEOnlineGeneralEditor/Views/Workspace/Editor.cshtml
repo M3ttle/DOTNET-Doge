@@ -171,7 +171,7 @@
 </div>
 </header>
 
-
+<input value="@Model.ID" id="fileID" name="fileID" type="hidden">
 <div id="editor">
     function foo(items) {
     var x = "All this is syntax highlighted";
@@ -191,11 +191,6 @@
         $('#save').on('click', function (e) {
             $('#saveTextArea').text(editor.getSession().getValue());
             return false;
-        });
-
-        
-        editor.getSession().selection.on('changeCursor', function (e) {
-            $('#saveTextArea').text(editor.getSession().getValue());
         });
         
         $("#mode").change(function () {

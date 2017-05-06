@@ -30,13 +30,18 @@ var highLightMarker = function () {
 }
 
 var newLine = function (oldRow, newRow) {
-    return (oldRow != newRow);
+    console.log("Fer ekki hingað inn ");
+    var value = true;
+    if (oldRow == newRow) {
+        value = false;
+    }
+    return value;
 }
 
 //Start the connection to the server
 $.connection.hub.start().done(function () {
-    // Temp group id = 1, will be file ID later on.
-    var group = "1";
+    // Group for the hub is the file ID
+    var group = $("#fileID").val();
     fileProxy.server.addToGroup(group);
 
     var sendData = function (session) {
@@ -49,19 +54,23 @@ $.connection.hub.start().done(function () {
     
     editor.getSession().on('change', function (session) {
         var currentRow = session.start.row;
-        console.log("Starting Row:" + currentRow);
-        console.log(editor.getSession());
+        //console.log("Starting Row:" + currentRow);
+        //console.log(editor.getSession());
         //console.log(session);
 
         //keypress
         if ($("#editor").one("keyup", function (e) { // To make sure we only take changes when key is pressed
-            //console.log(String.fromCharCode(e.which));
+            console.log(String.fromCharCode(e.which));
             if (session.action == "insert") {
-                if (newLine) {
-
+                // NewLine
+                if (workingRow != currentRow) {
+                    workingRow = currentRow;
+                    
+                }
+                else {
+                    //sendData(session);
                 }
                 sendData(session);
-                console.log("enter pressed");
             }
             else if (session.action == "remove") // TODO
             {
@@ -72,12 +81,18 @@ $.connection.hub.start().done(function () {
             }
         }));
 
-        console.log("RESET");
+        //console.log("RESET");
         //EditSession.reset();
         //EditSession.resetCaches()
 
-        console.log("ending row: " + session.start.row);
+        //console.log("ending row: " + session.start.row);
         
+    });
+
+    editor.getSession().selection.on('changeCursor', function (e) {
+        workingRow = editor.getCursorPosition().row;
+
+        $('#saveTextArea').text(editor.getSession().getValue());
     });
     
 
