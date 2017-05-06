@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DOGEOnlineGeneralEditor.Models.POCO;
 
 namespace DOGEOnlineGeneralEditor.Models.ViewModels
 {
@@ -15,6 +16,7 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
         public bool IsPublic { get; set; }
         public DateTime DateCreated { get; set; }
         public List<FileViewModel> Files { get; set; }
+        public LanguageType LanguageType { get; set; }
     }
 
     public class MyProjectsViewModel

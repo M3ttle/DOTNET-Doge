@@ -36,12 +36,13 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Project.Find(id);
-            if (project == null)
+            ProjectViewModel model = service.getProjectViewModelByID(id.Value);
+            if(model == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(project);
+
+            return View(model);
         }
 
         // GET: Projects/Create

@@ -1,5 +1,5 @@
-﻿@model DOGEOnlineGeneralEditor.Models.POCO.Project
-
+﻿@using DOGEOnlineGeneralEditor.Models.ViewModels
+@model ProjectViewModel
 @{
     ViewBag.Title = "Details";
 }
@@ -9,6 +9,13 @@
 <div>
     <h4>Project</h4>
     <hr />
+
+    <ol>
+        @foreach(var file in Model.Files)
+        {
+            <li>@file.Name</li>
+        }
+    </ol>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.LanguageType.Name)
@@ -18,13 +25,6 @@
             @Html.DisplayFor(model => model.LanguageType.Name)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.FileCount)
@@ -43,11 +43,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OwnerID)
+            @Html.DisplayNameFor(model => model.Owner)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OwnerID)
+            @Html.DisplayFor(model => model.Owner)
         </dd>
 
         <dt>
@@ -61,6 +61,5 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

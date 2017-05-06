@@ -17,6 +17,6 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
         public int ID { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
-        public LanguageType LanguageType { get; set; }
+        public int LanguageTypeID { get; set; }
     }
 }

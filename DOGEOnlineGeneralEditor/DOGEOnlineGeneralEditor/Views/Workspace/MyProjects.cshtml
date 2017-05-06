@@ -10,11 +10,9 @@
 </ul>
 
 <ul>
-    <li>test</li>
     @foreach (var item in Model.MyProjects)
     {
-        <li>@item.Name</li>
-        <li>@Html.ActionLink("Add File", "Create", "File", new { id = item.ProjectID }, null)</li>
+        <li>@item.Name @Html.ActionLink("Add File", "Create", "File", new { id = item.ProjectID }, null) @Html.ActionLink("Details", "Details", "Project", new { id = item.ProjectID }, null) </li>        
     }
 </ul>
 <ul>

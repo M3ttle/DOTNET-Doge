@@ -60,17 +60,50 @@ namespace DOGEOnlineGeneralEditor.Services
 			database.SaveChanges();
 		}
 
+        public List<FileViewModel> getFileViewModelsForProject(int projectID)
+        {
+            List<FileViewModel> fileViewModels = new List<FileViewModel>();
+            var files = getFilesForProject(projectID);
 
-		#endregion
-		/// <summary>
-		/// Function that returns true if a user with the given Id has access to a project
-		/// whose name is projectName
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <param name="projectName"></param>
-		/// <returns></returns>
-		#region ProjectService
-		public bool projectExists(string userName, string projectName)
+            foreach(var file in files)
+            {
+                fileViewModels.Add(convertFileToViewModel(file));
+            }
+
+            return fileViewModels;
+        }
+
+        public List<File> getFilesForProject(int projectID)
+        {
+            var files = (from x in database.File
+                         where x.ProjectID == projectID
+                         select x).ToList();
+            return files;
+        }
+
+        public FileViewModel convertFileToViewModel(File file)
+        {
+            FileViewModel model = new FileViewModel
+            {
+                ID = file.ID,
+                Name = file.Name,
+                Location = file.Location,
+                LanguageTypeID = file.LanguageTypeID
+            };
+            return model;
+        }
+
+
+        #endregion
+        /// <summary>
+        /// Function that returns true if a user with the given Id has access to a project
+        /// whose name is projectName
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
+        #region ProjectService
+        public bool projectExists(string userName, string projectName)
         {
             int userID = getUserIDByName(userName);
 
@@ -158,6 +191,23 @@ namespace DOGEOnlineGeneralEditor.Services
             return model;
         }
 
+        public ProjectViewModel getProjectViewModelByID(int id)
+        {
+            var project = (from p in database.Project
+                           where p.ID == id
+                           select p).SingleOrDefault();
+            if(project == null)
+            {
+                //Project does not exist!
+                throw new Exception();
+            }
+
+            var projectViewModel = convertProjectToViewModel(project);
+            projectViewModel.Files = getFileViewModelsForProject(id);
+
+
+            return projectViewModel;
+        }
         #endregion
 
         #region Private ProjectService
