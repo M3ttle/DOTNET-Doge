@@ -68,11 +68,20 @@ namespace DOGEOnlineGeneralEditor.Controllers
         {
             if (ModelState.IsValid)
             {
-				service.addFileToDatabase(file);
-                return RedirectToAction("Index");
+                if(service.fileExists(file.ProjectID, file.Name))
+                {
+                    ModelState.AddModelError("", "A file with that name already exists in this project");
+                    
+                }
+                else
+                {
+                    service.addFileToDatabase(file);
+                    return RedirectToAction("Index");
+                }
+				
             }
 
-            ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name", file.LanguageTypeID);
+            ViewBag.LanguageTypeID = service.getLanguageTypes();
             return View(file);
         }
 

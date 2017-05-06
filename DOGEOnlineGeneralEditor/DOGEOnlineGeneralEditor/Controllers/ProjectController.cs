@@ -61,18 +61,21 @@ namespace DOGEOnlineGeneralEditor.Controllers
         public ActionResult Create([Bind(Include = "Name,IsPublic,LanguageTypeID")] ProjectViewModel model)
         {
             var userName = User.Identity.Name;
-            if(service.projectExists(userName, model.Name))
-            {
-                //Error duplicate project name
-                ModelState.AddModelError("", "You already have a project with that name");
-            }
+            
             if (ModelState.IsValid)
             {
-                model.Owner = userName;
-                service.addProjectToDatabase(model);
-                service.addUserToProject(userName, model);
-                
-                return RedirectToAction("Index");
+                if (service.projectExists(userName, model.Name))
+                {
+                    //Error duplicate project name
+                    ModelState.AddModelError("", "You already have a project with that name");
+                }
+                else
+                { 
+                    model.Owner = userName;
+                    service.addProjectToDatabase(model);
+                    service.addUserToProject(userName, model);
+                    return RedirectToAction("Index");
+                }
             }
             ViewBag.LanguageTypeID = service.getLanguageTypes(model.LanguageTypeID);
             return View(model);
