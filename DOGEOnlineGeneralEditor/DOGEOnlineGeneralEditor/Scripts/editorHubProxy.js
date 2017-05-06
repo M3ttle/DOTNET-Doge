@@ -1,48 +1,42 @@
-﻿
-var broadcastChanges = function (editor, signal)
-{
-    /*
-    var currPos = editor.getCursorPosition();
-    editor.session.insert(currPos, signal);
+﻿$.connection.hub.logging = true;
+var fileProxy = $.connection.fileHub;
+var editor = ace.edit("editor");
 
-    console.log("Row: " + row);
-    console.log("Column: " + column);
-    console.log("Text: " + text);
-    */
-    //{ row, column }
-    //editor.insert(editor.getCursorPosition(), "blabla");
+
+// Recieves signal from the server and updates the client file
+fileProxy.client.updateFile = function (value, row, column) {
+    if (value) {
+        var position = {
+            row: row,
+            column: column
+        };
+
+        editor.session.insert(position, value);
+    }
 }
 
-$(function () {
-    //Enable logging
-    $.connection.hub.logging = true;
+//Start the connection to the server
+$.connection.hub.start().done(function () {
+    // Temp group id = 1, will be file ID later on.
+    var group = "1";
+    fileProxy.server.addToGroup(group);
 
-    // Create a proxy to the file hub
-    //var fileProxy = $.connection.fileHub; here
+    
+    editor.getSession().on('change', function (session) {
+        if ($("#editor").one("keydown", function () { // To make sure we only take changes when key is pressed
+            if (session.action == "insert") {
+                var value = session.lines[0];
+                var row = session.start.row;
+                var column = session.start.column;
+                fileProxy.server.broadcastFileToGroup(group, value, row, column);
+            }
+            else if (session.action == "remove") // TODO
+            {
 
-    //row, text, groupID
-    /*fileProxy.client.updateFile = function (editor, groupID) { here
-
-    }*/
-
-    // Start the connection.
-    // $.connection.hub.
-    /*$.connection.hub.start().done(function () { here
-        console.log("started...");*/
-        /*
-        $('#sendmessage').click(function () {
-            // Call the Send method on the hub.
-            chat.server.send($('#displayname').val(), $('#message').val());
-            // Clear text box and reset focus for next comment.
-            $('#message').val('').focus();
-        });
-        */
-
-
-    //}); here
+            }
+        }));
+    });
     
 
+});// hub starts ends
 
-        
-
-});

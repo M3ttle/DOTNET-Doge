@@ -25,9 +25,10 @@ namespace DOGEOnlineGeneralEditor.Services.Hubs
         }
 
         // Broadcasts message to others in group.
-        public void BroadcastFileToGroup(string groupName, string message)
+        public void BroadcastFileToGroup(string groupName, string value, int row, int column)
         {
-            Clients.OthersInGroup(groupName).updateFile(message);
+            Clients.OthersInGroup(groupName).updateFile(value, row, column);
+            //Clients.All.updateFile(value, row, column); // For testing purposes
         }
 
         // Overrides
