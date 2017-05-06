@@ -23,9 +23,14 @@ namespace DOGEOnlineGeneralEditor.Controllers
             return View();
         }
  
- 		public ActionResult Editor()
+ 		public ActionResult Editor(int? id)
  		{
- 			return View();
+            if(id == null)
+            {
+                throw new Exception();
+            }
+            var model = service.getFileViewModel(id.Value);
+ 			return View(model);
  		}
  
  		public ActionResult MyProjects()

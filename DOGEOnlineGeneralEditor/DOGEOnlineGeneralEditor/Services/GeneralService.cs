@@ -89,6 +89,15 @@ namespace DOGEOnlineGeneralEditor.Services
             return fileViewModels;
         }
 
+        public FileViewModel getFileViewModel(int fileID)
+        {
+            var file = (from x in database.File
+                        where x.ID == fileID
+                        select x).SingleOrDefault();
+            var fileViewModel = convertFileToViewModel(file);
+            return fileViewModel;
+        }
+
         public List<File> getFilesForProject(int projectID)
         {
             var files = (from x in database.File
