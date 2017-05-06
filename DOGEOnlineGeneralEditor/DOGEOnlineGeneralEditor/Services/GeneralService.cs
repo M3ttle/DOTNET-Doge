@@ -60,6 +60,22 @@ namespace DOGEOnlineGeneralEditor.Services
 			database.SaveChanges();
 		}
 
+        public void createDefaultFile(int projectID)
+        {
+            LanguageType projectType = (from x in database.Project
+                                        where x.ID == projectID
+                                        select x.LanguageType).First();
+            File file = new File
+            {
+                Name = projectType.DefaultName,
+                LanguageTypeID = projectType.ID,
+                ProjectID = projectID,
+                DateCreated = DateTime.Now
+            };
+            database.File.Add(file);
+            database.SaveChanges();
+        }
+
         public List<FileViewModel> getFileViewModelsForProject(int projectID)
         {
             List<FileViewModel> fileViewModels = new List<FileViewModel>();
@@ -134,6 +150,18 @@ namespace DOGEOnlineGeneralEditor.Services
             };
             database.Project.Add(project);
             database.SaveChanges();
+
+            int projectID = getProjectID(ownerID, model.Name);
+            createDefaultFile(projectID);
+        }
+
+        public int getProjectID(int ownerID, string name)
+        {
+            int id = (from x in database.Project
+                      where x.Name == name
+                      && x.OwnerID == ownerID
+                      select x.ID).First();
+            return id;
         }
         /// <summary>
         /// Function which returns a MyProjectsViewModel containing both a

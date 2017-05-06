@@ -12,7 +12,7 @@
 <ul>
     @foreach (var item in Model.MyProjects)
     {
-        <li>@item.Name @Html.ActionLink("Add File", "Create", "File", new { id = item.ProjectID }, null) @Html.ActionLink("Details", "Details", "Project", new { id = item.ProjectID }, null) </li>        
+        <li>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null) </li>        
     }
 </ul>
 <ul>
@@ -26,7 +26,7 @@
 
 <div class="project-table">
     <input type="text" name="search" placeholder="Search.." id="my-search">
-    <button class="project-button">Create Project</button>
+    <button class="project-button">@Html.ActionLink("Create New", "Create", "Project", null, null) </button>
     <button class="project-button">Open Project</button>
     <div class="scroll">
         <table id="myprojcets">
