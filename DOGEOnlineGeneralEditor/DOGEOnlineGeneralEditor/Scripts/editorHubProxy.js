@@ -23,7 +23,7 @@ $.connection.hub.start().done(function () {
 
     
     editor.getSession().on('change', function (session) {
-        if ($("#editor").one("keydown", function () { // To make sure we only take changes when key is pressed
+        if ($("#editor").one("keyup", function () { // To make sure we only take changes when key is pressed
             if (session.action == "insert") {
                 var value = session.lines[0];
                 var row = session.start.row;
