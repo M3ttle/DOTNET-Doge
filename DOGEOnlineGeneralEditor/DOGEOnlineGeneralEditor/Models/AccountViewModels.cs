@@ -54,12 +54,23 @@ namespace DOGEOnlineGeneralEditor.Models
 
     public class IndexViewModel
     {
-		public int UserID { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+		[Display(Name = "Username")]
+		public string Name { get; set; }
+
+		[Required]
+		[EmailAddress]
+		[StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+		[Display(Name = "Email")]
+		public string Email { get; set; }
+
+		[Required]
+		[Display(Name = "Gender")]
 		public Gender Gender { get; set; }
+
+		[Required]
+		[Display(Name = "User Type")]
 		public int UserTypeID { get; set; }
-    }
+	}
 
     public class ChangePasswordViewModel
     {

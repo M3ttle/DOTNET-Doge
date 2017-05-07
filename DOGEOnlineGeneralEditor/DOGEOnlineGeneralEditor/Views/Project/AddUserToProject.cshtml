@@ -18,9 +18,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
-        
         <td>
-            @Html.ActionLink("Add", "AddUserToProject", new { id=item.UserID }) |  
+            <button onclick="setUserID('@item.UserID')" class="btn-default">Add</button>
         </td>
     </tr>
 }
@@ -44,3 +43,20 @@
     }
 
 </table>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ProjectID)
+    @Html.Hidden("UserID", null, htmlAttributes: new { @id = "HiddenUserID" })
+    <input type="submit" hidden="hidden" id="hiddenSubmit" />
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function setUserID(userID)
+        {
+            var b = $("#HiddenUserID").val(userID);
+            document.getElementById("hiddenSubmit").click();
+        }
+    </script>
+}

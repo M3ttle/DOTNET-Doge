@@ -388,7 +388,7 @@ namespace DOGEOnlineGeneralEditor.Services
             };
         }
 
-		public IndexViewModel getUserAccountByUserName(string username)
+		public IndexViewModel getUserAccountInfoByUserName(string username)
 		{
 			User user = (from x in database.User
 						 where x.Name == username
@@ -399,7 +399,6 @@ namespace DOGEOnlineGeneralEditor.Services
 			}
 			return new IndexViewModel
 			{
-				UserID = user.ID,
 				Name = user.Name,
 				Email = user.Email,
 				Gender = user.Gender,
@@ -427,12 +426,28 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
         }
 
-        /// <summary>
-        /// Function that returns true if a User with a given username exists in the database.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns>bool</returns>
-        public bool userExists(string name)
+		/// <summary>
+		/// Function that adds a user to the database 
+		/// </summary>
+		/// <param name="applicationUser"></param>
+		/// <returns>bool</returns>
+		public void updateUser(IndexViewModel model)
+		{
+			User user = database.User.Find(model.Name);
+			user.Email = model.Email;
+			user.Gender = model.Gender;
+			user.UserTypeID = model.UserTypeID;
+
+			database.Entry(user).State = EntityState.Modified;
+			database.SaveChanges();
+		}
+
+		/// <summary>
+		/// Function that returns true if a User with a given username exists in the database.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns>bool</returns>
+		public bool userExists(string name)
         {
             User user = (from x in database.User
                          where x.Name == name
@@ -471,6 +486,22 @@ namespace DOGEOnlineGeneralEditor.Services
                            select x.Name).SingleOrDefault();
             return name;
         }
+        public bool addUserToProject(int userID, int projectID)
+        {
+            UserProject userProject = new UserProject
+            {
+                UserID = userID,
+                ProjectID = projectID
+            };
+            if (userProjectExists(userID, projectID))
+            {
+                // duplicateexception
+                return false;
+            }
+            database.UserProject.Add(userProject);
+            database.SaveChanges();
+            return true;
+        }
         public void addUserToProject(string userName, ProjectViewModel project)
         {
             int userID = getUserIDByName(userName);
@@ -489,24 +520,13 @@ namespace DOGEOnlineGeneralEditor.Services
         }
         public UserCollabViewModel getCollaboratorViewModel(int? projectID)
         {
-            var notCollaborators = (from u in database.User
-                                   join up in database.UserProject
-                                   on u.ID equals up.UserID
-                                   where up.ProjectID != projectID
-                                   select u).Distinct();
-
-            List<UserViewModel> notCollaboratorList = new List<UserViewModel>();
-            foreach(User user in notCollaborators)
-            {
-                UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };
-                notCollaboratorList.Add(viewModel);
-            }
+            var allUsers = from up in database.UserProject
+                                      select up.User;
 
             var Collaborators = (from u in database.User
                                 join up in database.UserProject
                                 on u.ID equals up.UserID
                                 where up.ProjectID == projectID
-                                && up.Project.OwnerID != u.ID
                                 select u).Distinct();
 
             List < UserViewModel > CollaboratorList = new List<UserViewModel>();
@@ -516,6 +536,14 @@ namespace DOGEOnlineGeneralEditor.Services
                 CollaboratorList.Add(viewModel);
             }
 
+            var notCollaborators = allUsers.Except(Collaborators);
+
+            List<UserViewModel> notCollaboratorList = new List<UserViewModel>();
+            foreach (User user in notCollaborators)
+            {
+                UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };
+                notCollaboratorList.Add(viewModel);
+            }
             UserCollabViewModel userCollabViewModel = new UserCollabViewModel
             {
                 ProjectID = projectID,
