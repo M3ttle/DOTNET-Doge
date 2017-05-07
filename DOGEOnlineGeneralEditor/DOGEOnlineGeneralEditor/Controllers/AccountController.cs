@@ -58,9 +58,9 @@ namespace DOGEOnlineGeneralEditor.Controllers
             }
         }
 
-        //
-        // GET: /Account/Login
-        [AllowAnonymous]
+		//
+		// GET: /Account/Login
+		[AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -149,18 +149,44 @@ namespace DOGEOnlineGeneralEditor.Controllers
         public ActionResult Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                message == ManageMessageId.UpdateUserSuccess ? "Your info has been changed."
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
 			
-			IndexViewModel model = service.getUserAccountByUserName(User.Identity.Name);
+			IndexViewModel model = service.getUserAccountInfoByUserName(User.Identity.Name);
+			ViewData["Genders"] = service.getGenders();
+			ViewData["UserTypes"] = service.getUserTypes();
 
-            return View(model);
+			return View(model);
         }
 
-        //
-        // GET: /Account/ChangePassword
-        public ActionResult ChangePassword()
+		//
+		// POST: /Account/Register
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> Index(IndexViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = new ApplicationUser { UserName = model.Name, Email = model.Email };
+				var result = await UserManager.UpdateAsync(user);
+
+				if (result.Succeeded)
+				{
+					service.updateUser(model);
+					return RedirectToAction("Index", "Account", new { Message = ManageMessageId.UpdateUserSuccess });
+				}
+				AddErrors(result);
+			}
+
+			ViewData["Genders"] = service.getGenders();
+			ViewData["UserTypes"] = service.getUserTypes();
+			return View(model);
+		}
+
+		//
+		// GET: /Account/ChangePassword
+		public ActionResult ChangePassword()
         {
             return View();
         }
@@ -298,6 +324,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
+			UpdateUserSuccess,
             Error
         }
         #endregion
