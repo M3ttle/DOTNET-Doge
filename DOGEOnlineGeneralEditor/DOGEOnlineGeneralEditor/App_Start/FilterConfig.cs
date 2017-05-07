@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using DOGEOnlineGeneralEditor.Utilities;
+using System.Web;
 using System.Web.Mvc;
 
 namespace DOGEOnlineGeneralEditor
@@ -7,7 +8,7 @@ namespace DOGEOnlineGeneralEditor
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new CustomHandleErrorAttribute());
         }
     }
 }

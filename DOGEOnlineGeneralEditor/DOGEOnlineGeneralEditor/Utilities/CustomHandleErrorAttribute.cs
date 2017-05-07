@@ -17,30 +17,31 @@ namespace DOGEOnlineGeneralEditor.Utilities
 
             string viewName = "Error";
 
-            if (currentController == "Book" || currentController == "Movie")
+            if (ex is UserNotFoundException)
             {
-                if (ex is UserNotFoundException)
-                {
-                    viewName = "UserNotFoundError";
-                }
-                else if (ex is ProjectNotFoundException)
-                {
-                    viewName = "ProjectNotFoundError";
-                }
-
-                HandleErrorInfo model = new HandleErrorInfo(filterContext.Exception, currentController, currentActionName);
-                ViewResult result = new ViewResult
-                {
-                    ViewName = viewName,
-                    ViewData = new ViewDataDictionary<HandleErrorInfo>(model),
-                    TempData = filterContext.Controller.TempData
-                };
-
-                filterContext.Result = result;
-                filterContext.ExceptionHandled = true;
-
-                base.OnException(filterContext);
+                viewName = "UserNotFoundError";
             }
+            else if (ex is ProjectNotFoundException)
+            {
+                viewName = "ProjectNotFoundError";
+            }
+            else if (ex is UnauthorizedAccessToProjectException)
+            {
+                viewName = "UnauthorizedAccess";
+            }
+
+            HandleErrorInfo model = new HandleErrorInfo(filterContext.Exception, currentController, currentActionName);
+            ViewResult result = new ViewResult
+            {
+                ViewName = viewName,
+                ViewData = new ViewDataDictionary<HandleErrorInfo>(model),
+                TempData = filterContext.Controller.TempData
+            };
+
+            filterContext.Result = result;
+            filterContext.ExceptionHandled = true;
+
+            base.OnException(filterContext);
         }
     }
 }

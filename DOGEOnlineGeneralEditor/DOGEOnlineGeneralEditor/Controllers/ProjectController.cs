@@ -41,10 +41,13 @@ namespace DOGEOnlineGeneralEditor.Controllers
             ProjectViewModel model = service.getProjectViewModelByID(id.Value);
             if(model == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new ProjectNotFoundException();
             }
-
-            return View(model);
+            if(service.hasAccess(User.Identity.Name, id.Value))
+            {
+                return View(model);
+            }
+            throw new UnauthorizedAccessToProjectException();
         }
 
         // GET: Projects/Create

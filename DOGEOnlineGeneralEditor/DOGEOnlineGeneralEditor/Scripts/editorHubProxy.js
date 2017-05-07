@@ -20,9 +20,9 @@ fileProxy.client.updateClientFile = function (userWhoChanged, changedData) {
 */
 var markChanges = function (user, object) {
     var Range = ace.require('ace/range').Range;
-    var range = new Range(object.start.row, object.start.column, object.start.row, object.start.column + 20);
+    var range = new Range(object.start.row, object.start.column +1, object.start.row, object.start.column + 50);
 
-    //Set the cursor to the username
+    //Set the cursor content as the username
     document.styleSheets[0].addRule('.editorMarker:before', 'content: "' + user + '";');
 
     setTimeout(function () {

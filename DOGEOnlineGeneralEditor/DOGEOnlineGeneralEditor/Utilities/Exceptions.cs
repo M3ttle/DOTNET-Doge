@@ -18,4 +18,7 @@ namespace DOGEOnlineGeneralEditor.Utilities
     {
     }
 
+    public class UnauthorizedAccessToProjectException : Exception
+    {
+    }
 }
