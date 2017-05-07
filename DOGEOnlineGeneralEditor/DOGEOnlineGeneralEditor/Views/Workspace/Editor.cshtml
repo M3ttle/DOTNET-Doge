@@ -186,6 +186,10 @@
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/javascript");
+        editor.getSession().setUseWrapMode(true);
+        //editor.setHighlightActiveLine(false);
+        //document.getElementById('editor').style.fontSize = '12px';
+        //editor.setShowPrintMargin(false);
         editor.focus();
         
         $('#save').on('click', function (e) {
