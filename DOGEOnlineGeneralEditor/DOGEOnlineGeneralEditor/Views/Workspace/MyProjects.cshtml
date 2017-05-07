@@ -11,8 +11,8 @@
 
 
 <div class="project-table">
-    <input type="text" name="search" placeholder="Search.." id="my-search">
-    <button class="project-button">@Html.ActionLink("Create New", "Create", "Project", null, null) </button>
+    <input type="text" class="search-box" placeholder="Search.." id="my-search">
+    <button class="project-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
     <button class="project-button">Open Project</button>
     <div class="scroll">
         <table id="myprojcets">

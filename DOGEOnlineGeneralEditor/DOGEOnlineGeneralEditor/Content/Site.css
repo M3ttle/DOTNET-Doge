@@ -19,12 +19,20 @@ footer {
     width: 100%;
     padding: 20px 0;
     background: var(--main-hd-black);
-    box-shadow: -300px 0 0 var(--main-hd-black), 300px 0 0 var(--main-hd-black)/*, -300px -1px 0px var(--main-white), 300px -1px 0px var(--main-white)*/;
+    box-shadow: -300px 0 0 var(--main-hd-black), 300px 0 0 var(--main-hd-black) /*, -300px -1px 0px var(--main-white), 300px -1px 0px var(--main-white)*/;
     z-index: 6;
 }
 
+* {
+    border: 0;
+}
+
+    *:focus {
+        outline: 0 !important;
+    }
+
 #doge-header {
-    float:left;
+    float: left;
     height: 50px;
     padding: 5px 5px;
 }
@@ -70,44 +78,102 @@ textarea {
     }
 }
 
-button {
+/*DOGEOnlineGeneralEditor css*/
+
+button, input[type="submit"] {
+    border: 0;
     box-shadow: 0 3px 0 var(--main-white);
     border-radius: 5px;
-    border: 0;
+    color: var(--main-bg-color);
+    box-shadow: 0 5px 0px var(--light-bg-color);
+    border-bottom: 2px solid var(--light-bg-color);
+}
+
+    button:hover, input[type="submit"]:hover {
+        background: var(--light-of-gray);
+        box-shadow: 0 4px 1px var(--light-bg-color);
+        border-bottom: 2px solid var(--light-bg-color);
+        transition: all 0.1s ease-in;
+    }
+
+    button:active, input[type="submit"]:active {
+        transform: translateY(4px);
+        border-bottom-width: 2px;
+        box-shadow: none;
+    }
+
+input {
+    color: var(--main-hd-black);
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+select {
+    color: var(--main-hd-black);
+    border-radius: 5px 5px 0 0;
 }
 
 
-/*DOGEOnlineGeneralEditor css*/
+table {
+    width: 100%;
+    overflow: scroll;
+    background: var(--main-white);
+}
 
-/*Home Page*/
+    table td, table th {
+        border: 1px solid var(--main-bg-color);
+        text-align: left;
+        padding: 8px;
+    }
+
+    table tr:nth-child(even) {
+        background-color: var(--light-of-gray);
+    }
+
 #home-editor {
     display: table;
     margin: 0 auto;
-    height: 300px;
     width: 50%;
+    height: 300px;
     border-right: 3px solid var(--light-bg-color);
+}
+
+
+#editor {
+    height: 500px;
 }
 
 .full-banner {
     background: var(--light-bg-color);
     padding: 15px 0;
     margin: 10px auto;
-    box-shadow: -300px 0 0 var(--light-bg-color), 300px 0 0 var(--light-bg-color)/*, -300px -1px 0px var(--main-white), 300px -1px 0px var(--main-white), -300px 1px 0px var(--main-white), 300px 1px 0px var(--main-white)*/;
+    box-shadow: -300px 0 0 var(--light-bg-color), 300px 0 0 var(--light-bg-color) /*, -300px -1px 0px var(--main-white), 300px -1px 0px var(--main-white), -300px 1px 0px var(--main-white), 300px 1px 0px var(--main-white)*/;
 }
 
 .signup-button {
     border-radius: 10px;
-    box-shadow: 0 3px 0 var(--main-white);
     display: table;
     margin: 0 auto;
     height: 70px;
     width: 200px;
     background: var(--main-green);
     font-size: 36px;
+    box-shadow: 0 5px 0px var(--main-white);
+    border-bottom: 2px solid var(--main-white);
 }
 
+    .signup-button:hover {
+        background: var(--main-green);
+        box-shadow: 0 4px 1px var(--main-white);
+        border-bottom: 2px solid var(--main-white);
+        transition: all 0.1s ease-in;
+    }
+
+    .signup-button:active {
+        box-shadow: none;
+    }
+
 .home-text {
-    color: var(--main-white);
     padding-top: 20px;
 }
 
@@ -131,12 +197,13 @@ button {
     color: black;
 }
 
+
+
 ul.top-nav {
     display: table;
-    margin: 0 auto 50px auto;
+    margin: 0 auto 10px auto;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-
     list-style-type: none;
     padding: 0;
     overflow: hidden;
@@ -146,11 +213,13 @@ ul.top-nav {
 
     ul.top-nav .active {
         background: var(--main-green);
+        border-radius: 0 0 5px 5px;
     }
 
     ul.top-nav li {
         float: left;
     }
+
         ul.top-nav li a {
             color: var(--main-white);
             display: block;
@@ -163,27 +232,7 @@ ul.topnav li.right {
     float: right;
 }
 
-@media screen and (max-width: 600px) {
-    ul.topnav li.right,
-    ul.topnav li {
-        float: none;
-    }
-}
 
-table {
-    width: 100%;
-    background: var(--main-white);
-}
-
-td, th {
-    border: 1px solid var(--main-bg-color);
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: var(--light-of-gray);
-}
 
 #shared-projects, #my-projcets {
     min-height: 100px;
@@ -213,8 +262,9 @@ tr:nth-child(even) {
     width: 140px;
 }
 
-input[type=text] {
+.search-box {
     width: 110px;
+    margin-right: 30px;
     border: 2px solid var(--light-of-gray);
     font-size: 12px;
     background-color: var(--main-white);
@@ -223,15 +273,9 @@ input[type=text] {
     transition: width 0.3s ease-out;
 }
 
-    input[type=text]:focus {
+    .search-box:focus {
         width: 46%;
     }
-
-/*Editor*/
-
-#editor {
-    height: 500px;
-}
 
 .header {
     height: 60px;
@@ -242,7 +286,8 @@ input[type=text] {
     background: var(--main-bg-color);
     color: var(--main-white);
 }
-    .header select, .header button{
+
+    .header select, .header button {
         color: var(--main-bg-color);
     }
 
@@ -252,19 +297,21 @@ main {
     float: left;
     width: 100%;
 }
+
 .editorMarker {
     position: absolute;
     background: rgba(100,100,200,0.5);
     z-index: 40;
     width: 2px !important
 }
-.editorMarker::before {
-    position: absolute;
-    background: rgba(100,100,200,0.5);
-    z-index: 999;
-    top: -100%;
-    left: 0px;
-}
+
+    .editorMarker::before {
+        position: absolute;
+        background: rgba(100,100,200,0.5);
+        z-index: 999;
+        top: -100%;
+        left: 0px;
+    }
 
 
 
@@ -311,10 +358,11 @@ div.form-group input[type=submit] {
     .radio-inline input[type="radio"],
     .checkbox input[type="checkbox"],
     .checkbox-inline input[type="checkbox"] {
-    margin-left: 0;
+        margin-left: 0;
     }
+
     .checkbox {
-    display: table;
+        display: table;
     }
 }
 
