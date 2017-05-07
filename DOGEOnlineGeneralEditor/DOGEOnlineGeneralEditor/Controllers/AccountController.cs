@@ -123,7 +123,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                     service.createUser(model);
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("MyProjects", "Workspace");
                 }
                 AddErrors(result);
             }

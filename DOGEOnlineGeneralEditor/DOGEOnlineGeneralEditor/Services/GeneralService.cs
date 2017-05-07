@@ -345,6 +345,21 @@ namespace DOGEOnlineGeneralEditor.Services
         #endregion
 
         #region UserService
+
+        public bool hasAccess(string userName, int projectID)
+        {
+            int userID = getUserIDByName(userName);
+            var result = (from x in database.UserProject
+                          where x.UserID == userID
+                          && x.ProjectID == projectID
+                          select x).SingleOrDefault();
+
+            if(result != null)
+            {
+                return true;
+            }
+            return false;
+        }
         /// <summary>
         /// Function that returns a viewmodel of a user from the database. 
         /// If a user is not found it throws UserNotFoundException.
