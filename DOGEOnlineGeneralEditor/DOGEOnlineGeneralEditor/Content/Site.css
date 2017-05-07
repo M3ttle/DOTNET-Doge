@@ -252,6 +252,19 @@ main {
     float: left;
     width: 100%;
 }
+.editorMarker {
+    position: absolute;
+    background: rgba(100,100,200,0.5);
+    z-index: 40;
+    width: 2px !important
+}
+.editorMarker::before {
+    position: absolute;
+    background: rgba(100,100,200,0.5);
+    z-index: 999;
+    top: -100%;
+    left: 0px;
+}
 
 
 
@@ -311,4 +324,3 @@ div.form-group input[type=submit] {
     display: block;
     text-align: center;
 }
-
