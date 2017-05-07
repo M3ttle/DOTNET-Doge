@@ -149,6 +149,22 @@ namespace DOGEOnlineGeneralEditor.Controllers
             }
             return View(service.getCollaboratorViewModel(id));
         }
+        // Post:
+        [HttpPost]
+        public ActionResult AddUserToProject(FormCollection formCollection)
+        {
+            int userID;
+            int projectID;
+            int.TryParse(formCollection["UserID"], out userID);
+            int.TryParse(formCollection["ProjectID"], out projectID);
+            if (service.addUserToProject(userID, projectID))
+            {
+                ViewBag.Success = "User was added to the project";
+                return RedirectToAction("Details/" + projectID.ToString());
+            }
+            // Some error happened if we got here
+            return View(service.getCollaboratorViewModel(projectID));
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

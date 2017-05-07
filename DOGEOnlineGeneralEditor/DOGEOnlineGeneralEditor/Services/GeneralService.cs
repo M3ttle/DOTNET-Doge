@@ -432,6 +432,22 @@ namespace DOGEOnlineGeneralEditor.Services
                            select x.Name).SingleOrDefault();
             return name;
         }
+        public bool addUserToProject(int userID, int projectID)
+        {
+            UserProject userProject = new UserProject
+            {
+                UserID = userID,
+                ProjectID = projectID
+            };
+            if (userProjectExists(userID, projectID))
+            {
+                // duplicateexception
+                return false;
+            }
+            database.UserProject.Add(userProject);
+            database.SaveChanges();
+            return true;
+        }
         public void addUserToProject(string userName, ProjectViewModel project)
         {
             int userID = getUserIDByName(userName);
@@ -450,24 +466,13 @@ namespace DOGEOnlineGeneralEditor.Services
         }
         public UserCollabViewModel getCollaboratorViewModel(int? projectID)
         {
-            var notCollaborators = (from u in database.User
-                                   join up in database.UserProject
-                                   on u.ID equals up.UserID
-                                   where up.ProjectID != projectID
-                                   select u).Distinct();
-
-            List<UserViewModel> notCollaboratorList = new List<UserViewModel>();
-            foreach(User user in notCollaborators)
-            {
-                UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };
-                notCollaboratorList.Add(viewModel);
-            }
+            var allUsers = from up in database.UserProject
+                                      select up.User;
 
             var Collaborators = (from u in database.User
                                 join up in database.UserProject
                                 on u.ID equals up.UserID
                                 where up.ProjectID == projectID
-                                && up.Project.OwnerID != u.ID
                                 select u).Distinct();
 
             List < UserViewModel > CollaboratorList = new List<UserViewModel>();
@@ -477,6 +482,14 @@ namespace DOGEOnlineGeneralEditor.Services
                 CollaboratorList.Add(viewModel);
             }
 
+            var notCollaborators = allUsers.Except(Collaborators);
+
+            List<UserViewModel> notCollaboratorList = new List<UserViewModel>();
+            foreach (User user in notCollaborators)
+            {
+                UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };
+                notCollaboratorList.Add(viewModel);
+            }
             UserCollabViewModel userCollabViewModel = new UserCollabViewModel
             {
                 ProjectID = projectID,
