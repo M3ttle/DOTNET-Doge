@@ -74,7 +74,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                     model.Owner = userName;
                     service.addProjectToDatabase(model);
                     service.addUserToProject(userName, model);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("MyProjects", "Workspace",null);
                 }
             }
             ViewBag.LanguageTypeID = service.getLanguageTypes(model.LanguageTypeID);

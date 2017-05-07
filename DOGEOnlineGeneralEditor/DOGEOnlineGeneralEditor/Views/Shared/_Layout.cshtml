@@ -25,9 +25,8 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Projects", "Index", "Project")</li>
-                    <li>@Html.ActionLink("Files", "Index", "File")</li>
                     <li>@Html.ActionLink("My Projects", "MyProjects", "Workspace")</li>
+                    <li>@Html.ActionLink("Public Projects", "PublicProjects", "Workspace")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -36,7 +35,7 @@
     <div class="container body-content">
         @RenderBody()
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - DOGE</p>
         </footer>
     </div>
 

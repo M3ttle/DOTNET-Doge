@@ -120,27 +120,20 @@ namespace DOGEOnlineGeneralEditor.Controllers
             return View(file);
         }
 
-        // GET: Files/Delete/5
-        public ActionResult Delete(int? id)
+        // POST: Files/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int? fileID)
         {
-            if (id == null)
+            if(fileID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            File file = db.File.Find(id);
-            if (file == null)
+            File file = db.File.Find(fileID);
+            if(file == null)
             {
                 return HttpNotFound();
             }
-            return View(file);
-        }
-
-        // POST: Files/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            File file = db.File.Find(id);
             db.File.Remove(file);
             db.SaveChanges();
             return RedirectToAction("Index");

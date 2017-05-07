@@ -13,7 +13,7 @@
 
 <p>@Model.Name</p>
 
-@using (Html.BeginForm("Save", "File", FormMethod.Post, new { ID = Model.ID }))
+@using (Html.BeginForm("Save", "File", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
 
