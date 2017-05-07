@@ -365,7 +365,7 @@ namespace DOGEOnlineGeneralEditor.Services
             };
         }
 
-		public IndexViewModel getUserAccountByUserName(string username)
+		public IndexViewModel getUserAccountInfoByUserName(string username)
 		{
 			User user = (from x in database.User
 						 where x.Name == username
@@ -376,7 +376,6 @@ namespace DOGEOnlineGeneralEditor.Services
 			}
 			return new IndexViewModel
 			{
-				UserID = user.ID,
 				Name = user.Name,
 				Email = user.Email,
 				Gender = user.Gender,
@@ -404,12 +403,28 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
         }
 
-        /// <summary>
-        /// Function that returns true if a User with a given username exists in the database.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns>bool</returns>
-        public bool userExists(string name)
+		/// <summary>
+		/// Function that adds a user to the database 
+		/// </summary>
+		/// <param name="applicationUser"></param>
+		/// <returns>bool</returns>
+		public void updateUser(IndexViewModel model)
+		{
+			User user = database.User.Find(model.Name);
+			user.Email = model.Email;
+			user.Gender = model.Gender;
+			user.UserTypeID = model.UserTypeID;
+
+			database.Entry(user).State = EntityState.Modified;
+			database.SaveChanges();
+		}
+
+		/// <summary>
+		/// Function that returns true if a User with a given username exists in the database.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns>bool</returns>
+		public bool userExists(string name)
         {
             User user = (from x in database.User
                          where x.Name == name
