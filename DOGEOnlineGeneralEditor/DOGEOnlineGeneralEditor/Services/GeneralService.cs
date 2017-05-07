@@ -19,6 +19,7 @@ namespace DOGEOnlineGeneralEditor.Services
         {
             database = context ?? new ApplicationDbContext();
         }
+
         #region FileService
         public File getFileById(int id)
         {
@@ -42,6 +43,21 @@ namespace DOGEOnlineGeneralEditor.Services
                          && x.Project.ID == projectID
                          select x).SingleOrDefault();
             if (file != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// Function that returns true if the fileID is infact a valid file in the database.
+        /// </summary>
+        /// <param name="fileID"></param>
+        /// <returns></returns>
+        public bool fileExists(int fileID)
+        {
+            File file = database.File.Find(fileID);
+
+            if(file != null)
             {
                 return true;
             }
@@ -74,6 +90,13 @@ namespace DOGEOnlineGeneralEditor.Services
                 DateCreated = DateTime.Now
             };
             database.File.Add(file);
+            database.SaveChanges();
+        }
+
+        public void removeFile(int fileID)
+        {
+            File file = database.File.Find(fileID);
+            database.File.Remove(file);
             database.SaveChanges();
         }
 
@@ -111,6 +134,7 @@ namespace DOGEOnlineGeneralEditor.Services
         {
             FileViewModel model = new FileViewModel
             {
+                ProjectID = file.ProjectID,
                 ID = file.ID,
                 Name = file.Name,
                 Location = file.Location,
@@ -132,10 +156,9 @@ namespace DOGEOnlineGeneralEditor.Services
             database.Entry(file).State = EntityState.Modified;
             database.SaveChanges();
         }
-
-
-
         #endregion
+
+        #region ProjectService
         /// <summary>
         /// Function that returns true if a user with the given Id has access to a project
         /// whose name is projectName
@@ -143,7 +166,6 @@ namespace DOGEOnlineGeneralEditor.Services
         /// <param name="userID"></param>
         /// <param name="projectName"></param>
         /// <returns></returns>
-        #region ProjectService
         public bool projectExists(string userName, string projectName)
         {
             int userID = getUserIDByName(userName);
@@ -261,7 +283,7 @@ namespace DOGEOnlineGeneralEditor.Services
 
             return projectViewModel;
         }
-        #endregion
+        
 
         #region Private ProjectService
         /// <summary>
@@ -318,7 +340,8 @@ namespace DOGEOnlineGeneralEditor.Services
                            select x).SingleOrDefault();
             return project.ID;
         }
-        
+
+        #endregion
         #endregion
 
         #region UserService

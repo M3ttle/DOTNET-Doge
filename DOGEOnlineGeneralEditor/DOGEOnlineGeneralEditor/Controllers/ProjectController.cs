@@ -14,6 +14,7 @@ using DOGEOnlineGeneralEditor.Utilities;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

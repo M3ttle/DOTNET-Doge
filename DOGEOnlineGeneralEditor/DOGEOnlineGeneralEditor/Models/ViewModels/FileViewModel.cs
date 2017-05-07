@@ -14,6 +14,7 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
     }
     public class FileViewModel
     {
+        public int ProjectID { get; set; }
         public int ID { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }

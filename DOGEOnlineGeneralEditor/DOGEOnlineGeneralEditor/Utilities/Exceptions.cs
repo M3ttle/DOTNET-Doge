@@ -5,19 +5,17 @@ using System.Web;
 
 namespace DOGEOnlineGeneralEditor.Utilities
 {
-    public class Exceptions
+    public class UserNotFoundException : Exception
     {
     }
-    public class UserNotFoundException : System.Exception
+    public class ProjectNotFoundException : Exception
     {
     }
-    public class ProjectNotFoundException : System.Exception
+    public class FileNotFoundException : Exception
     {
     }
-    public class FileNotFoundException : System.Exception
+    public class DuplicateProjectNameException : Exception
     {
     }
-    public class DuplicateProjectNameException : System.Exception
-    {
-    }
+
 }

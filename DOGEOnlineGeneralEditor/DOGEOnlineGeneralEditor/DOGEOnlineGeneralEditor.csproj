@@ -216,6 +216,7 @@
     <Compile Include="Services\GeneralService.cs" />
     <Compile Include="Services\Hubs\FileHub.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\CustomHandleErrorAttribute.cs" />
     <Compile Include="Utilities\Exceptions.cs" />
   </ItemGroup>
   <ItemGroup>

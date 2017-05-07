@@ -13,6 +13,7 @@ using DOGEOnlineGeneralEditor.Services;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
+    [Authorize]
     public class FileController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -30,21 +31,6 @@ namespace DOGEOnlineGeneralEditor.Controllers
             return View(files.ToList());
         }
 
-        // GET: Files/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            File file = db.File.Find(id);
-            if (file == null)
-            {
-                return HttpNotFound();
-            }
-            return View(file);
-        }
-
         // GET: File/Create
         public ActionResult Create(int? id)
         {
@@ -53,7 +39,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name");
+            ViewBag.LanguageTypeID = service.getLanguageTypes();
 
             CreateFileViewModel model = new CreateFileViewModel { ProjectID = id.Value };
             return View(model);
@@ -71,56 +57,19 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 if(service.fileExists(file.ProjectID, file.Name))
                 {
                     ModelState.AddModelError("", "A file with that name already exists in this project");
-                    
                 }
                 else
                 {
                     service.addFileToDatabase(file);
                     return RedirectToAction("Index");
                 }
-				
             }
 
-            ViewBag.LanguageTypeID = service.getLanguageTypes();
+            ViewBag.LanguageTypeID = service.getLanguageTypes(file.LanguageTypeID);
             return View(file);
         }
 
-        // GET: Files/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            File file = db.File.Find(id);
-            if (file == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name", file.LanguageTypeID);
-            ViewBag.ProjectID = new SelectList(db.Project, "ID", "Name", file.ProjectID);
-            return View(file);
-        }
-
-        // POST: Files/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,ProjectID,LanguageTypeID")] File file)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(file).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name", file.LanguageTypeID);
-            ViewBag.ProjectID = new SelectList(db.Project, "ID", "Name", file.ProjectID);
-            return View(file);
-        }
-
-        // POST: Files/Delete/5
+        // POST: File/Delete/2
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int? fileID)
@@ -129,20 +78,31 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            File file = db.File.Find(fileID);
-            if(file == null)
+
+            if(service.fileExists(fileID.Value))
             {
-                return HttpNotFound();
+                service.removeFile(fileID.Value);
+                return RedirectToAction("Index");
             }
-            db.File.Remove(file);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            //File does not exist exception!
+            throw new Exception();
         }
 
+        // POST: File/Save/2
         [HttpPost]
         public ActionResult Save(FileViewModel model)
         {
-            service.saveFile(model);
+            if(ModelState.IsValid)
+            {
+                if(service.fileExists(model.ProjectID, model.Name))
+                {
+                    ModelState.AddModelError("", "A file with that name already exists in this project");
+                }
+                else
+                {
+                    service.saveFile(model);
+                }
+            }
             return RedirectToAction("Editor", "Workspace", new { ID = model.ID });
         }
 
