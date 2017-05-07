@@ -107,7 +107,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Location,DateCreated,ProjectID,LanguageTypeID")] File file)
+        public ActionResult Edit([Bind(Include = "ID,Name,ProjectID,LanguageTypeID")] File file)
         {
             if (ModelState.IsValid)
             {
@@ -120,30 +120,30 @@ namespace DOGEOnlineGeneralEditor.Controllers
             return View(file);
         }
 
-        // GET: Files/Delete/5
-        public ActionResult Delete(int? id)
+        // POST: Files/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int? fileID)
         {
-            if (id == null)
+            if(fileID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            File file = db.File.Find(id);
-            if (file == null)
+            File file = db.File.Find(fileID);
+            if(file == null)
             {
                 return HttpNotFound();
             }
-            return View(file);
-        }
-
-        // POST: Files/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            File file = db.File.Find(id);
             db.File.Remove(file);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Save(FileViewModel model)
+        {
+            service.saveFile(model);
+            return RedirectToAction("Editor", "Workspace", new { ID = model.ID });
         }
 
         protected override void Dispose(bool disposing)

@@ -1,6 +1,8 @@
 ﻿using System.Data.Entity;
 using DOGEOnlineGeneralEditor.Models.POCO;
 using DOGEOnlineGeneralEditor.Models;
+using System;
+using System.Data.Entity.Infrastructure;
 
 namespace DOGEOnlineGeneralEditor.Tests
 {
@@ -41,5 +43,10 @@ namespace DOGEOnlineGeneralEditor.Tests
 		{
 			// Do nothing!
 		}
-	}
+
+        public DbEntityEntry Entry(object entity)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

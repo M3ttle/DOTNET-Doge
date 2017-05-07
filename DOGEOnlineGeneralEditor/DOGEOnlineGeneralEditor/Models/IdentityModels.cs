@@ -28,6 +28,7 @@ namespace DOGEOnlineGeneralEditor.Models
         IDbSet<File> File { get; set; }
         IDbSet<UserType> UserType { get; set; }
         int SaveChanges();
+        System.Data.Entity.Infrastructure.DbEntityEntry Entry(object entity);
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IAppDataContext

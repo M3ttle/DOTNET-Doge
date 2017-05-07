@@ -9,20 +9,6 @@
     <li><a href="/Account">My Account</a></li>
 </ul>
 
-<ul>
-    @foreach (var item in Model.MyProjects)
-    {
-        <li>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null) </li>        
-    }
-</ul>
-<ul>
-    @foreach (var item in Model.CollaborationProjects)
-    {
-        <li>@item.Name</li>
-    }
-</ul>
-<!--ForEach-->
-
 
 <div class="project-table">
     <input type="text" name="search" placeholder="Search.." id="my-search">
@@ -34,68 +20,17 @@
                 <th>Name of project</th>
                 <th>Number of Files</th>
                 <th>Date Created</th>
-                <th>Last Edited</th>
+                <th>Owner</th>
             </tr>
-            <tr>
-                <td>Kibast</td>
-                <td>4</td>
-                <td>20/04/2017</td>
-                <td>20/04/2017</td>
-            </tr>
-            <tr>
-                <td>Brics</td>
-                <td>5</td>
-                <td>20/04/2017</td>
-                <td>20/04/2016</td>
-            </tr>
-            <tr>
-                <td>Kibast</td>
-                <td>4</td>
-                <td>20/04/2017</td>
-                <td>20/04/2017</td>
-            </tr>
-            <tr>
-                <td>Brics</td>
-                <td>5</td>
-                <td>20/04/2017</td>
-                <td>20/04/2016</td>
-            </tr>
-            <tr>
-                <td>Kibast</td>
-                <td>4</td>
-                <td>20/04/2017</td>
-                <td>20/04/2017</td>
-            </tr>
-            <tr>
-                <td>Brics</td>
-                <td>5</td>
-                <td>20/04/2017</td>
-                <td>20/04/2016</td>
-            </tr>
-            <tr>
-                <td>Kibast</td>
-                <td>4</td>
-                <td>20/04/2017</td>
-                <td>20/04/2017</td>
-            </tr>
-            <tr>
-                <td>Brics</td>
-                <td>5</td>
-                <td>20/04/2017</td>
-                <td>20/04/2016</td>
-            </tr>
-            <tr>
-                <td>Kibast</td>
-                <td>4</td>
-                <td>20/04/2017</td>
-                <td>20/04/2017</td>
-            </tr>
-            <tr>
-                <td>Brics</td>
-                <td>5</td>
-                <td>20/04/2017</td>
-                <td>20/04/2016</td>
-            </tr>
+            @foreach(var item in Model.MyProjects)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
+                    <td>@item.FileCount</td>
+                    <td>@item.DateCreated</td>
+                    <td>@item.Owner</td>
+                </tr>
+            }
         </table>
 
     </div>
@@ -109,20 +44,17 @@
                 <th>Name of project</th>
                 <th>Number of Files</th>
                 <th>Date Created</th>
-                <th>Last Edited</th>
+                <th>Owner</th>
             </tr>
-            <tr>
-                <td>Kibast</td>
-                <td>4</td>
-                <td>20/04/2017</td>
-                <td>20/04/2017</td>
-            </tr>
-            <tr>
-                <td>Brics</td>
-                <td>5</td>
-                <td>20/04/2017</td>
-                <td>20/04/2016</td>
-            </tr>
+            @foreach (var item in Model.CollaborationProjects)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
+                    <td>@item.FileCount</td>
+                    <td>@item.DateCreated</td>
+                    <td>@item.Owner</td>
+                </tr>
+            }
         </table>
     </div>
     <button class="leave-button">Leave Project</button>

@@ -17,7 +17,15 @@
     <ol>
         @foreach(var file in Model.Files)
         {
-            <li>@Html.ActionLink(file.Name, "Editor", "Workspace", new { id = file.ID }, null)</li>
+            <li>
+                @Html.ActionLink(file.Name, "Editor", "Workspace", new { id = file.ID }, null)
+                @using (Html.BeginForm("Delete", "File", FormMethod.Post, null))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("fileID", file.ID)
+                    <input type="submit" value="Delete"/>
+                }
+            </li>
         }
     </ol>
     <dl class="dl-horizontal">

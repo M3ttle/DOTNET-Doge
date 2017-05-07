@@ -7,6 +7,7 @@ using DOGEOnlineGeneralEditor.Models.POCO;
 using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Utilities;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace DOGEOnlineGeneralEditor.Services
 {
@@ -117,6 +118,21 @@ namespace DOGEOnlineGeneralEditor.Services
             };
             return model;
         }
+
+        /// <summary>
+        /// Function which saves an updated file to the database.
+        /// </summary>
+        /// <param name="model"></param>
+        public void saveFile(FileViewModel model)
+        {
+            File file = database.File.Find(model.ID);
+            file.Name = model.Name;
+            file.Location = model.Location;
+            file.LanguageTypeID = model.LanguageTypeID;
+            database.Entry(file).State = EntityState.Modified;
+            database.SaveChanges();
+        }
+
 
 
         #endregion

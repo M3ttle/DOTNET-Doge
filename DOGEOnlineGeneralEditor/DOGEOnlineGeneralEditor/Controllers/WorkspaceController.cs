@@ -30,7 +30,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 throw new Exception();
             }
             var model = service.getFileViewModel(id.Value);
- 			return View(model);
+            ViewBag.LanguageTypeID = service.getLanguageTypes(model.LanguageTypeID);
+            return View(model);
  		}
  
  		public ActionResult MyProjects()
