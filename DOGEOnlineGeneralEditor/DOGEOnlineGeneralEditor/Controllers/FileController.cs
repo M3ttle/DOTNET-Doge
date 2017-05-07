@@ -107,7 +107,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Location,DateCreated,ProjectID,LanguageTypeID")] File file)
+        public ActionResult Edit([Bind(Include = "ID,Name,ProjectID,LanguageTypeID")] File file)
         {
             if (ModelState.IsValid)
             {
@@ -144,6 +144,13 @@ namespace DOGEOnlineGeneralEditor.Controllers
             db.File.Remove(file);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Save(FileViewModel model)
+        {
+            service.saveFile(model);
+            return RedirectToAction("Editor", "Workspace", new { ID = model.ID });
         }
 
         protected override void Dispose(bool disposing)
