@@ -1,23 +1,31 @@
 ﻿$.connection.hub.logging = true;
 var fileProxy = $.connection.fileHub;
 var editor = ace.edit("editor");
-var workingRow = 0;
+var currentPosition = { row: 0, column: 0 };
+var clickTimerValid = true; // Used to delay the keyup on the editor (Prevent double clicks)
 
-
+/*
+    Client functions
+*/
 // Recieves signal from the server and updates the client file
-fileProxy.client.updateFile = function (value, row, column) {
+fileProxy.client.updateClientFile = function (value, row, column) {
     if (value) {
         var position = {
             row: row,
             column: column
         };
-
         var endPosition = editor.session.insert(position, value);
-
-
     }
 }
 
+fileProxy.client.sendClientNewLine = function (currentRow, currentColumn) {
+    var currentPos = { row: currentRow, column: currentColumn };
+    editor.session.insert(currentPos, "\n");
+}
+
+/*
+    Client functions End
+*/
 var highLightMarker = function () {
     //Highlits inserted text for X seconds
     var Range = require("ace/range").Range
@@ -29,15 +37,17 @@ var highLightMarker = function () {
     }, 1000)
 }
 
-var newLine = function (oldRow, newRow) {
-    console.log("Fer ekki hingað inn ");
-    var value = true;
-    if (oldRow == newRow) {
-        value = false;
-    }
-    return value;
+var enterPressed = function (e) {
+    return e.which == 13;
+}
+var arrowKeyPressed = function (e) {
+    return e.which == 37;
+    //return (e.which == 37 || e.which == 38 || e.which == 39 || e.which == 40);
 }
 
+/*
+    Server Functions
+*/
 //Start the connection to the server
 $.connection.hub.start().done(function () {
     // Group for the hub is the file ID
@@ -51,26 +61,25 @@ $.connection.hub.start().done(function () {
         fileProxy.server.broadcastFileToGroup(group, value, row, column);
 
     }
-    
+    var sendNewLine = function (currentPos) {
+        fileProxy.server.broadcastNewLineToGroup(group, currentPos.row, currentPos.column);
+    }
+
     editor.getSession().on('change', function (session) {
-        var currentRow = session.start.row;
-        //console.log("Starting Row:" + currentRow);
-        //console.log(editor.getSession());
-        //console.log(session);
+        var rowInNow = session.start.row;
 
         //keypress
         if ($("#editor").one("keyup", function (e) { // To make sure we only take changes when key is pressed
-            console.log(String.fromCharCode(e.which));
+            
             if (session.action == "insert") {
-                // NewLine
-                if (workingRow != currentRow) {
-                    workingRow = currentRow;
-                    
+                if (enterPressed(e) && clickTimerValid) {
+                    clickTimerValid = false;
+                    var currentPos = currentPosition; // Save it to a new variable to prevent it to be changed before we use it
+                    sendNewLine(currentPos);
                 }
                 else {
-                    //sendData(session);
+                    sendData(session);
                 }
-                sendData(session);
             }
             else if (session.action == "remove") // TODO
             {
@@ -79,6 +88,7 @@ $.connection.hub.start().done(function () {
             else {
                 console.log("Not insert nor remove");
             }
+            currentPosition = editor.getCursorPosition();
         }));
 
         //console.log("RESET");
@@ -86,15 +96,22 @@ $.connection.hub.start().done(function () {
         //EditSession.resetCaches()
 
         //console.log("ending row: " + session.start.row);
+        clickTimerValid = true;
         
     });
 
-    editor.getSession().selection.on('changeCursor', function (e) {
-        workingRow = editor.getCursorPosition().row;
-
+    //Change currentposition if mouse curser is moved
+    editor.getSession().selection.on('changeCursor', function () {
+        if ($("#editor").mouseup(function () {
+            currentPosition = editor.getCursorPosition();
+        }));
+        if ($("#editor").on("keyup", function (e) {
+            if (arrowKeyPressed(e)) {
+                currentPosition = editor.getCursorPosition();
+            }
+        }));
+        
         $('#saveTextArea').text(editor.getSession().getValue());
     });
-    
-
 });// hub starts ends
 
