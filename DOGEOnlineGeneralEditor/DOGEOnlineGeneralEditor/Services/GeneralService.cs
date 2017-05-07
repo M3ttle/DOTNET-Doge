@@ -348,12 +348,32 @@ namespace DOGEOnlineGeneralEditor.Services
                 UserName = user.Name
             };
         }
-        /// <summary>
-        /// Function that adds a user to the database 
-        /// </summary>
-        /// <param name="applicationUser"></param>
-        /// <returns>bool</returns>
-        public void createUser(RegisterViewModel model)
+
+		public IndexViewModel getUserAccountByUserName(string username)
+		{
+			User user = (from x in database.User
+						 where x.Name == username
+						 select x).SingleOrDefault();
+			if (user == null)
+			{
+				throw new UserNotFoundException();
+			}
+			return new IndexViewModel
+			{
+				UserID = user.ID,
+				Name = user.Name,
+				Email = user.Email,
+				Gender = user.Gender,
+				UserTypeID = user.UserTypeID
+			};
+		}
+
+		/// <summary>
+		/// Function that adds a user to the database 
+		/// </summary>
+		/// <param name="applicationUser"></param>
+		/// <returns>bool</returns>
+		public void createUser(RegisterViewModel model)
         {
             var user = new User
             {

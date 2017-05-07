@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
+using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Services;
 
 namespace DOGEOnlineGeneralEditor.Controllers
@@ -151,12 +152,9 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
+			
+			IndexViewModel model = service.getUserAccountByUserName(User.Identity.Name);
 
-            var userName = User.Identity.Name;
-            var model = new IndexViewModel
-            {
-                Name = userName
-            };
             return View(model);
         }
 

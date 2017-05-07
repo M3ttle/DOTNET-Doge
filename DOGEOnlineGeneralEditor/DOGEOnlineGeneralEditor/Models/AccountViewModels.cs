@@ -54,8 +54,11 @@ namespace DOGEOnlineGeneralEditor.Models
 
     public class IndexViewModel
     {
+		public int UserID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+		public Gender Gender { get; set; }
+		public int UserTypeID { get; set; }
     }
 
     public class ChangePasswordViewModel
