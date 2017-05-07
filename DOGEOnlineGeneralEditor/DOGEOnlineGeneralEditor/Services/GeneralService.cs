@@ -428,6 +428,44 @@ namespace DOGEOnlineGeneralEditor.Services
             database.UserProject.Add(userProject);
             database.SaveChanges();
         }
+        public UserCollabViewModel getCollaboratorViewModel(int? projectID)
+        {
+            var notCollaborators = (from u in database.User
+                                   join up in database.UserProject
+                                   on u.ID equals up.UserID
+                                   where up.ProjectID != projectID
+                                   select u).Distinct();
+
+            List<UserViewModel> notCollaboratorList = new List<UserViewModel>();
+            foreach(User user in notCollaborators)
+            {
+                UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };
+                notCollaboratorList.Add(viewModel);
+            }
+
+            var Collaborators = (from u in database.User
+                                join up in database.UserProject
+                                on u.ID equals up.UserID
+                                where up.ProjectID == projectID
+                                && up.Project.OwnerID != u.ID
+                                select u).Distinct();
+
+            List < UserViewModel > CollaboratorList = new List<UserViewModel>();
+            foreach (User user in Collaborators)
+            {
+                UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };
+                CollaboratorList.Add(viewModel);
+            }
+
+            UserCollabViewModel userCollabViewModel = new UserCollabViewModel
+            {
+                ProjectID = projectID,
+                Collaborators = CollaboratorList,
+                NotCollaborators = notCollaboratorList
+            };
+            return userCollabViewModel;
+
+        }
         #endregion
 
 

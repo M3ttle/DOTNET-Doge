@@ -1,0 +1,46 @@
+﻿@model DOGEOnlineGeneralEditor.Models.ViewModels.UserCollabViewModel
+@{
+    ViewBag.Title = "AddUserToProject";
+}
+
+<h2>AddUserToProject</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NotCollaborators)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.NotCollaborators) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        
+        <td>
+            @Html.ActionLink("Add", "AddUserToProject", new { id=item.UserID }) |  
+        </td>
+    </tr>
+}
+
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Collaborators)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Collaborators)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+        </tr>
+    }
+
+</table>

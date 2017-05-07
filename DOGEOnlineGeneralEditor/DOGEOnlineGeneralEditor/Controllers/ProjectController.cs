@@ -139,7 +139,16 @@ namespace DOGEOnlineGeneralEditor.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        // Get: 
+        [HttpGet]
+        public ActionResult AddUserToProject(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return View(service.getCollaboratorViewModel(id));
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

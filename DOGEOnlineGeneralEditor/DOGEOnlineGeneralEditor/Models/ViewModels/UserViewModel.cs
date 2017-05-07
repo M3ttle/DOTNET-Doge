@@ -10,4 +10,11 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
         public int UserID { get; set; }
         public string UserName { get; set; }
     }
+
+    public class UserCollabViewModel
+    {
+        public int? ProjectID { get; set; }
+        public List<UserViewModel> Collaborators { get; set; }
+        public List<UserViewModel> NotCollaborators { get; set; }
+    }
 }
