@@ -1,10 +1,11 @@
 ﻿:root {
-    --light-bg-color: #3E3D32 /*#272822*/;
+    --light-bg-color: #3E3D32;
     --main-green: #A6E22E;
-    --main-bg-color: #272822 /*#3E3D32*/;
+    --main-bg-color: #272822;
     --main-white: #f4f4f4;
     --light-of-gray: #d5d5d5;
     --main-hd-black: #222;
+    --main-orange: #FD971F;
 }
 
 body {
@@ -19,7 +20,7 @@ footer {
     width: 100%;
     padding: 20px 0;
     background: var(--main-hd-black);
-    box-shadow: -300px 0 0 var(--main-hd-black), 300px 0 0 var(--main-hd-black) /*, -300px -1px 0px var(--main-white), 300px -1px 0px var(--main-white)*/;
+    box-shadow: -300px 0 0 var(--main-hd-black), 300px 0 0 var(--main-hd-black);
     z-index: 6;
 }
 
@@ -126,7 +127,7 @@ table {
         padding: 8px;
     }
 
-    table tr:nth-child(even) {
+    tr:nth-child(even) {
         background-color: var(--light-of-gray);
     }
 
@@ -147,7 +148,6 @@ table {
     background: var(--light-bg-color);
     padding: 15px 0;
     margin: 10px auto;
-    box-shadow: -300px 0 0 var(--light-bg-color), 300px 0 0 var(--light-bg-color) /*, -300px -1px 0px var(--main-white), 300px -1px 0px var(--main-white), -300px 1px 0px var(--main-white), 300px 1px 0px var(--main-white)*/;
 }
 
 .signup-button {
@@ -249,7 +249,7 @@ ul.topnav li.right {
     max-height: 440px;
 }
 
-.project-button {
+.create-button, .open-button {
     margin-left: 30px;
     margin-bottom: 20px;
     height: 26px;
@@ -300,19 +300,17 @@ main {
 
 .editorMarker {
     position: absolute;
-    background: rgba(100,100,200,0.5);
+    background: var(--main-green);
     z-index: 40;
     width: 2px !important
 }
-
     .editorMarker::before {
         position: absolute;
-        background: rgba(100,100,200,0.5);
+        background: var(--main-green);
         z-index: 999;
         top: -100%;
-        left: 0px;
+        left: 0;
     }
-
 
 
 /* Used for most forms, makes the small window around the form */
@@ -371,4 +369,18 @@ div.form-group input[type=submit] {
     text-decoration: underline;
     display: block;
     text-align: center;
+}
+
+
+
+tbody tr:hover {
+    background-color: var(--main-green);
+}
+
+tbody tr.highlighted{
+    background: var(--main-orange);
+}
+
+.hidden-col {
+    display: none;
 }

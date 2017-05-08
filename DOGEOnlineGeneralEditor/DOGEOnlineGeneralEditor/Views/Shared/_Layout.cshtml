@@ -49,10 +49,12 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <footer>
-            <p>&copy; @DateTime.Now.Year - DOGE</p>
-        </footer>
     </div>
+    <footer>
+        <div class="container body-content">
+            <p>&copy; @DateTime.Now.Year - DOGE</p>
+        </div>        
+    </footer>   
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

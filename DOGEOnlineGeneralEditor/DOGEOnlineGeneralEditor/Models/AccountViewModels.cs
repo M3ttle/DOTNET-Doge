@@ -54,13 +54,10 @@ namespace DOGEOnlineGeneralEditor.Models
 
     public class IndexViewModel
     {
-		[Display(Name = "Username")]
+		[Display(Name = "Username: ")]
 		public string Name { get; set; }
 
-		[Required]
-		[EmailAddress]
-		[StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-		[Display(Name = "Email")]
+		[Display(Name = "Email: ")]
 		public string Email { get; set; }
 
 		[Required]
