@@ -125,10 +125,14 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Project.Find(id);
+            ProjectViewModel project = service.getProjectViewModelByID(id.Value);
             if (project == null)
             {
                 return HttpNotFound();
+            }
+            if (project.Owner != User.Identity.Name)
+            {
+                // User is not projectect owner = not allowed to delete
             }
             return View(project);
         }
@@ -138,9 +142,12 @@ namespace DOGEOnlineGeneralEditor.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Project project = db.Project.Find(id);
-            db.Project.Remove(project);
-            db.SaveChanges();
+            ProjectViewModel project = service.getProjectViewModelByID(id);
+            if (project.Owner != User.Identity.Name)
+            {
+                // User is not projectect owner = not allowed to delete
+            }
+            service.removeProject(id);
             return RedirectToAction("Index");
         }
         // Get: 
@@ -151,7 +158,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(service.getCollaboratorViewModel(id));
+            return View(service.getCollaboratorViewModel(id.Value));
         }
         // Post:
         [HttpPost]

@@ -9,6 +9,8 @@
 @Html.ActionLink("Add File", "Create", "File", new { id = Model.ProjectID }, null)
 <br />
 @Html.ActionLink("Add User to project", "AddUserToProject", "Project", new { id = Model.ProjectID }, null)
+<br />
+@Html.ActionLink("Delete Project", "Delete", "Project", new { id = Model.ProjectID }, null)
 
 <div>
     <h4>Project</h4>

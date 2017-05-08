@@ -283,6 +283,22 @@ namespace DOGEOnlineGeneralEditor.Services
 
             return projectViewModel;
         }
+
+        public bool removeProject(int projectID)
+        {
+            Project project = database.Project.Find(projectID);
+            foreach(File file in project.Files.ToList())
+            {
+                database.File.Remove(file);
+            }
+            foreach(UserProject userProject in project.UserProjects.ToList())
+            {
+                database.UserProject.Remove(userProject);
+            }
+            database.Project.Remove(project);
+            database.SaveChanges();
+            return true;
+        }
         
 
         #region Private ProjectService
@@ -533,7 +549,7 @@ namespace DOGEOnlineGeneralEditor.Services
             database.UserProject.Add(userProject);
             database.SaveChanges();
         }
-        public UserCollabViewModel getCollaboratorViewModel(int? projectID)
+        public UserCollabViewModel getCollaboratorViewModel(int projectID)
         {
             var allUsers = from up in database.UserProject
                                       select up.User;
