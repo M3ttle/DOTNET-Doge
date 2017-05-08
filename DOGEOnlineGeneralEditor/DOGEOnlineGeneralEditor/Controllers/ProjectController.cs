@@ -32,11 +32,11 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ProjectViewModel model = service.getProjectViewModelByID(id.Value);
-            if(model == null)
+            if (model == null)
             {
                 throw new ProjectNotFoundException();
             }
-            if(service.hasAccess(User.Identity.Name, id.Value))
+            if (service.hasAccess(User.Identity.Name, id.Value))
             {
                 return View(model);
             }
@@ -58,7 +58,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         public ActionResult Create([Bind(Include = "Name,IsPublic,LanguageTypeID")] ProjectViewModel model)
         {
             var userName = User.Identity.Name;
-            
+
             if (ModelState.IsValid)
             {
                 if (service.projectExists(userName, model.Name))
@@ -67,11 +67,11 @@ namespace DOGEOnlineGeneralEditor.Controllers
                     ModelState.AddModelError("", "You already have a project with that name");
                 }
                 else
-                { 
+                {
                     model.Owner = userName;
                     service.addProjectToDatabase(model);
                     service.addUserToProject(userName, model);
-                    return RedirectToAction("MyProjects", "Workspace",null);
+                    return RedirectToAction("MyProjects", "Workspace", null);
                 }
             }
             ViewBag.LanguageTypeID = service.getLanguageTypes(model.LanguageTypeID);
@@ -103,16 +103,16 @@ namespace DOGEOnlineGeneralEditor.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(service.projectExists(project.Owner, project.Name))
-                { 
+                if (service.projectExists(project.Owner, project.Name))
+                {
                     ModelState.AddModelError("", "You already have a project with that name");
                 }
                 else
                 {
                     service.editProject(project);
-                    return RedirectToAction("Details", "Project", new { ID = project.ProjectID});
+                    return RedirectToAction("Details", "Project", new { ID = project.ProjectID });
                 }
-                
+
             }
             ViewBag.LanguageTypeID = service.getLanguageTypes(project.LanguageTypeID);
             return View(project);
@@ -151,7 +151,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 service.removeProject(id);
             }
-                return RedirectToAction("Details", "Project", new { ID = id});
+            return RedirectToAction("Details", "Project", new { ID = id });
         }
         // Get: 
         [HttpGet]
@@ -174,7 +174,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             if (service.addUserToProject(userID, projectID))
             {
                 ViewBag.Success = "User was added to the project";
-                return RedirectToAction("AddUserToProject", new { ID = projectID});
+                return RedirectToAction("AddUserToProject", new { ID = projectID });
             }
             // Some error happened if we got here
             return View(service.getCollaboratorViewModel(User.Identity.Name, projectID));
@@ -193,6 +193,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 return RedirectToAction("Workspace", "MyProjects");
             }
             // Some error happened if we got here
-            return RedirectToAction("Workspace","MyProjects");
+            return RedirectToAction("Workspace", "MyProjects");
         }
+    }
 }
