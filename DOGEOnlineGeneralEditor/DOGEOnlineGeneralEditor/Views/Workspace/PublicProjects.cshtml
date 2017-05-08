@@ -5,12 +5,16 @@
     ViewData["Title"] = "Public Projects";
 }
 
+@Scripts.Render("~/bundles/jquery")
+
 @{Html.RenderPartial("_ProjectsNav"); }
+
+
 
 <div class="project-table">
     <input type="text" class="search-box" placeholder="Search.." id="public-search">
-    <button class="project-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
-    <button class="project-button">Open Project</button>
+    <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
+    <button class="open-button">Open Project</button>
     <div class="scroll-big">
         <table id="public-projcets">
             <thead>
@@ -25,13 +29,28 @@
                 @foreach (var item in Model.PublicProjects)
                 {
                     <tr>
-                        <td>@item.Name</td>
+                        <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
                         <td>@item.FileCount</td>
                         <td>@item.Owner</td>
                         <td>@item.DateCreated</td>
+                        <td class="hidden-col">@item.ProjectID</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    $("#public-projcets tbody tr").click(function () {
+        $('#public-projcets tr').removeClass('highlighted');
+        $(this).addClass('highlighted');
+    });
+
+    $(".open-button").on('click', function (e) {
+        var ID = $('.highlighted td:nth-child(5)').html();
+        window.location.href = '/Project/Details/' + ID;
+    });
+
+</script>
