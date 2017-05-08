@@ -4,59 +4,62 @@
 }
 
 <h2>AddUserToProject</h2>
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.NotCollaborators)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model.NotCollaborators) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            <button onclick="setUserID('@item.UserID')" class="btn-default">Add</button>
-        </td>
-    </tr>
-}
-
-</table>
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Collaborators)
-        </th>
-    </tr>
-
-    @foreach (var item in Model.Collaborators)
-    {
+<div class="project-table">
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.NotCollaborators)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.ProjectID)
-    @Html.Hidden("UserID", null, htmlAttributes: new { @id = "HiddenUserID" })
-    <input type="submit" hidden="hidden" id="hiddenSubmit" />
-}
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        function setUserID(userID)
+        @foreach (var item in Model.NotCollaborators)
         {
-            var b = $("#HiddenUserID").val(userID);
-            document.getElementById("hiddenSubmit").click();
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    <button onclick="setUserID('@item.UserID')" class="btn-default">Add</button>
+                </td>
+            </tr>
         }
-    </script>
-}
+
+    </table>
+</div>
+<div class="project-table">
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Collaborators)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Collaborators)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ProjectID)
+        @Html.Hidden("UserID", null, htmlAttributes: new { @id = "HiddenUserID" })
+        <input type="submit" hidden="hidden" id="hiddenSubmit" />
+    }
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script>
+            function setUserID(userID) {
+                $("#HiddenUserID").val(userID);
+                document.getElementById("hiddenSubmit").click();
+            }
+        </script>
+    }

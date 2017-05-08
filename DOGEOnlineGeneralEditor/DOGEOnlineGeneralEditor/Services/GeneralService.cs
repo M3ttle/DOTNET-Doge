@@ -313,7 +313,17 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
             return true;
         }
-        
+
+        public void editProject(ProjectViewModel projectViewModel)
+        {
+            Project project = database.Project.Find(projectViewModel.ProjectID);
+            project.Name = projectViewModel.Name;
+            project.IsPublic = projectViewModel.IsPublic;
+            project.LanguageTypeID = projectViewModel.LanguageTypeID;
+            database.Entry(project).State = EntityState.Modified;
+            database.SaveChanges();
+        }
+
 
         #region Private ProjectService
         /// <summary>
@@ -356,7 +366,8 @@ namespace DOGEOnlineGeneralEditor.Services
                 Name = project.Name,
                 FileCount = project.FileCount,
                 Owner = userName,
-                DateCreated = project.DateCreated
+                DateCreated = project.DateCreated,
+                IsPublic = project.IsPublic
             };
 
             return model;
