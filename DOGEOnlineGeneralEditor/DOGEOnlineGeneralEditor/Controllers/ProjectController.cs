@@ -179,5 +179,20 @@ namespace DOGEOnlineGeneralEditor.Controllers
             // Some error happened if we got here
             return View(service.getCollaboratorViewModel(User.Identity.Name, projectID));
         }
-    }
+
+        [HttpPost]
+        public ActionResult LeaveProject(FormCollection formCollection)
+        {
+            int userID;
+            int projectID;
+            int.TryParse(formCollection["UserID"], out userID);
+            int.TryParse(formCollection["ProjectID"], out projectID);
+            if (service.removeUserProject(userID, projectID))
+            {
+
+                return RedirectToAction("Workspace", "MyProjects");
+            }
+            // Some error happened if we got here
+            return RedirectToAction("Workspace","MyProjects");
+        }
 }
