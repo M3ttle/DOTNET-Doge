@@ -85,7 +85,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("MyProjects", "Workspace");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -164,7 +164,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
 		// POST: /Account/Register
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> Index(IndexViewModel model)
+		public ActionResult Index(IndexViewModel model)
 		{
 			if (ModelState.IsValid)
 			{

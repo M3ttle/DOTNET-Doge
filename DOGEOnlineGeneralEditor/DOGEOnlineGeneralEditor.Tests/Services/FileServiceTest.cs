@@ -19,7 +19,7 @@ namespace DOGEOnlineGeneralEditor.Tests.Services
             {
                 ID = 1,
                 Name = "test",
-                Location = "someLoc",
+                Data = "someLoc",
                 DateCreated = DateTime.Now,
                 ProjectID = 1,
                 LanguageTypeID = 1

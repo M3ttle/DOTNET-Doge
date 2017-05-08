@@ -19,8 +19,8 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
     {
         public int ProjectID { get; set; }
         [Required]
-        public HttpPostedFileBase postedFile { get; set; }
-        public string data { get; set; }
+        public HttpPostedFileBase PostedFile { get; set; }
+        public string Data { get; set; }
         public int LanguageTypeID { get; set; }
     }
     public class FileViewModel
@@ -28,7 +28,7 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
         public int ProjectID { get; set; }
         public int ID { get; set; }
         public string Name { get; set; }
-        public string Location { get; set; }
+        public string Data { get; set; }
         public int LanguageTypeID { get; set; }
     }
 }
