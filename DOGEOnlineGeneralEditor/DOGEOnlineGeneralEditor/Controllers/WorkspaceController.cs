@@ -31,6 +31,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
             }
             var model = service.getFileViewModel(id.Value);
             ViewBag.LanguageTypeID = service.getLanguageTypes(model.LanguageTypeID);
+            string decoded = Server.HtmlDecode(model.Data);
+            model.Data = decoded;
             return View(model);
  		}
  

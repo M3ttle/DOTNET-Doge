@@ -206,7 +206,7 @@
 </header>
 
 <input value="@Model.ID" id="fileID" name="fileID" type="hidden">
-<div id="editor"> @Model.Data</div>
+<div id="editor">@Model.Data</div>
 <input type="hidden" id="userNameLogged" name="userNameLogged" value="@HttpContext.Current.User.Identity.Name" />
 
 <script>
@@ -216,8 +216,6 @@
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/javascript");
         editor.getSession().setUseWrapMode(true);
-        //editor.setHighlightActiveLine(false);
-        //document.getElementById('editor').style.fontSize = '12px';
         editor.setShowPrintMargin(false);
         editor.focus();
         
@@ -236,7 +234,7 @@
             $("#hiddenEditor").val(editor.getSession().getValue());
         });
 
-    });// End of document ready
+    });
 
 </script>
 <script src="~/Scripts/editorHubProxy.js"></script>
