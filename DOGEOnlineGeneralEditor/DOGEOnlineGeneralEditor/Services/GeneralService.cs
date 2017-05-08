@@ -464,7 +464,8 @@ namespace DOGEOnlineGeneralEditor.Services
 		/// <returns>bool</returns>
 		public void updateUser(IndexViewModel model)
 		{
-			User user = database.User.Find(model.Name);
+			int ID = getUserIDByName(model.Name);
+			User user = database.User.Find(ID);
 			user.Email = model.Email;
 			user.Gender = model.Gender;
 			user.UserTypeID = model.UserTypeID;
