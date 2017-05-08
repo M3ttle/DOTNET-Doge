@@ -92,7 +92,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Project.Find(id);
+            ProjectViewModel project = service.getProjectViewModelByID(id.Value);
             if (project == null)
             {
                 return HttpNotFound();
@@ -106,13 +106,20 @@ namespace DOGEOnlineGeneralEditor.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,OwnerID,IsPublic,LanguageTypeID")] Project project)
+        public ActionResult Edit([Bind(Include = "ProjectID,Name,Owner,IsPublic,LanguageTypeID")] ProjectViewModel project)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if(service.projectExists(project.Owner, project.Name))
+                { 
+                    ModelState.AddModelError("", "You already have a project with that name");
+                }
+                else
+                {
+                    service.editProject(project);
+                    return RedirectToAction("Index");
+                }
+                
             }
             ViewBag.LanguageTypeID = new SelectList(db.LanguageType, "ID", "Name", project.LanguageTypeID);
             return View(project);
@@ -147,8 +154,11 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 // User is not projectect owner = not allowed to delete
             }
-            service.removeProject(id);
-            return RedirectToAction("Index");
+            else
+            {
+                service.removeProject(id);
+            }
+                return RedirectToAction("Index");
         }
         // Get: 
         [HttpGet]

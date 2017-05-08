@@ -40,10 +40,27 @@ var markChanges = function (user, object) {
     }, 100);
 }
 
-// Use ajax here to save the file
 var saveFile = function () {
-
+    console.log("saving file...");
+    $('#saveBtn').click();
 }
+
+$("form").on("submit", function () {
+    var form = $(this);
+    $("#hiddenEditor").val(editor.getSession().getValue());
+    $.ajax({
+        method: "POST",
+        url: form.attr("action"),
+        data: form.serialize(),
+        error: function (xhr, err) {
+            // Note: just for debugging purposes!
+            console.log("readyState: " + xhr.readyState +
+                "\nstatus: " + xhr.status)
+            console.log("responseText: " + xhr.responseText)
+        }
+    });
+    return false;
+});
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function (from, to) {
@@ -66,7 +83,13 @@ $.connection.hub.start().done(function () {
             return;
         }
         // Save the file
-        saveFile();
+
+        //setTimeout(function () {
+            saveFile();
+        //}, 3000);
+        
+
+
         // Send the groupID, username of user making the changets and the object it self
         fileProxy.server.broadcastFileToGroup(group, userName, object);      
     });
