@@ -168,15 +168,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = new ApplicationUser { UserName = model.Name, Email = model.Email };
-				var result = await UserManager.UpdateAsync(user);
-
-				if (result.Succeeded)
-				{
-					service.updateUser(model);
-					return RedirectToAction("Index", "Account", new { Message = ManageMessageId.UpdateUserSuccess });
-				}
-				AddErrors(result);
+				service.updateUser(model);
+				return RedirectToAction("Index", "Account", new { Message = ManageMessageId.UpdateUserSuccess });
 			}
 
 			ViewData["Genders"] = service.getGenders();
