@@ -11,6 +11,7 @@ using DOGEOnlineGeneralEditor.Models.POCO;
 using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Services;
 using System.IO;
+using DOGEOnlineGeneralEditor.Utilities;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
@@ -31,6 +32,10 @@ namespace DOGEOnlineGeneralEditor.Controllers
             if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if(service.hasAccess(User.Identity.Name, id.Value) == false)
+            {
+                throw new UnauthorizedAccessToProjectException();
             }
 
             ViewBag.LanguageTypeID = service.getLanguageTypes();
@@ -73,7 +78,9 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 {
                     using (StreamReader sr = new StreamReader(file.PostedFile.InputStream))
                     {
-                        file.Data = sr.ReadToEnd();
+                        string rawInput = sr.ReadToEnd();
+                        string encoded = Server.HtmlEncode(rawInput);
+                        file.Data = encoded;
                     }
 
                     if (service.fileExists(file.ProjectID, file.PostedFile.FileName))
@@ -111,10 +118,12 @@ namespace DOGEOnlineGeneralEditor.Controllers
         }
 
         // POST: File/Save/2
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         public ActionResult Save(FileViewModel model)
         {
-            if(ModelState.IsValid)
+            string encoded = Server.HtmlEncode(model.Data);
+            model.Data = encoded;
+            if (ModelState.IsValid)
             {
                 if(service.fileExists(model.ProjectID, model.Name))
                 {

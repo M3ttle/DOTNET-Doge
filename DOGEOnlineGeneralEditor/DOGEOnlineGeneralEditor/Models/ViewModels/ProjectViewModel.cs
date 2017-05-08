@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DOGEOnlineGeneralEditor.Models.POCO;
+using System.ComponentModel.DataAnnotations;
 
 namespace DOGEOnlineGeneralEditor.Models.ViewModels
 {
     public class ProjectViewModel
     {
         public int ProjectID { get; set; }
+        [Required]
+        [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [Display(Name = "Name")]
         public string Name { get; set; }
         public string Owner { get; set; }
         public int FileCount { get; set; }

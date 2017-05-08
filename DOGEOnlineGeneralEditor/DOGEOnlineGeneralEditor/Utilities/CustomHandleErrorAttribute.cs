@@ -27,7 +27,7 @@ namespace DOGEOnlineGeneralEditor.Utilities
             }
             else if (ex is UnauthorizedAccessToProjectException)
             {
-                viewName = "UnauthorizedAccess";
+                viewName = "UnauthorizedAccessError";
             }
 
             HandleErrorInfo model = new HandleErrorInfo(filterContext.Exception, currentController, currentActionName);
