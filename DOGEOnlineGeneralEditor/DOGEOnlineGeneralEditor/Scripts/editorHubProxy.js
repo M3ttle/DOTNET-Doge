@@ -83,10 +83,7 @@ $.connection.hub.start().done(function () {
             return;
         }
         // Save the file
-
-        setTimeout(function () {
-            saveFile();
-        }, 3000);
+        saveFile();
         
 
 
