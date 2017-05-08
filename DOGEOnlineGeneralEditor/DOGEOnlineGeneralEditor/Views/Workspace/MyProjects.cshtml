@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "My Projects";
 }
+
+@Scripts.Render("~/bundles/jquery")
+
+
 <ul class="top-nav">
     <li><a class="active" href="">My Projects</a></li>
     <li><a href="/Workspace/PublicProjects">Public Projects</a></li>
@@ -12,26 +16,31 @@
 
 <div class="project-table">
     <input type="text" class="search-box" placeholder="Search.." id="my-search">
-    <button class="project-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
-    <button class="project-button">Open Project</button>
+    <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
+    <button class="open-button">Open Project</button>
     <div class="scroll">
-        <table id="myprojcets">
-            <tr>
-                <th>Name of project</th>
-                <th>Number of Files</th>
-                <th>Date Created</th>
-                <th>Owner</th>
-            </tr>
-            @foreach(var item in Model.MyProjects)
-            {
+        <table id="my-projcets">
+            <thead>
                 <tr>
-                    <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
-                    <td>@item.FileCount</td>
-                    <td>@item.DateCreated</td>
-                    <td>@item.Owner</td>
+                    <th>Name of project</th>
+                    <th>Number of Files</th>
+                    <th>Date Created</th>
+                    <th>Owner</th>
                 </tr>
-            }
-        </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.MyProjects)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
+                        <td>@item.FileCount</td>
+                        <td>@item.DateCreated</td>
+                        <td>@item.Owner</td>
+                        <td class="hidden-col">@item.ProjectID</td>
+                    </tr>
+                }
+            </tbody>
+    </table>
 
     </div>
     <button class="delete-button">Delete Project</button>
@@ -40,22 +49,46 @@
 <div class="project-table">
     <div class="scroll">
         <table id="shared-projects">
-            <tr>
-                <th>Name of project</th>
-                <th>Number of Files</th>
-                <th>Date Created</th>
-                <th>Owner</th>
-            </tr>
-            @foreach (var item in Model.CollaborationProjects)
-            {
+            <thead>
                 <tr>
-                    <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
-                    <td>@item.FileCount</td>
-                    <td>@item.DateCreated</td>
-                    <td>@item.Owner</td>
+                    <th>Name of project</th>
+                    <th>Number of Files</th>
+                    <th>Date Created</th>
+                    <th>Owner</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CollaborationProjects)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
+                        <td>@item.FileCount</td>
+                        <td>@item.DateCreated</td>
+                        <td>@item.Owner</td>
+                        <td class="hidden-col">@item.ProjectID</td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
     <button class="leave-button">Leave Project</button>
 </div>
+
+
+<script type="text/javascript">
+    $("#my-projcets tbody tr").click(function () {
+        $('tr').removeClass('highlighted');
+        $(this).addClass('highlighted');
+    });
+
+    $("#shared-projects tbody tr").click(function () {
+        $('tr').removeClass('highlighted');
+        $(this).addClass('highlighted');
+    });
+
+    $(".open-button").on('click', function (e) {
+        var ID = $('.highlighted td:nth-child(5)').html();
+        window.location.href = '/Project/Details/' + ID;
+    });
+
+</script>
