@@ -4,11 +4,8 @@
 @{
     ViewData["Title"] = "Public Projects";
 }
-<ul class="top-nav">
-    <li><a href="/Workspace/MyProjects">My Projects</a></li>
-    <li><a class="active" href="">Public Projects</a></li>
-    <li><a href="/Account">My Account</a></li>
-</ul>
+
+@{Html.RenderPartial("_ProjectsNav"); }
 
 <div class="project-table">
     <input type="text" class="search-box" placeholder="Search.." id="public-search">

@@ -3,11 +3,7 @@
     ViewBag.Title = "Account";
 }
 
-<ul class="top-nav">
-    <li><a href="/Workspace/MyProjects">My Projects</a></li>
-    <li><a href="/Workspace/PublicProjects">Public Projects</a></li>
-    <li><a class="active" href="">My Account</a></li>
-</ul>
+@{Html.RenderPartial("_ProjectsNav"); }
 
 <div class="form-container">
     <p class="text-success">@ViewBag.StatusMessage</p>
