@@ -86,10 +86,6 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToAction("MyProjects", "Workspace");
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -102,8 +98,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewData["Genders"] = service.getGenders();
-            ViewData["UserTypes"] = service.getUserTypes();
+            ViewBag.UserTypeID = service.getUserTypes();
             return View();
         }
 
@@ -129,8 +124,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ViewData["Genders"] = service.getGenders();
-            ViewData["UserTypes"] = service.getUserTypes();
+            ViewBag.UserTypeID = service.getUserTypes(model.UserTypeID);
             return View(model);
         }
 
@@ -154,8 +148,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 : "";
 			
 			IndexViewModel model = service.getUserAccountInfoByUserName(User.Identity.Name);
-			ViewData["Genders"] = service.getGenders();
-			ViewData["UserTypes"] = service.getUserTypes();
+			ViewBag.UserTypeID = service.getUserTypes(model.UserTypeID);
 
 			return View(model);
         }
@@ -172,8 +165,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
 				return RedirectToAction("Index", "Account", new { Message = ManageMessageId.UpdateUserSuccess });
 			}
 
-			ViewData["Genders"] = service.getGenders();
-			ViewData["UserTypes"] = service.getUserTypes();
+			ViewBag.UserTypeID= service.getUserTypes(model.UserTypeID);
 			return View(model);
 		}
 

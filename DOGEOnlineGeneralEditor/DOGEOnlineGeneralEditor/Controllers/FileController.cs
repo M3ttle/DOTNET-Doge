@@ -17,7 +17,6 @@ namespace DOGEOnlineGeneralEditor.Controllers
     [Authorize]
     public class FileController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
 		private GeneralService service;
 
 		public FileController()
@@ -25,12 +24,6 @@ namespace DOGEOnlineGeneralEditor.Controllers
 			service = new GeneralService(null);
 		}
 
-        // GET: Files
-        public ActionResult Index()
-        {
-            var files = db.File.Include(f => f.LanguageType).Include(f => f.Project);
-            return View(files.ToList());
-        }
 
         // GET: File/Create
         public ActionResult Create(int? id)
@@ -90,7 +83,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                     else
                     {
                         service.addFileToDatabase(file);
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Details", "Project", new { ID = file.ProjectID });
                     }
                 }
             }
@@ -111,7 +104,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             if(service.fileExists(fileID.Value))
             {
                 service.removeFile(fileID.Value);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Project", new { ID = service.getFileProjectID(fileID.Value)});
             }
             //File does not exist exception!
             throw new Exception();
@@ -133,15 +126,6 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 }
             }
             return RedirectToAction("Editor", "Workspace", new { ID = model.ID });
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
