@@ -203,6 +203,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\POCO\AceTheme.cs" />
     <Compile Include="Models\POCO\File.cs" />
     <Compile Include="Models\POCO\LanguageType.cs" />
     <Compile Include="Models\POCO\Project.cs" />

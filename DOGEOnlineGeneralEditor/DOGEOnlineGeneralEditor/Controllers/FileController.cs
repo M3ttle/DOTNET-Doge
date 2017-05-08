@@ -62,7 +62,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 else
                 {
                     service.addFileToDatabase(file);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "Project", new { ID = file.ProjectID});
                 }
             }
 
@@ -76,14 +76,14 @@ namespace DOGEOnlineGeneralEditor.Controllers
         {
             if(ModelState.IsValid)
             {
-                if (file.postedFile != null)
+                if (file.PostedFile != null)
                 {
-                    using (StreamReader sr = new StreamReader(file.postedFile.InputStream))
+                    using (StreamReader sr = new StreamReader(file.PostedFile.InputStream))
                     {
-                        file.data = sr.ReadToEnd();
+                        file.Data = sr.ReadToEnd();
                     }
 
-                    if (service.fileExists(file.ProjectID, file.postedFile.FileName))
+                    if (service.fileExists(file.ProjectID, file.PostedFile.FileName))
                     {
                         ModelState.AddModelError("", "A file with that name already exists in this project");
                     }

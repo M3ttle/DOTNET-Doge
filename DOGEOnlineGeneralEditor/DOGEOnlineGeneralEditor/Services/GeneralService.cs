@@ -81,10 +81,10 @@ namespace DOGEOnlineGeneralEditor.Services
         {
             File file = new File
             {
-                Name = model.postedFile.FileName,
+                Name = model.PostedFile.FileName,
                 LanguageTypeID = model.LanguageTypeID,
                 ProjectID = model.ProjectID,
-                Location = model.data,
+                Data = model.Data,
                 DateCreated = DateTime.Now,
             };
             database.File.Add(file);
@@ -151,7 +151,7 @@ namespace DOGEOnlineGeneralEditor.Services
                 ProjectID = file.ProjectID,
                 ID = file.ID,
                 Name = file.Name,
-                Location = file.Location,
+                Data = file.Data,
                 LanguageTypeID = file.LanguageTypeID
             };
             return model;
@@ -165,7 +165,7 @@ namespace DOGEOnlineGeneralEditor.Services
         {
             File file = database.File.Find(model.ID);
             file.Name = model.Name;
-            file.Location = model.Location;
+            file.Data = model.Data;
             file.LanguageTypeID = model.LanguageTypeID;
             database.Entry(file).State = EntityState.Modified;
             database.SaveChanges();
@@ -586,7 +586,7 @@ namespace DOGEOnlineGeneralEditor.Services
                                 where up.ProjectID == projectID
                                 select u).Distinct();
 
-            List < UserViewModel > CollaboratorList = new List<UserViewModel>();
+            List <UserViewModel> CollaboratorList = new List<UserViewModel>();
             foreach (User user in Collaborators)
             {
                 UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };
@@ -626,27 +626,11 @@ namespace DOGEOnlineGeneralEditor.Services
         public List<SelectListItem> getUserTypes()
         {
             var userTypes = new List<SelectListItem>();
-            // THIS NEEDS TO GET STUFF FROM THE DATABASE, THIS IS JUST FOR TESTING!!
-            /*var result = (from x in database.UserType
-                          where x.Name == "Student"
-                          select x);
-                          
-            if(result == null)
-            {
-                database.UserType.Add(new UserType { Name = "Student" });
-                database.UserType.Add(new UserType { Name = "Teacher" });
-                database.UserType.Add(new UserType { Name = "Programmer" });
-                database.UserType.Add(new UserType { Name = "Other" });
-            }
             
             foreach(UserType type in database.UserType)
             {
                 userTypes.Add(new SelectListItem() { Text = type.Name, Value = type.ID.ToString() });
-            }*/
-
-            userTypes.Add(new SelectListItem() { Text = "Student", Value = "1" });
-            userTypes.Add(new SelectListItem() { Text = "Teacher", Value = "2" });
-            userTypes.Add(new SelectListItem() { Text = "Programmer", Value = "3" });
+            }
             return userTypes;
         }
 

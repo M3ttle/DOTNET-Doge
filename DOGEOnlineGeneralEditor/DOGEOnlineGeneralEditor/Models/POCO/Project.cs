@@ -10,7 +10,6 @@ namespace DOGEOnlineGeneralEditor.Models.POCO
         public int ID { get; set; }
         public string Name { get; set; }
         public int FileCount { get; set; }
-        [Column(TypeName = "DateTime")]
         public DateTime DateCreated { get; set; }
         public int OwnerID { get; set; }
         public bool IsPublic { get; set; }

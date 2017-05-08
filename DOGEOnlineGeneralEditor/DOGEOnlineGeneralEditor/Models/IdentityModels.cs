@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using DOGEOnlineGeneralEditor.Models.POCO;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DOGEOnlineGeneralEditor.Models
 {
@@ -52,6 +53,8 @@ namespace DOGEOnlineGeneralEditor.Models
             modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
             modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Entity<AceTheme>().Property(m => m.ID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
             public static ApplicationDbContext Create()

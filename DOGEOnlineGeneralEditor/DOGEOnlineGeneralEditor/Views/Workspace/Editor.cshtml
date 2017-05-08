@@ -37,7 +37,7 @@
             </div>
         </div>
         
-        @Html.HiddenFor(m => m.Location, new { @id = "hiddenEditor"})
+        @Html.HiddenFor(m => m.Data, new { @id = "hiddenEditor"})
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -206,7 +206,7 @@
 </header>
 
 <input value="@Model.ID" id="fileID" name="fileID" type="hidden">
-<div id="editor"> @Model.Location</div>
+<div id="editor"> @Model.Data</div>
 <input type="hidden" id="userNameLogged" name="userNameLogged" value="@HttpContext.Current.User.Identity.Name" />
 
 <script>
