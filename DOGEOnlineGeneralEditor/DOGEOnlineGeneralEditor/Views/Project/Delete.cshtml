@@ -1,4 +1,4 @@
-﻿@model DOGEOnlineGeneralEditor.Models.POCO.Project
+﻿@model DOGEOnlineGeneralEditor.Models.ViewModels.ProjectViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -44,11 +44,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OwnerID)
+            @Html.DisplayNameFor(model => model.Owner)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OwnerID)
+            @Html.DisplayFor(model => model.Owner)
         </dd>
 
         <dt>
