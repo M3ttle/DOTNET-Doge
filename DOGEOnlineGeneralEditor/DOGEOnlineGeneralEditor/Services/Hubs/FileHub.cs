@@ -30,6 +30,10 @@ namespace DOGEOnlineGeneralEditor.Services.Hubs
             Clients.OthersInGroup(groupName).updateClientFile(userName, content);
         }
 
+        public void SaveFile()
+        {
+
+        }
         // Overrides
         public override Task OnConnected()  // TODO Add counter on reconnect etc...
         {
