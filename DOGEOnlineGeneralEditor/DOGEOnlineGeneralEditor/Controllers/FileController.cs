@@ -62,7 +62,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 else
                 {
                     service.addFileToDatabase(file);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "Project", new { ID = file.ProjectID});
                 }
             }
 

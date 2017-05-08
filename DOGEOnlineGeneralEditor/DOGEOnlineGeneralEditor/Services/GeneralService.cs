@@ -586,7 +586,7 @@ namespace DOGEOnlineGeneralEditor.Services
                                 where up.ProjectID == projectID
                                 select u).Distinct();
 
-            List < UserViewModel > CollaboratorList = new List<UserViewModel>();
+            List <UserViewModel> CollaboratorList = new List<UserViewModel>();
             foreach (User user in Collaborators)
             {
                 UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };

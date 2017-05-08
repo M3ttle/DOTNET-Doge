@@ -181,7 +181,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             if (service.addUserToProject(userID, projectID))
             {
                 ViewBag.Success = "User was added to the project";
-                return RedirectToAction("Details/" + projectID.ToString());
+                return RedirectToAction("AddUserToProject", new { ID = projectID});
             }
             // Some error happened if we got here
             return View(service.getCollaboratorViewModel(projectID));
