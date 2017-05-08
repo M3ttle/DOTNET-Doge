@@ -164,7 +164,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
 		// POST: /Account/Register
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> Index(IndexViewModel model)
+		public ActionResult Index(IndexViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
