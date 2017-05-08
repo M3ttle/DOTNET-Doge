@@ -24,13 +24,14 @@ footer {
     z-index: 6;
 }
 
-* {
+html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote,
+pre, form, fieldset, table, th, td {
     border: 0;
 }
 
-    *:focus {
-        outline: 0 !important;
-    }
+input:not([type=submit]):focus, input:active, button:active {
+    outline: 0 !important;
+}
 
 #doge-header {
     float: left;
