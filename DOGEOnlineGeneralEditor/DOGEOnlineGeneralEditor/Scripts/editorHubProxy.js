@@ -40,23 +40,10 @@ var markChanges = function (user, object) {
     }, 100);
 }
 
-
-/*
-    data: {
-        'projectId': projectId,
-        'authorized': authorized
-    },
-*/
-// Use ajax here to save the file
-
-
 var saveFile = function () {
-    console.log("save file...");
-    $('#test').click();
+    console.log("saving file...");
+    $('#saveBtn').click();
 }
-
-
-
 
 $("form").on("submit", function () {
     var form = $(this);
@@ -65,9 +52,6 @@ $("form").on("submit", function () {
         method: "POST",
         url: form.attr("action"),
         data: form.serialize(),
-        success: function (e) {
-            //console.log(e);
-        },
         error: function (xhr, err) {
             // Note: just for debugging purposes!
             console.log("readyState: " + xhr.readyState +

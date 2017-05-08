@@ -46,7 +46,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input id="test" name="test" type="submit" value="Save" class="btn btn-default" />
+                <input id="saveBtn" name="saveBtn" type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -226,11 +226,6 @@
         //editor.setShowPrintMargin(false);
         editor.focus();
         
-        $('#save').on('click', function (e) {
-            $('#saveTextArea').text(editor.getSession().getValue());
-            return false;
-        });
-        
         $("#mode").change(function () {
             var mode = $("#mode").val();
             editor.getSession().setMode(mode);
@@ -241,6 +236,7 @@
             editor.setTheme(theme);
         });
 
+        // Copy the contents of the editor into our hidden editor for further processing
         $("form").submit(function () {
             $("#hiddenEditor").val(editor.getSession().getValue());
         });
