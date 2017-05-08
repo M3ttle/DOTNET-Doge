@@ -11,12 +11,7 @@
 @Scripts.Render("~/bundles/signalr")
 <script src="~/signalr/hubs"></script>
 
-<ul class="top-nav">
-    <li><a href="/Workspace/MyProjects">My Projects</a></li>
-    <li><a href="/Workspace/PublicProjects">Public Projects</a></li>
-    <li><a href="/Account">My Account</a></li>
-</ul>
-
+@{Html.RenderPartial("_ProjectsNav"); }
 
 @using (Html.BeginForm("Save", "File", FormMethod.Post, null))
 {
@@ -46,7 +41,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input id="saveBtn" name="saveBtn" type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -223,13 +218,8 @@
         editor.getSession().setUseWrapMode(true);
         //editor.setHighlightActiveLine(false);
         //document.getElementById('editor').style.fontSize = '12px';
-        //editor.setShowPrintMargin(false);
+        editor.setShowPrintMargin(false);
         editor.focus();
-        
-        $('#save').on('click', function (e) {
-            $('#saveTextArea').text(editor.getSession().getValue());
-            return false;
-        });
         
         $("#mode").change(function () {
             var mode = $("#mode").val();
@@ -241,6 +231,7 @@
             editor.setTheme(theme);
         });
 
+        // Copy the contents of the editor into our hidden editor for further processing
         $("form").submit(function () {
             $("#hiddenEditor").val(editor.getSession().getValue());
         });
