@@ -37,15 +37,12 @@ var markChanges = function (user, object) {
 
         var marker = editor.session.addMarker(range, "editorMarker", true);
         userNamesMarkerID.push({user: user, markerID: marker});
-
-        /*
-        editor.session.setAnnotations([{
-            row: 0,
-            column: 33,
-            text: "Strange error",
-            type: "info"
-        }]);*/
     }, 100);
+}
+
+// Use ajax here to save the file
+var saveFile = function () {
+
 }
 
 // Array Remove - By John Resig (MIT Licensed)
@@ -68,6 +65,8 @@ $.connection.hub.start().done(function () {
         if (silent) {
             return;
         }
+        // Save the file
+        saveFile();
         // Send the groupID, username of user making the changets and the object it self
         fileProxy.server.broadcastFileToGroup(group, userName, object);      
     });

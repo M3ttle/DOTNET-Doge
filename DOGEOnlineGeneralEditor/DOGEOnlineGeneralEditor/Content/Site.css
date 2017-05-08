@@ -304,7 +304,6 @@ main {
     z-index: 40;
     width: 2px !important
 }
-
     .editorMarker::before {
         position: absolute;
         background: var(--main-green);
@@ -312,7 +311,6 @@ main {
         top: -100%;
         left: 0;
     }
-
 
 
 /* Used for most forms, makes the small window around the form */
