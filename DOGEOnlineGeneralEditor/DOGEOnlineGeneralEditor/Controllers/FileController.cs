@@ -10,6 +10,7 @@ using DOGEOnlineGeneralEditor.Models;
 using DOGEOnlineGeneralEditor.Models.POCO;
 using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Services;
+using System.IO;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
@@ -67,6 +68,34 @@ namespace DOGEOnlineGeneralEditor.Controllers
 
             ViewBag.LanguageTypeID = service.getLanguageTypes(file.LanguageTypeID);
             return View(file);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFromFile(CreateFileFromFileViewModel file)
+        {
+            if(ModelState.IsValid)
+            {
+                if (file.postedFile != null)
+                {
+                    using (StreamReader sr = new StreamReader(file.postedFile.InputStream))
+                    {
+                        file.data = sr.ReadToEnd();
+                    }
+
+                    if (service.fileExists(file.ProjectID, file.postedFile.FileName))
+                    {
+                        ModelState.AddModelError("", "A file with that name already exists in this project");
+                    }
+                    else
+                    {
+                        service.addFileToDatabase(file);
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            ViewBag.LanguageTypeID = service.getLanguageTypes(file.LanguageTypeID);
+            return View("Create");
         }
 
         // POST: File/Delete/2
