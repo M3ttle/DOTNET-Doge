@@ -34,7 +34,7 @@ var markChanges = function (user, object) {
         var firstTimeUser = true;
         // Remove marker if it is there already
         for (var i = 0; i < userNamesMarkerID.length; i++) {
-            if (userNamesMarkerID[i].user === user) {
+            if (userNamesMarkerID[i].user == user) {
                 userMarkerColor = userNamesMarkerID[i].markerColor;
                 editor.session.removeMarker(userNamesMarkerID[i].markerID);
                 userNamesMarkerID.remove(i);
@@ -47,7 +47,7 @@ var markChanges = function (user, object) {
             initMarkerColors(0, markerColors.length - 1);
             userMarkerColor = markerColors[randomIntFromInterval(0, markerColors.length - 1)];
             // Core of the application
-            if (user === "Frida") {
+            if (user == "Frida") {
                 userMarkerColor = "#FF1493";
             }
         }
