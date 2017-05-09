@@ -161,7 +161,7 @@ textarea {
     min-width: 335px;
     background-color: var(--light-of-gray);
     border: 2px solid var(--headerblack);
-    border-radius: 25px;
+    border-radius: 10px;
     color: var(--main-hd-black);
 }
 
@@ -256,4 +256,26 @@ ul.top-nav li a {
 
 /* ---------------------------------------- Tables ---------------------------------------- */
 
+/* Adds underlinnes to links so it's obvious it's a link */
+table a, table a:visited {
+    color: inherit;
+    text-decoration: underline;
+}
 
+/* Adds a slight size change to clickable items */
+table a:hover, .glyphicon-remove:hover, .glyphicon-trash:hover {
+    color: inherit;
+    font-size: 15px;
+}
+
+/* Makes the small window around the table */
+.table-container {
+    margin: 30px auto;
+    padding: 25px 50px;
+    display: table;
+    min-width: 335px;
+    background-color: var(--light-of-gray);
+    border: 2px solid var(--headerblack);
+    border-radius: 10px;
+    color: var(--main-hd-black);
+}

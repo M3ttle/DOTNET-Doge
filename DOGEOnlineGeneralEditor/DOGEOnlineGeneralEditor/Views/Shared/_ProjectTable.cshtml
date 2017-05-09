@@ -1,62 +1,62 @@
 ﻿@model IEnumerable<DOGEOnlineGeneralEditor.Models.ViewModels.ProjectViewModel>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Owner</th>
-            <th>Files</th>
-            <th>Language</th>
-            <th>Public</th>
-            <th>Date Created</th>
-            @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
-            {
-                <th></th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            @Html.HiddenFor(modelItem => item.ProjectID)
+<div class="table-container">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                    @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
-                    {
-                        <i class="glyphicon glyphicon-pencil"></i>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Owner)</td>
-                <td>@Html.DisplayFor(modelItem => item.FileCount)</td>
-                <td>@Html.DisplayFor(modelItem => item.LanguageTypeID)</td>
-                <td>
-                    @if (item.IsPublic)
-                    {
-                        <i class="glyphicon glyphicon-ok"></i>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Public</th>
+                <th>Date Created</th>
                 @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
                 {
+                    <th></th>}
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-
-                        @{ if (item.Owner == User.Identity.Name)
-                            {
-                                <i class="glyphicon glyphicon-trash"></i>
+                        @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+                        {
+                            <a href="@Url.Action("Details", "Project", new { id = item.ProjectID }, null)">
+                                @item.Name <i class="glyphicon glyphicon-pencil"></i>
+                            </a>
+}
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Name)
+}
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Owner)</td>
+                    <td>
+                        @if (item.IsPublic)
+                        {
+                            <i class="glyphicon glyphicon-ok"></i>
+}
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
+                    @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+                    {
+                        <td>
+                            @{ if (item.Owner == User.Identity.Name)
+                                {
+                                    <i class="glyphicon glyphicon-trash"></i>
+}
+                                else
+                                {
+                                    using (Html.BeginForm("LeaveProject", "Project", FormMethod.Post, null))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("ProjectID", null, htmlAttributes: new { @id = item.ProjectID });
+                                        <label for="leaveProjectSubmit"><i class="glyphicon glyphicon-remove"></i></label>
+                                        <input type="submit" id="leaveProjectSubmit" class="hidden">
+}
+                                }
                             }
-                            else
-                            {
-                                <i class="glyphicon glyphicon-remove"></i>
-                            }
-                        }
-                    </td>   }
-            </tr>           }
-    </tbody>
-</table>
+                        </td>   }
+                </tr>            }
+        </tbody>
+    </table>
+</div>
