@@ -8,8 +8,10 @@
 
 @{Html.RenderPartial("_ProjectsNav"); }
 
-
-
+@if (TempData["Success"] != null)
+{
+    <div>@TempData["Success"]</div>
+}
 <div class="project-table">
     <input type="text" class="search-box" placeholder="Search.." id="my-search">
     <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>

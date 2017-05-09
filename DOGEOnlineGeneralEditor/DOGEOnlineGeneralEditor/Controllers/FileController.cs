@@ -110,8 +110,9 @@ namespace DOGEOnlineGeneralEditor.Controllers
 
             if(service.fileExists(fileID.Value))
             {
+                int projectID = service.getFileProjectID(fileID.Value);
                 service.removeFile(fileID.Value);
-                return RedirectToAction("Details", "Project", new { ID = service.getFileProjectID(fileID.Value)});
+                return RedirectToAction("Details", "Project", new { ID = projectID});
             }
             //File does not exist exception!
             throw new Exception();
