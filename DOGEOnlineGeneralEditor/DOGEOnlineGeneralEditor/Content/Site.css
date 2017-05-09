@@ -155,10 +155,10 @@ textarea {
 
 /* Used for most forms, makes the small window around the form */
 .form-container {
-    margin: 30px auto;
+    margin: 20px auto;
     padding: 25px 50px;
     display: table;
-    min-width: 335px;
+    min-width: 340px;
     background-color: var(--light-of-gray);
     border: 2px solid var(--headerblack);
     border-radius: 10px;
@@ -220,6 +220,23 @@ textarea {
 #save-message {
     display: none;
     color: red;
+}
+
+/* To show where other users are in the file */
+.editor-marker {
+    position: absolute;
+    background: var(--dogegreen);
+    z-index: 40;
+    width: 2px !important
+}
+
+/* To show where other users are in the file */
+.editor-marker::before {
+    position: absolute;
+    background: var(--dogegreen);
+    z-index: 999;
+    top: -100%;
+    left: 0;
 }
 
 /* ---------------------------------------- _ProjectsNav ---------------------------------------- */
