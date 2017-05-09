@@ -4,55 +4,59 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>Name</th>
-        <th>Owner</th>
-        <th>Files</th>
-        <th>Language</th>
-        <th>Public</th>
-        <th>Date Created</th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    @Html.HiddenFor(modelItem => item.ProjectID)
-    <tr>    
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Owner</th>
+            <th>Files</th>
+            <th>Language</th>
+            <th>Public</th>
+            <th>Date Created</th>
             @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
             {
-                <i class="glyphicon glyphicon-pencil"></i>
+                <th></th>
             }
-        </td>
-        <td>@Html.DisplayFor(modelItem => item.Owner)</td>
-        <td>@Html.DisplayFor(modelItem => item.FileCount)</td>
-        <td>@Html.DisplayFor(modelItem => item.LanguageTypeID)</td>
-        <td>
-            @if (item.IsPublic)
-            {
-                <i class="glyphicon glyphicon-ok"></i>
-            }
-        </td>
-        <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
-        @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
         {
-            <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            
-                @{ if (item.Owner == User.Identity.Name)
+            @Html.HiddenFor(modelItem => item.ProjectID)
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                    @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
                     {
-                    <i class="glyphicon glyphicon-trash"></i>
+                        <i class="glyphicon glyphicon-pencil"></i>
                     }
-                    else
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Owner)</td>
+                <td>@Html.DisplayFor(modelItem => item.FileCount)</td>
+                <td>@Html.DisplayFor(modelItem => item.LanguageTypeID)</td>
+                <td>
+                    @if (item.IsPublic)
                     {
-                    <i class="glyphicon glyphicon-remove"></i>
+                        <i class="glyphicon glyphicon-ok"></i>
                     }
-                }
-            </td>
-        }
-    </tr>
-}
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
+                @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
 
+                        @{ if (item.Owner == User.Identity.Name)
+                            {
+                                <i class="glyphicon glyphicon-trash"></i>
+                            }
+                            else
+                            {
+                                <i class="glyphicon glyphicon-remove"></i>
+                            }
+                        }
+                    </td>   }
+            </tr>           }
+    </tbody>
 </table>
