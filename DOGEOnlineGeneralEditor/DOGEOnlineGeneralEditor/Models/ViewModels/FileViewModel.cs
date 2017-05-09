@@ -33,4 +33,14 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
         public string Data { get; set; }
         public int LanguageTypeID { get; set; }
     }
+
+    public class EditorViewModel
+    {
+        public int ProjectID { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string  Data { get; set; }
+        public int LanguageTypeID { get; set; }
+        public string UserThemeID { get; set; }
+    }
 }

@@ -25,13 +25,14 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 throw new FileNotFoundException();
             }
-            var model = service.getFileViewModel(id.Value);
+            var model = service.getEditorViewModel(User.Identity.Name, id.Value);
 
             if(service.hasAccess(User.Identity.Name, model.ProjectID) == false)
             {
                 throw new UnauthorizedAccessException();
             }
             ViewBag.LanguageTypeID = service.getLanguageTypes(model.LanguageTypeID);
+            ViewBag.UserThemeID = service.getAceThemes(model.UserThemeID);
             string decoded = Server.HtmlDecode(model.Data);
             model.Data = decoded;
             return View(model);

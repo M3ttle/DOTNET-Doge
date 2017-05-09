@@ -44,9 +44,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             return View(model);
         }
 
-        // POST: Files/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: File/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateFileViewModel file)
@@ -125,7 +123,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         // POST: File/Save/2
         [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(FileViewModel model)
+        public ActionResult Save(EditorViewModel model)
         {
             string encoded = Server.HtmlEncode(model.Data);
             model.Data = encoded;
@@ -138,6 +136,11 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 else
                 {
                     service.saveFile(model);
+                }
+                int userID = service.getUserIDByName(User.Identity.Name);
+                if (model.UserThemeID != service.getUserTheme(userID))
+                {
+                    service.updateUserTheme(userID, model.UserThemeID);
                 }
             }
             return RedirectToAction("Editor", "Workspace", new { ID = model.ID });

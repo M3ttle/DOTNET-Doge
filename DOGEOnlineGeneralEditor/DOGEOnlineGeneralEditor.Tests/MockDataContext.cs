@@ -20,6 +20,7 @@ namespace DOGEOnlineGeneralEditor.Tests
             LanguageType = new InMemoryDbSet<LanguageType>();
             File = new InMemoryDbSet<File>();
             UserType = new InMemoryDbSet<UserType>();
+            AceTheme = new InMemoryDbSet<AceTheme>();
 		}
 
         public IDbSet<Project> Project { get; set; }
@@ -28,6 +29,7 @@ namespace DOGEOnlineGeneralEditor.Tests
         public IDbSet<LanguageType> LanguageType { get; set; }
         public IDbSet<File> File { get; set; }
         public IDbSet<UserType> UserType { get; set; }
+        public IDbSet<AceTheme> AceTheme { get; set; }
         // TODO: bætið við fleiri færslum hér
         // eftir því sem þeim fjölgar í AppDataContext klasanum ykkar!
 
