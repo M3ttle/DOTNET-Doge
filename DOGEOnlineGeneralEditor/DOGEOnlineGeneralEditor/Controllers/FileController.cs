@@ -130,9 +130,9 @@ namespace DOGEOnlineGeneralEditor.Controllers
             model.Data = encoded;
             if (ModelState.IsValid)
             {
-                if(service.FileExists(model.ProjectID, model.Name))
+                if(service.FileExists(model.ProjectID, model.Name, model.ID))
                 {
-                    // File Exists!!
+
                 }
                 else
                 {

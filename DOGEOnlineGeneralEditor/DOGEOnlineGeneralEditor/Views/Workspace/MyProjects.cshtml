@@ -4,15 +4,6 @@
     ViewData["Title"] = "My Projects";
 }
 
-<style>
-    table tr:hover {
-        background-color: deeppink;
-    }
-    .highlighted{
-        background-color: pink;
-    }
-</style>
-
 @Scripts.Render("~/bundles/jquery")
 
 @{Html.RenderPartial("_ProjectsNav"); }
@@ -22,76 +13,80 @@
     <div>@TempData["Success"]</div>
 }
 
-@{ Html.RenderPartial("_ProjectTable", Model.MyProjects); }
-
-@{ Html.RenderPartial("_ProjectTable", Model.CollaborationProjects); }
 
 
-<div class="project-table">
     <input type="text" class="search-box" placeholder="Search.." id="my-search">
-    <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
-    <button class="open-button">Open Project</button>
-    <div class="scroll">
-        <table id="my-projects">
-            <thead>
-                <tr>
-                    <th>Name of project</th>
-                    <th>Number of Files</th>
-                    <th>Date Created</th>
-                    <th>Owner</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.MyProjects)
-                {
-                    <tr>
-                        <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
-                        <td>@item.FileCount</td>
-                        <td>@item.DateCreated</td>
-                        <td>@item.Owner</td>
-                        <td class="id-col">@item.ProjectID</td>
-                    </tr>
-                }
-            </tbody>
-    </table>
 
-    </div>
-    <button class="delete-button">Delete Project</button>
-</div>
+    @{ Html.RenderPartial("_ProjectTable", Model.MyProjects); }
 
-<div class="project-table">
-    <div class="scroll">
-        <table id="shared-projects">
-            <thead>
-                <tr>
-                    <th>Name of project</th>
-                    <th>Number of Files</th>
-                    <th>Date Created</th>
-                    <th>Owner</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.CollaborationProjects)
-                {
+    @{ Html.RenderPartial("_ProjectTable", Model.CollaborationProjects); }
+
+
+    <div class="project-table">
+
+        <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
+        <button class="open-button">Open Project</button>
+        <div class="scroll">
+            <table id="my-projects">
+                <thead>
                     <tr>
-                        <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
-                        <td>@item.FileCount</td>
-                        <td>@item.DateCreated</td>
-                        <td>@item.Owner</td>
-                        <td class="id-col">@item.ProjectID</td>
+                        <th>Name of project</th>
+                        <th>Number of Files</th>
+                        <th>Date Created</th>
+                        <th>Owner</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.MyProjects)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
+                            <td>@item.FileCount</td>
+                            <td>@item.DateCreated</td>
+                            <td>@item.Owner</td>
+                            <td class="id-col">@item.ProjectID</td>
+                        </tr>}
+                </tbody>
+            </table>
+
+        </div>
+        <button class="delete-button">Delete Project</button>
     </div>
-    <button class="leave-button">Leave Project</button>
-    @using (Html.BeginForm("LeaveProject", "Project", FormMethod.Post, null))
-    {
-        @Html.AntiForgeryToken()
-        @Html.Hidden("ProjectID", null, htmlAttributes: new { @id = "projectID" });
-        <input type="submit", id="leaveProjectSubmit" hidden="hidden"/>
-    }
-</div>
+
+    <div class="project-table">
+        <div class="scroll">
+            <table id="shared-projects">
+                <thead>
+                    <tr>
+                        <th>Name of project</th>
+                        <th>Number of Files</th>
+                        <th>Date Created</th>
+                        <th>Owner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CollaborationProjects)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
+                            <td>@item.FileCount</td>
+                            <td>@item.DateCreated</td>
+                            <td>@item.Owner</td>
+                            <td class="id-col">@item.ProjectID</td>
+                        </tr>}
+                </tbody>
+            </table>
+        </div>
+        <button class="leave-button">Leave Project</button>
+        @using (Html.BeginForm("LeaveProject", "Project", FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("ProjectID", null, htmlAttributes: new { @id = "projectID" });
+            <input type="submit" , id="leaveProjectSubmit" hidden="hidden" />
+        }
+    </div>
+
+
 
 
 <script src="~/Scripts/table.js"></script>

@@ -1,6 +1,6 @@
 ﻿:root {
     --main-white: #f4f4f4;
-    --light-of-gray: #d5d5d5;
+    
     --main-hd-black: #222;
     --main-orange: #FD971F;
 
@@ -9,7 +9,8 @@
     --dogedarkgreen: #6BB233;
     --headerblack: #222;
     --backgroundgray: #272822;
-    --backgroundbright: #3E3D32;
+    --mediumgray: #3E3D32;
+    --lightgray: #d5d5d5;
 }
 
 /* ---------------------------------------- General CSS ---------------------------------------- */
@@ -155,13 +156,13 @@ textarea {
 
 /* Used for most forms, makes the small window around the form */
 .form-container {
-    margin: 30px auto;
+    margin: 20px auto;
     padding: 25px 50px;
     display: table;
-    min-width: 335px;
-    background-color: var(--light-of-gray);
+    min-width: 340px;
+    background-color: var(--lightgray);
     border: 2px solid var(--headerblack);
-    border-radius: 25px;
+    border-radius: 10px;
     color: var(--main-hd-black);
 }
 
@@ -222,6 +223,23 @@ textarea {
     color: red;
 }
 
+/* To show where other users are in the file */
+.editor-marker {
+    position: absolute;
+    /*background: var(--dogegreen);*/
+    z-index: 40;
+    width: 2px !important
+}
+
+/* To show where other users are in the file */
+.editor-marker::before {
+    position: absolute;
+    /*background: var(--dogegreen);*/
+    z-index: 999;
+    top: -100%;
+    left: 0;
+}
+
 /* ---------------------------------------- _ProjectsNav ---------------------------------------- */
 
 /* Creates the Account and Projects menu */
@@ -233,7 +251,7 @@ textarea {
     list-style-type: none;
     padding: 0;
     overflow: hidden;
-    background-color: var(--backgroundbright);
+    background-color: var(--mediumgray);
 }
 
 ul.top-nav .active {
@@ -256,4 +274,66 @@ ul.top-nav li a {
 
 /* ---------------------------------------- Tables ---------------------------------------- */
 
+/* Adds underlinnes to links so it's obvious it's a link */
+table a, table a:visited {
+    color: inherit;
+    text-decoration: underline;
+}
 
+/* Adds a slight size change to clickable items */
+table a:hover, .glyphicon-remove:hover, .glyphicon-trash:hover {
+    color: inherit;
+    font-size: 15px;
+}
+
+/* Set the columns to a fixed size */
+th:nth-child(1), td:nth-child(1) {
+    width: 30%;
+}
+th:nth-child(2), td:nth-child(2) {
+    width: 25%;
+}
+th:nth-child(3), td:nth-child(3) {
+    width: 15%;
+    text-align: center;
+}
+th:nth-child(4), td:nth-child(4) {
+    width: 20%;
+}
+th:nth-child(5), td:nth-child(5) {
+    width: 10%;
+    text-align: right;
+}
+
+/* Makes the small window around the table */
+.table-container {
+    margin: 20px auto;
+    padding: 0 20px;
+    display: table;
+    min-width: 335px;
+    background-color: var(--lightgray);
+    border: 2px solid var(--headerblack);
+    border-radius: 10px;
+    color: var(--main-hd-black);
+}
+
+.table {
+    table-layout: fixed;
+    margin: 0;
+}
+
+.table tr {
+    color: var(--mediumgray);
+}
+
+@media (min-width: 768px) {
+    .table-container {
+        padding: 0 40px;
+    }
+}
+
+@media (min-width: 992px) {
+    .table-container {
+        padding: 0 40px;
+    }
+}

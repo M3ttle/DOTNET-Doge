@@ -48,6 +48,19 @@ namespace DOGEOnlineGeneralEditor.Services
             }
             return false;
         }
+        public bool FileExists(int projectID, string fileName, int fileID)
+        {
+            File file = (from x in database.File
+                         where x.Name == fileName
+                         && x.Project.ID == projectID
+                         && x.ID != fileID
+                         select x).FirstOrDefault();
+            if (file != null)
+            {
+                return true;
+            }
+            return false;
+        }
         /// <summary>
         /// Function that returns true if the fileID is infact a valid file in the database.
         /// </summary>
