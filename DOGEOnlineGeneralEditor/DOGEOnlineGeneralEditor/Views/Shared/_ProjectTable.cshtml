@@ -5,7 +5,6 @@
 </p>
 <table class="table">
     <tr>
-        <th class="hide"></th>
         <th>Name</th>
         <th>Owner</th>
         <th>Files</th>
@@ -16,9 +15,15 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td class="hide">@Html.DisplayFor(modelItem => item.ProjectID)</td>
-        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+    @Html.HiddenFor(modelItem => item.ProjectID)
+    <tr>    
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+            @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+            {
+                <i class="glyphicon glyphicon-pencil"></i>
+            }
+        </td>
         <td>@Html.DisplayFor(modelItem => item.Owner)</td>
         <td>@Html.DisplayFor(modelItem => item.FileCount)</td>
         <td>@Html.DisplayFor(modelItem => item.LanguageTypeID)</td>
@@ -29,20 +34,24 @@
             }
         </td>
         <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
-        <td>
-            
+        @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+        {
+            <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            @if (item.Owner == User.Identity.Name)
-            {
-                <i class="glyphicon glyphicon-trash"></i>
-            }
-            @if ((item.Owner != User.Identity.Name) && !(ViewContext.RouteData.Values["Action"] == "PublicProjects"))
-            {
-                <i class="glyphicon glyphicon-remove"></i>
-            }
-        </td>
+            
+                @{ if (item.Owner == User.Identity.Name)
+                    {
+                    <i class="glyphicon glyphicon-trash"></i>
+                    }
+                    else
+                    {
+                    <i class="glyphicon glyphicon-remove"></i>
+                    }
+                }
+            </td>
+        }
     </tr>
 }
 

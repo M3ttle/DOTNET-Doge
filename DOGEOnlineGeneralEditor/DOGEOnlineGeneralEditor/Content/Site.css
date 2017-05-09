@@ -213,7 +213,7 @@ textarea {
 
 #editor {
     height: 100%;
-    min-height: 10px;
+    min-height: 400px;
 }
 
 /* Andri */
