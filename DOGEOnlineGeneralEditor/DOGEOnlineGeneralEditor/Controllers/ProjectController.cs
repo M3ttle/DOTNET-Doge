@@ -104,14 +104,16 @@ namespace DOGEOnlineGeneralEditor.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (service.projectExists(User.Identity.Name, project.Name))
+                ProjectViewModel oldProjectViewModel = service.getProjectViewModelByID(project.ProjectID);
+                if (service.projectExists(User.Identity.Name, project.Name)
+                        && oldProjectViewModel.Name != project.Name)
                 {
                     ModelState.AddModelError("", "You already have a project with that name");
                 }
                 else
                 {
                     service.editProject(project);
-                    TempData["Success"] = project.Name + " was successfully edited.";
+                    TempData["Success"] = string.Format("{0} was successfully edited.", project.Name);
                     return RedirectToAction("Details", "Project", new { ID = project.ProjectID });
                 }
 
