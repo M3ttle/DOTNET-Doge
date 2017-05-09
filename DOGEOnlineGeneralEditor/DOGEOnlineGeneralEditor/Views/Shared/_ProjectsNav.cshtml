@@ -1,5 +1,0 @@
-﻿<ul class="top-nav">
-    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyProjects" ? "active" : "")">@Html.ActionLink("My Projects", "MyProjects", "Workspace")</li>
-    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects" ? "active" : "")">@Html.ActionLink("Public Projects", "PublicProjects", "Workspace")</li>
-    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("My Account", "Index", "Account")</li>
-</ul>

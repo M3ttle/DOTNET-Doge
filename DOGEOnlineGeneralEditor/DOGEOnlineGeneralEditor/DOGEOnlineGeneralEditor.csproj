@@ -660,7 +660,6 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\AddUserToProject.cshtml" />
     <Content Include="Views\Shared\UnauthorizedAccessError.cshtml" />
-    <Content Include="Views\Shared\_ProjectsNav.cshtml" />
     <Content Include="Views\Shared\_ProjectTable.cshtml" />
   </ItemGroup>
   <ItemGroup>

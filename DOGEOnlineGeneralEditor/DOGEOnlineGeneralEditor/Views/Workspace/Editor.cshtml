@@ -11,9 +11,6 @@
 @Scripts.Render("~/bundles/signalr")
 <script src="~/signalr/hubs"></script>
 
-@{Html.RenderPartial("_ProjectsNav"); }
-
-
 @using (Html.BeginForm("Save", "File", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()

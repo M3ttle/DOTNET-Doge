@@ -43,7 +43,7 @@ body {
 
 /* Change the main font to something prettier */
 /* It's a font from google, declared in the index frontpage */
-.ubuntu-font, .navbar, footer, button, .top-nav a, h1, h2, h3, h4, h5, h6 {
+.ubuntu-font, .navbar, footer, button, .top-nav a, h1, h2, h3, h4, h5, h6, th, .table-header {
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -55,6 +55,10 @@ body {
     float: left;
     height: 50px;
     padding: 8px 14px 8px 8px;
+}
+
+.navbar-brand {
+    font-size: 26px
 }
 
 /* Wrapping element */
@@ -240,37 +244,6 @@ textarea {
     left: 0;
 }
 
-/* ---------------------------------------- _ProjectsNav ---------------------------------------- */
-
-/* Creates the Account and Projects menu */
-.top-nav {
-    display: table;
-    margin: 0 auto 10px auto;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    list-style-type: none;
-    padding: 0;
-    overflow: hidden;
-    background-color: var(--mediumgray);
-}
-
-ul.top-nav .active {
-    background-color: var(--dogedarkgreen);
-    border-radius: 0 0 5px 5px;
-}
-
-ul.top-nav li {
-    float: left;
-}
-
-ul.top-nav li a {
-    color: seashell;
-    display: block;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
 
 /* ---------------------------------------- Tables ---------------------------------------- */
 
@@ -288,7 +261,7 @@ table a:hover, .glyphicon-remove:hover, .glyphicon-trash:hover {
 
 /* Set the columns to a fixed size */
 th:nth-child(1), td:nth-child(1) {
-    width: 30%;
+    width: 34%;
 }
 th:nth-child(2), td:nth-child(2) {
     width: 25%;
@@ -301,13 +274,13 @@ th:nth-child(4), td:nth-child(4) {
     width: 20%;
 }
 th:nth-child(5), td:nth-child(5) {
-    width: 10%;
+    width: 6%;
     text-align: right;
 }
 
 /* Makes the small window around the table */
 .table-container {
-    margin: 20px auto;
+    margin: 0 auto;
     padding: 0 20px;
     display: table;
     min-width: 335px;
@@ -317,13 +290,24 @@ th:nth-child(5), td:nth-child(5) {
     color: var(--main-hd-black);
 }
 
+/* Sets the font size of the text above the tables */
+.table-header {
+    font-size: 26px;
+    margin: 25px 0 2px 25px;
+}
+
+/* Makes it possible to have fixed sized columns */
 .table {
     table-layout: fixed;
     margin: 0;
 }
 
-.table tr {
-    color: var(--mediumgray);
+/* Colors the create and search icons */
+.glyphicon-plus-sign {
+    color: var(--dogegreen);
+}
+.glyphicon-search {
+    color: #1FAECC;
 }
 
 @media (min-width: 768px) {

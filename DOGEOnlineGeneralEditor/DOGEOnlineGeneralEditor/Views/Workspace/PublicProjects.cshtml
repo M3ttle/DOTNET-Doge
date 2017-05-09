@@ -7,37 +7,10 @@
 
 @Scripts.Render("~/bundles/jquery")
 
-@{Html.RenderPartial("_ProjectsNav"); }
+<div class="table-header">Public Projects  <i class="glyphicon glyphicon-search"></i></div>
 
-<div class="project-table">
-    <input type="text" class="search-box" placeholder="Search.." id="public-search">
-    <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
-    <button class="open-button">Open Project</button>
-    <div class="scroll-big">     
-        <table id="public-projcets">
-            <thead>
-                <tr>
-                    <th data-sortable="true">Name of project</th>
-                    <th>Number of Files</th>
-                    <th>Owner</th>
-                    <th>Date Created</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.PublicProjects)
-                {
-                    <tr>
-                        <td>@Html.ActionLink(item.Name, "Details", "Project", new { id = item.ProjectID }, null)</td>
-                        <td>@item.FileCount</td>
-                        <td>@item.Owner</td>
-                        <td>@item.DateCreated</td>
-                        <td class="id-col">@item.ProjectID</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+<div class="table-container">
+    <table id="public-projects-table" class="table">
+        @{ Html.RenderPartial("_ProjectTable", Model.PublicProjects); }
+    </table>
 </div>
-
-
-<script src="~/Scripts/table.js"></script>
