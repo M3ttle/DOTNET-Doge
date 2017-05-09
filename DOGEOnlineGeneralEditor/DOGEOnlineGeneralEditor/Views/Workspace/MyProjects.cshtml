@@ -70,6 +70,12 @@
         </table>
     </div>
     <button class="leave-button">Leave Project</button>
+    @using (Html.BeginForm("LeaveProject", "Project", FormMethod.Post, null))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("ProjectID", null, htmlAttributes: new { @id = "projectID" });
+        <input type="submit", id="leaveProjectSubmit" hidden="hidden"/>
+    }
 </div>
 
 
@@ -89,12 +95,18 @@
         window.location.href = '/Project/Details/' + ID;
     });
 
-
-
     $(".delete-button").on('click', function (e) {
         var ID = $('.highlighted td:nth-child(5)').html();
         if (ID) {
             window.location.href = '/Project/Delete/' + ID;
+        }
+    });
+
+    $(".leave-button").on('click', function (e) {
+        var ID = $('.highlighted td:nth-child(5)').html();
+        if (ID) {
+            $('#projectID').val(ID);
+            document.getElementById('leaveProjectSubmit').click();
         }
     });
 

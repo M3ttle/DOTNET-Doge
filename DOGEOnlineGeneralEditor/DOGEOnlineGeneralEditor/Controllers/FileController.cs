@@ -92,6 +92,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                     else
                     {
                         service.addFileToDatabase(file);
+                        TempData["Success"] = string.Format("{0} has been added to the project.", file.PostedFile.FileName);
                         return RedirectToAction("Details", "Project", new { ID = file.ProjectID });
                     }
                 }
