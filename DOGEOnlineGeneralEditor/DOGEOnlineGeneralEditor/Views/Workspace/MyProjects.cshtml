@@ -12,6 +12,13 @@
 {
     <div>@TempData["Success"]</div>
 }
+
+
+@{ Html.RenderPartial("_ProjectTable", Model.MyProjects); }
+
+@{ Html.RenderPartial("_ProjectTable", Model.CollaborationProjects); }
+
+
 <div class="project-table">
     <input type="text" class="search-box" placeholder="Search.." id="my-search">
     <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
@@ -34,7 +41,7 @@
                         <td>@item.FileCount</td>
                         <td>@item.DateCreated</td>
                         <td>@item.Owner</td>
-                        <td class="hidden-col">@item.ProjectID</td>
+                        <td class="id-col">@item.ProjectID</td>
                     </tr>
                 }
             </tbody>
@@ -63,7 +70,7 @@
                         <td>@item.FileCount</td>
                         <td>@item.DateCreated</td>
                         <td>@item.Owner</td>
-                        <td class="hidden-col">@item.ProjectID</td>
+                        <td class="id-col">@item.ProjectID</td>
                     </tr>
                 }
             </tbody>
