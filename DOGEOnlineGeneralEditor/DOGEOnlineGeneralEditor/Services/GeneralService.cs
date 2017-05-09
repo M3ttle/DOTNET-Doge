@@ -634,7 +634,6 @@ namespace DOGEOnlineGeneralEditor.Services
             database.UserProject.Add(userProject);
             database.SaveChanges();
         }
-
         public bool RemoveUserProject (int userID, int projectID)
         {
             var userProject = (from up in database.UserProject
@@ -690,8 +689,9 @@ namespace DOGEOnlineGeneralEditor.Services
         #endregion
 
 
-        // A List of functions needed to populate dropdown lists within the website
         #region HelperFunctions
+        // A List of functions needed to populate dropdown lists within the website
+        // some take in a parameter to assign the default selected item while others don't.
         public SelectList GetUserTypes()
         {
             return new SelectList(database.UserType, "ID", "Name");
@@ -700,12 +700,10 @@ namespace DOGEOnlineGeneralEditor.Services
         {
             return new SelectList(database.UserType, "ID", "Name", typeID);
         }
-
         public SelectList GetLanguageTypes()
         {
             return new SelectList(database.LanguageType, "ID", "Name");
         }
-
         public SelectList GetLanguageTypes(int typeID)
         {
             return new SelectList(database.LanguageType, "ID", "Name", typeID);
