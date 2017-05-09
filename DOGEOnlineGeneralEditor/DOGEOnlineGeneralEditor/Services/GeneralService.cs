@@ -21,7 +21,7 @@ namespace DOGEOnlineGeneralEditor.Services
         }
 
         #region FileService
-        public File getFileById(int id)
+        public File GetFileById(int id)
         {
             var result = (from x in database.File
                           where x.ID == id
@@ -29,7 +29,7 @@ namespace DOGEOnlineGeneralEditor.Services
             return result;
         }
         
-        public int getFileProjectID(int id)
+        public int GetFileProjectID(int id)
         {
             int result = (from f in database.File
                           where f.ID == id
@@ -44,7 +44,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// <param name="projectID"></param>
         /// <param name="fileName"></param>
         /// <returns>bool</returns>
-        public bool fileExists(int projectID, string fileName)
+        public bool FileExists(int projectID, string fileName)
         {
             File file = (from x in database.File
                          where x.Name == fileName
@@ -61,7 +61,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="fileID"></param>
         /// <returns></returns>
-        public bool fileExists(int fileID)
+        public bool FileExists(int fileID)
         {
             File file = database.File.Find(fileID);
 
@@ -72,7 +72,7 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
 
-		public void addFileToDatabase(CreateFileViewModel model)
+		public void AddFileToDatabase(CreateFileViewModel model)
 		{
             File file = new File
             {
@@ -85,7 +85,7 @@ namespace DOGEOnlineGeneralEditor.Services
 			database.SaveChanges();
 		}
 
-        public void addFileToDatabase(CreateFileFromFileViewModel model)
+        public void AddFileToDatabase(CreateFileFromFileViewModel model)
         {
             File file = new File
             {
@@ -99,7 +99,7 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
         }
 
-        public void createDefaultFile(int projectID)
+        public void CreateDefaultFile(int projectID)
         {
             LanguageType projectType = (from x in database.Project
                                         where x.ID == projectID
@@ -115,27 +115,27 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
         }
 
-        public void removeFile(int fileID)
+        public void RemoveFile(int fileID)
         {
             File file = database.File.Find(fileID);
             database.File.Remove(file);
             database.SaveChanges();
         }
 
-        public List<FileViewModel> getFileViewModelsForProject(int projectID)
+        public List<FileViewModel> GetFileViewModelsForProject(int projectID)
         {
             List<FileViewModel> fileViewModels = new List<FileViewModel>();
-            var files = getFilesForProject(projectID);
+            var files = GetFilesForProject(projectID);
 
             foreach(var file in files)
             {
-                fileViewModels.Add(convertFileToViewModel(file));
+                fileViewModels.Add(ConvertFileToViewModel(file));
             }
 
             return fileViewModels;
         }
 
-        public FileViewModel getFileViewModel(int fileID)
+        public FileViewModel GetFileViewModel(int fileID)
         {
             var file = (from x in database.File
                         where x.ID == fileID
@@ -144,13 +144,13 @@ namespace DOGEOnlineGeneralEditor.Services
             {
                 throw new FileNotFoundException();
             }
-            var fileViewModel = convertFileToViewModel(file);
+            var fileViewModel = ConvertFileToViewModel(file);
             return fileViewModel;
         }
 
-        public EditorViewModel getEditorViewModel(string userName, int fileID)
+        public EditorViewModel GetEditorViewModel(string userName, int fileID)
         {
-            int userID = getUserIDByName(userName);
+            int userID = GetUserIDByName(userName);
             var file = (from x in database.File
                         where x.ID == fileID
                         select x).SingleOrDefault();
@@ -158,11 +158,11 @@ namespace DOGEOnlineGeneralEditor.Services
             {
                 throw new FileNotFoundException();
             }
-            var editorViewModel = convertFileToEditorViewModel(userID, file);
+            var editorViewModel = ConvertFileToEditorViewModel(userID, file);
             return editorViewModel;
         }
 
-        public List<File> getFilesForProject(int projectID)
+        public List<File> GetFilesForProject(int projectID)
         {
             var files = (from x in database.File
                          where x.ProjectID == projectID
@@ -170,7 +170,7 @@ namespace DOGEOnlineGeneralEditor.Services
             return files;
         }
 
-        public FileViewModel convertFileToViewModel(File file)
+        public FileViewModel ConvertFileToViewModel(File file)
         {
             FileViewModel model = new FileViewModel
             {
@@ -183,9 +183,9 @@ namespace DOGEOnlineGeneralEditor.Services
             return model;
         }
 
-        public EditorViewModel convertFileToEditorViewModel(int userID, File file)
+        public EditorViewModel ConvertFileToEditorViewModel(int userID, File file)
         {
-            string aceTheme = getUserTheme(userID);
+            string aceTheme = GetUserTheme(userID);
             EditorViewModel model = new EditorViewModel
             {
                 ProjectID = file.ProjectID,
@@ -194,7 +194,7 @@ namespace DOGEOnlineGeneralEditor.Services
                 Data = file.Data,
                 LanguageTypeID = file.LanguageTypeID,
                 UserThemeID = aceTheme,
-                LanguageTypes = getLanguageTypeList(file.LanguageTypeID),
+                LanguageTypes = GetLanguageTypeList(file.LanguageTypeID),
             };
             return model;
         }
@@ -203,7 +203,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// Function which saves an updated file to the database.
         /// </summary>
         /// <param name="model"></param>
-        public void saveFile(EditorViewModel model)
+        public void SaveFile(EditorViewModel model)
         {
             File file = database.File.Find(model.ID);
             file.Name = model.Name;
@@ -222,9 +222,9 @@ namespace DOGEOnlineGeneralEditor.Services
         /// <param name="userID"></param>
         /// <param name="projectName"></param>
         /// <returns></returns>
-        public bool projectExists(string userName, string projectName)
+        public bool ProjectExists(string userName, string projectName)
         {
-            int userID = getUserIDByName(userName);
+            int userID = GetUserIDByName(userName);
 
             var project = (from x in database.UserProject
                            where x.UserID == userID
@@ -239,9 +239,9 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
         
-        public void addProjectToDatabase(ProjectViewModel model)
+        public void AddProjectToDatabase(ProjectViewModel model)
         {
-            int ownerID = getUserIDByName(model.Owner);
+            int ownerID = GetUserIDByName(model.Owner);
             Project project = new Project
             {
                 Name = model.Name,
@@ -254,11 +254,11 @@ namespace DOGEOnlineGeneralEditor.Services
             database.Project.Add(project);
             database.SaveChanges();
 
-            int projectID = getProjectID(ownerID, model.Name);
-            createDefaultFile(projectID);
+            int projectID = GetProjectID(ownerID, model.Name);
+            CreateDefaultFile(projectID);
         }
 
-        public int getProjectID(int ownerID, string name)
+        public int GetProjectID(int ownerID, string name)
         {
             int id = (from x in database.Project
                       where x.Name == name
@@ -272,23 +272,23 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
-        public MyProjectsViewModel getMyProjectsByName(string userName)
+        public MyProjectsViewModel GetMyProjectsByName(string userName)
         {
-            int userID = getUserIDByName(userName);
+            int userID = GetUserIDByName(userName);
 
-            var ownedProjects = getOwnedProjects(userID);
+            var ownedProjects = GetOwnedProjects(userID);
             List<ProjectViewModel> ownedProjectsViewModels = new List<ProjectViewModel>();
             foreach (var project in ownedProjects)
             {
-                var projectVieModel = convertProjectToViewModel(project);
+                var projectVieModel = ConvertProjectToViewModel(project);
                 ownedProjectsViewModels.Add(projectVieModel);
             }
 
-            var collaborationProjects = getCollaborationProjects(userID);
+            var collaborationProjects = GetCollaborationProjects(userID);
             List<ProjectViewModel> collaboartionProjectsViewModel = new List<ProjectViewModel>();
             foreach (var project in collaborationProjects)
             {
-                var projectVieModel = convertProjectToViewModel(project);
+                var projectVieModel = ConvertProjectToViewModel(project);
                 collaboartionProjectsViewModel.Add(projectVieModel);
             }
 
@@ -301,7 +301,7 @@ namespace DOGEOnlineGeneralEditor.Services
             return model;
         }
 
-        public PublicProjectsViewModel getPublicProjects()
+        public PublicProjectsViewModel GetPublicProjects()
         {
             List<ProjectViewModel> publicProjects = new List<ProjectViewModel>();
             var result = (from p in database.Project
@@ -310,7 +310,7 @@ namespace DOGEOnlineGeneralEditor.Services
 
             foreach (var project in result)
             {
-                var projectViewModel = convertProjectToViewModel(project);
+                var projectViewModel = ConvertProjectToViewModel(project);
                 publicProjects.Add(projectViewModel);
             }
 
@@ -322,7 +322,7 @@ namespace DOGEOnlineGeneralEditor.Services
             return model;
         }
 
-        public ProjectViewModel getProjectViewModelByID(int id)
+        public ProjectViewModel GetProjectViewModelByID(int id)
         {
             var project = (from p in database.Project
                            where p.ID == id
@@ -333,14 +333,14 @@ namespace DOGEOnlineGeneralEditor.Services
                 throw new Exception();
             }
 
-            var projectViewModel = convertProjectToViewModel(project);
-            projectViewModel.Files = getFileViewModelsForProject(id);
+            var projectViewModel = ConvertProjectToViewModel(project);
+            projectViewModel.Files = GetFileViewModelsForProject(id);
 
 
             return projectViewModel;
         }
 
-        public bool removeProject(int projectID)
+        public bool RemoveProject(int projectID)
         {
             Project project = database.Project.Find(projectID);
             foreach(File file in project.Files.ToList())
@@ -356,7 +356,7 @@ namespace DOGEOnlineGeneralEditor.Services
             return true;
         }
 
-        public void editProject(ProjectViewModel projectViewModel)
+        public void EditProject(ProjectViewModel projectViewModel)
         {
             Project project = database.Project.Find(projectViewModel.ProjectID);
             project.Name = projectViewModel.Name;
@@ -373,7 +373,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        private List<Project> getOwnedProjects(int userID)
+        private List<Project> GetOwnedProjects(int userID)
         {
             var result = (from p in database.Project
                           join up in database.UserProject
@@ -389,7 +389,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        private List<Project> getCollaborationProjects(int userID)
+        private List<Project> GetCollaborationProjects(int userID)
         {
             var result = (from p in database.Project
                           join up in database.UserProject
@@ -399,9 +399,9 @@ namespace DOGEOnlineGeneralEditor.Services
                           select p).ToList();
             return result;
         }
-        private ProjectViewModel convertProjectToViewModel(Project project)
+        private ProjectViewModel ConvertProjectToViewModel(Project project)
         {
-            string userName = getUserNameByID(project.OwnerID);
+            string userName = GetUserNameByID(project.OwnerID);
             ProjectViewModel model = new ProjectViewModel
             {
                 ProjectID = project.ID,
@@ -414,9 +414,9 @@ namespace DOGEOnlineGeneralEditor.Services
 
             return model;
         }
-        private int getProjectIDFromViewModel(ProjectViewModel model)
+        private int GetProjectIDFromViewModel(ProjectViewModel model)
         {
-            int userID = getUserIDByName(model.Owner);
+            int userID = GetUserIDByName(model.Owner);
             var project = (from x in database.Project
                            where x.Name == model.Name
                            && x.OwnerID == userID
@@ -429,9 +429,9 @@ namespace DOGEOnlineGeneralEditor.Services
 
         #region UserService
 
-        public bool hasAccess(string userName, int projectID)
+        public bool HasAccess(string userName, int projectID)
         {
-            int userID = getUserIDByName(userName);
+            int userID = GetUserIDByName(userName);
             var result = (from x in database.UserProject
                           where x.UserID == userID
                           && x.ProjectID == projectID
@@ -449,7 +449,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>UserViewModel</returns>
-        public UserViewModel getUserbyID(int userID)
+        public UserViewModel GetUserbyID(int userID)
         {
             User user = (from x in database.User
                         where x.ID == userID
@@ -470,7 +470,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="username"></param>
         /// <returns>UserViewModel</returns>
-        public UserViewModel getUserByUserName(string username)
+        public UserViewModel GetUserByUserName(string username)
         {
             User user = (from x in database.User
                          where x.Name == username
@@ -486,7 +486,7 @@ namespace DOGEOnlineGeneralEditor.Services
             };
         }
 
-		public IndexViewModel getUserAccountInfoByUserName(string username)
+		public IndexViewModel GetUserAccountInfoByUserName(string username)
 		{
 			User user = (from x in database.User
 						 where x.Name == username
@@ -504,7 +504,7 @@ namespace DOGEOnlineGeneralEditor.Services
 			};
 		}
 
-        public string getUserTheme(int userID)
+        public string GetUserTheme(int userID)
         {
             string result = (from x in database.User
                              where x.ID == userID
@@ -517,7 +517,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="applicationUser"></param>
         /// <returns>bool</returns>
-        public void createUser(RegisterViewModel model)
+        public void CreateUser(RegisterViewModel model)
         {
             var user = new User
             {
@@ -525,7 +525,7 @@ namespace DOGEOnlineGeneralEditor.Services
                 Email = model.Email,
                 DateCreated = DateTime.Now,
                 Gender = model.Gender,
-                AceThemeID = "Chrome",
+                AceThemeID = "ace/theme/cobalt",
                 UserTypeID = model.UserTypeID
             };
 
@@ -538,9 +538,9 @@ namespace DOGEOnlineGeneralEditor.Services
 		/// </summary>
 		/// <param name="applicationUser"></param>
 		/// <returns>bool</returns>
-		public void updateUser(IndexViewModel model)
+		public void UpdateUser(IndexViewModel model)
 		{
-			int ID = getUserIDByName(model.Name);
+			int ID = GetUserIDByName(model.Name);
 			User user = database.User.Find(ID);
 			user.Email = model.Email;
 			user.Gender = model.Gender;
@@ -550,7 +550,7 @@ namespace DOGEOnlineGeneralEditor.Services
 			database.SaveChanges();
 		}
 
-        public void updateUserTheme(int userID, string newTheme)
+        public void UpdateUserTheme(int userID, string newTheme)
         {
             User user = database.User.Find(userID);
             user.AceThemeID = newTheme;
@@ -563,7 +563,7 @@ namespace DOGEOnlineGeneralEditor.Services
         /// </summary>
         /// <param name="name"></param>
         /// <returns>bool</returns>
-        public bool userExists(string name)
+        public bool UserExists(string name)
         {
             User user = (from x in database.User
                          where x.Name == name
@@ -575,7 +575,7 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
 
-        public bool userProjectExists(int userID, int projectID)
+        public bool UserProjectExists(int userID, int projectID)
         {
             UserProject userProject = (from x in database.UserProject
                                        where x.UserID == userID
@@ -587,7 +587,7 @@ namespace DOGEOnlineGeneralEditor.Services
             }
             return false;
         }
-        public int getUserIDByName(string userName)
+        public int GetUserIDByName(string userName)
         {
             int id = (from x in database.User
                       where x.Name == userName
@@ -595,21 +595,21 @@ namespace DOGEOnlineGeneralEditor.Services
             return id;
         }
 
-        public string getUserNameByID(int userID)
+        public string GetUserNameByID(int userID)
         {
             string name = (from x in database.User
                            where x.ID == userID
                            select x.Name).SingleOrDefault();
             return name;
         }
-        public bool addUserToProject(int userID, int projectID)
+        public bool AddUserToProject(int userID, int projectID)
         {
             UserProject userProject = new UserProject
             {
                 UserID = userID,
                 ProjectID = projectID
             };
-            if (userProjectExists(userID, projectID))
+            if (UserProjectExists(userID, projectID))
             {
                 // duplicateexception
                 return false;
@@ -618,16 +618,16 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
             return true;
         }
-        public void addUserToProject(string userName, ProjectViewModel project)
+        public void AddUserToProject(string userName, ProjectViewModel project)
         {
-            int userID = getUserIDByName(userName);
-            int projectID = getProjectIDFromViewModel(project);
+            int userID = GetUserIDByName(userName);
+            int projectID = GetProjectIDFromViewModel(project);
             UserProject userProject = new UserProject
             {
                 UserID = userID,
                 ProjectID = projectID
             };
-            if(userProjectExists(userID, projectID))
+            if(UserProjectExists(userID, projectID))
             {
                 // duplicateexception
             }
@@ -635,7 +635,7 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
         }
 
-        public bool removeUserProject (int userID, int projectID)
+        public bool RemoveUserProject (int userID, int projectID)
         {
             var userProject = (from up in database.UserProject
                                where up.UserID == userID
@@ -649,9 +649,9 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
             return true;
         }
-        public UserCollabViewModel getCollaboratorViewModel(string userName, int projectID)
+        public UserCollabViewModel GetCollaboratorViewModel(string userName, int projectID)
         {
-            int userID = getUserIDByName(userName);
+            int userID = GetUserIDByName(userName);
             var allUsers = (from up in database.UserProject
                             where up.UserID != userID
                             select up.User);
@@ -692,25 +692,25 @@ namespace DOGEOnlineGeneralEditor.Services
 
         // A List of functions needed to populate dropdown lists within the website
         #region HelperFunctions
-        public SelectList getUserTypes()
+        public SelectList GetUserTypes()
         {
             return new SelectList(database.UserType, "ID", "Name");
         }
-        public SelectList getUserTypes(int typeID)
+        public SelectList GetUserTypes(int typeID)
         {
             return new SelectList(database.UserType, "ID", "Name", typeID);
         }
 
-        public SelectList getLanguageTypes()
+        public SelectList GetLanguageTypes()
         {
             return new SelectList(database.LanguageType, "ID", "Name");
         }
 
-        public SelectList getLanguageTypes(int typeID)
+        public SelectList GetLanguageTypes(int typeID)
         {
             return new SelectList(database.LanguageType, "ID", "Name", typeID);
         }
-        public List<LanguageType> getLanguageTypeList(int typeID)
+        public List<LanguageType> GetLanguageTypeList(int typeID)
         {
             List<LanguageType> list = new List<LanguageType>();
             var result = (from x in database.LanguageType
@@ -718,7 +718,7 @@ namespace DOGEOnlineGeneralEditor.Services
             result.ForEach(c => list.Add(c));
             return result;
         }
-        public SelectList getAceThemes(string themeID)
+        public SelectList GetAceThemes(string themeID)
         {
             return new SelectList(database.AceTheme, "ID", "Theme", themeID);
         }

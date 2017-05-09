@@ -35,7 +35,7 @@ namespace DOGEOnlineGeneralEditor.Tests.Services
         {
             const int id = 1;
 
-            var file = service.getFileById(id);
+            var file = service.GetFileById(id);
 
             Assert.AreEqual(id, file.ID);
         }

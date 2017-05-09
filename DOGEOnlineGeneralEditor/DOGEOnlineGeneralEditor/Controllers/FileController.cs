@@ -33,12 +33,12 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if(service.hasAccess(User.Identity.Name, id.Value) == false)
+            if(service.HasAccess(User.Identity.Name, id.Value) == false)
             {
                 throw new UnauthorizedAccessToProjectException();
             }
 
-            ViewBag.LanguageTypeID = service.getLanguageTypes();
+            ViewBag.LanguageTypeID = service.GetLanguageTypes();
 
             CreateFileViewModel model = new CreateFileViewModel { ProjectID = id.Value };
             return View(model);
@@ -51,22 +51,22 @@ namespace DOGEOnlineGeneralEditor.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(service.hasAccess(User.Identity.Name, file.ProjectID) == false)
+                if(service.HasAccess(User.Identity.Name, file.ProjectID) == false)
                 {
                     throw new UnauthorizedAccessException();
                 }
-                else if(service.fileExists(file.ProjectID, file.Name))
+                else if(service.FileExists(file.ProjectID, file.Name))
                 {
                     ModelState.AddModelError("", "A file with that name already exists in this project");
                 }
                 else
                 {
-                    service.addFileToDatabase(file);
+                    service.AddFileToDatabase(file);
                     return RedirectToAction("Details", "Project", new { ID = file.ProjectID});
                 }
             }
 
-            ViewBag.LanguageTypeID = service.getLanguageTypes(file.LanguageTypeID);
+            ViewBag.LanguageTypeID = service.GetLanguageTypes(file.LanguageTypeID);
             return View(file);
         }
 
@@ -85,19 +85,19 @@ namespace DOGEOnlineGeneralEditor.Controllers
                         file.Data = encoded;
                     }
 
-                    if (service.fileExists(file.ProjectID, file.PostedFile.FileName))
+                    if (service.FileExists(file.ProjectID, file.PostedFile.FileName))
                     {
                         ModelState.AddModelError("", "A file with that name already exists in this project");
                     }
                     else
                     {
-                        service.addFileToDatabase(file);
+                        service.AddFileToDatabase(file);
                         TempData["Success"] = string.Format("{0} has been added to the project.", file.PostedFile.FileName);
                         return RedirectToAction("Details", "Project", new { ID = file.ProjectID });
                     }
                 }
             }
-            ViewBag.LanguageTypeID = service.getLanguageTypes(file.LanguageTypeID);
+            ViewBag.LanguageTypeID = service.GetLanguageTypes(file.LanguageTypeID);
             return View("Create");
         }
 
@@ -111,10 +111,10 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            if(service.fileExists(fileID.Value))
+            if(service.FileExists(fileID.Value))
             {
-                int projectID = service.getFileProjectID(fileID.Value);
-                service.removeFile(fileID.Value);
+                int projectID = service.GetFileProjectID(fileID.Value);
+                service.RemoveFile(fileID.Value);
                 return RedirectToAction("Details", "Project", new { ID = projectID});
             }
             //File does not exist exception!
@@ -130,17 +130,17 @@ namespace DOGEOnlineGeneralEditor.Controllers
             model.Data = encoded;
             if (ModelState.IsValid)
             {
-                if(service.fileExists(model.ProjectID, model.Name))
+                if(service.FileExists(model.ProjectID, model.Name))
                 {
                     // File Exists!!
                 }
                 else
                 {
-                    service.saveFile(model);
-                    int userID = service.getUserIDByName(User.Identity.Name);
-                    if (model.UserThemeID != service.getUserTheme(userID))
+                    service.SaveFile(model);
+                    int userID = service.GetUserIDByName(User.Identity.Name);
+                    if (model.UserThemeID != service.GetUserTheme(userID))
                     {
-                        service.updateUserTheme(userID, model.UserThemeID);
+                        service.UpdateUserTheme(userID, model.UserThemeID);
                     }
                 }
             }
