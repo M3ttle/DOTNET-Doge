@@ -53,7 +53,11 @@ namespace DOGEOnlineGeneralEditor.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(service.fileExists(file.ProjectID, file.Name))
+                if(service.hasAccess(User.Identity.Name, file.ProjectID) == false)
+                {
+                    throw new UnauthorizedAccessException();
+                }
+                else if(service.fileExists(file.ProjectID, file.Name))
                 {
                     ModelState.AddModelError("", "A file with that name already exists in this project");
                 }
@@ -121,6 +125,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
 
         // POST: File/Save/2
         [HttpPost, ValidateInput(false)]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(FileViewModel model)
         {
             string encoded = Server.HtmlEncode(model.Data);

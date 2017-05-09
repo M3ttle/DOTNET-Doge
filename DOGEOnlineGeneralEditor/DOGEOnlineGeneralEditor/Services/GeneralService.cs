@@ -140,6 +140,10 @@ namespace DOGEOnlineGeneralEditor.Services
             var file = (from x in database.File
                         where x.ID == fileID
                         select x).SingleOrDefault();
+            if(file == null)
+            {
+                throw new FileNotFoundException();
+            }
             var fileViewModel = convertFileToViewModel(file);
             return fileViewModel;
         }
