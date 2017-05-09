@@ -83,11 +83,12 @@ $("form").on("submit", function () {
         method: "POST",
         url: form.attr("action"),
         data: form.serialize(),
-        error: function (xhr, err) {
-            // Note: just for debugging purposes!
-            console.log("readyState: " + xhr.readyState +
-                "\nstatus: " + xhr.status);
-            console.log("responseText: " + xhr.responseText);
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            if (response.success === false) {
+                alert(response.responseText);
+            }
         }
     });
     return false;

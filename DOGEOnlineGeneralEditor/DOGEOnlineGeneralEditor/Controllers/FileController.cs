@@ -122,7 +122,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         }
 
         // POST: File/Save/2
-        [HttpPost, ValidateInput(false)]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(EditorViewModel model)
         {
@@ -132,7 +132,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 if(service.FileExists(model.ProjectID, model.Name, model.ID))
                 {
-
+                    return Json(new { success = false, responseText = "A file with that name already exists in this project" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -142,10 +142,10 @@ namespace DOGEOnlineGeneralEditor.Controllers
                     {
                         service.UpdateUserTheme(userID, model.UserThemeID);
                     }
+                    return Json(new { success = true, responseText = "Saved" }, JsonRequestBehavior.AllowGet);
                 }
             }
-
-            return RedirectToAction("Editor", "Workspace", new { ID = model.ID });
+            return Json(new { success = false, responseText = "The filename must be between 3-30 characters long" }, JsonRequestBehavior.AllowGet);
         }
     }
 }
