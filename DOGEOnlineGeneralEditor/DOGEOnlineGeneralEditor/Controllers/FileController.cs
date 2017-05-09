@@ -11,13 +11,13 @@ using DOGEOnlineGeneralEditor.Models.POCO;
 using DOGEOnlineGeneralEditor.Models.ViewModels;
 using DOGEOnlineGeneralEditor.Services;
 using System.IO;
+using DOGEOnlineGeneralEditor.Utilities;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
     [Authorize]
     public class FileController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
 		private GeneralService service;
 
 		public FileController()
@@ -25,12 +25,6 @@ namespace DOGEOnlineGeneralEditor.Controllers
 			service = new GeneralService(null);
 		}
 
-        // GET: Files
-        public ActionResult Index()
-        {
-            var files = db.File.Include(f => f.LanguageType).Include(f => f.Project);
-            return View(files.ToList());
-        }
 
         // GET: File/Create
         public ActionResult Create(int? id)
@@ -38,6 +32,10 @@ namespace DOGEOnlineGeneralEditor.Controllers
             if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if(service.hasAccess(User.Identity.Name, id.Value) == false)
+            {
+                throw new UnauthorizedAccessToProjectException();
             }
 
             ViewBag.LanguageTypeID = service.getLanguageTypes();
@@ -80,7 +78,9 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 {
                     using (StreamReader sr = new StreamReader(file.PostedFile.InputStream))
                     {
-                        file.Data = sr.ReadToEnd();
+                        string rawInput = sr.ReadToEnd();
+                        string encoded = Server.HtmlEncode(rawInput);
+                        file.Data = encoded;
                     }
 
                     if (service.fileExists(file.ProjectID, file.PostedFile.FileName))
@@ -90,7 +90,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                     else
                     {
                         service.addFileToDatabase(file);
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Details", "Project", new { ID = file.ProjectID });
                     }
                 }
             }
@@ -111,17 +111,19 @@ namespace DOGEOnlineGeneralEditor.Controllers
             if(service.fileExists(fileID.Value))
             {
                 service.removeFile(fileID.Value);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Project", new { ID = service.getFileProjectID(fileID.Value)});
             }
             //File does not exist exception!
             throw new Exception();
         }
 
         // POST: File/Save/2
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         public ActionResult Save(FileViewModel model)
         {
-            if(ModelState.IsValid)
+            string encoded = Server.HtmlEncode(model.Data);
+            model.Data = encoded;
+            if (ModelState.IsValid)
             {
                 if(service.fileExists(model.ProjectID, model.Name))
                 {
@@ -133,15 +135,6 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 }
             }
             return RedirectToAction("Editor", "Workspace", new { ID = model.ID });
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

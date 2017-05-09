@@ -28,6 +28,14 @@ namespace DOGEOnlineGeneralEditor.Services
                           select x).SingleOrDefault();
             return result;
         }
+        
+        public int getFileProjectID(int id)
+        {
+            int result = (from f in database.File
+                          where f.ID == id
+                          select f.ProjectID).SingleOrDefault();
+            return result;
+        }
 
         /// <summary>
         /// Function that returns true if the project with the given projectID contains a file
@@ -575,16 +583,34 @@ namespace DOGEOnlineGeneralEditor.Services
             database.UserProject.Add(userProject);
             database.SaveChanges();
         }
-        public UserCollabViewModel getCollaboratorViewModel(int projectID)
+
+        public bool removeUserProject (int userID, int projectID)
         {
-            var allUsers = from up in database.UserProject
-                                      select up.User;
+            var userProject = (from up in database.UserProject
+                               where up.UserID == userID
+                               && up.ProjectID == projectID
+                               select up).SingleOrDefault();
+            if(userProject == null)
+            {
+                return false;
+            }
+            database.UserProject.Remove(userProject);
+            database.SaveChanges();
+            return true;
+        }
+        public UserCollabViewModel getCollaboratorViewModel(string userName, int projectID)
+        {
+            int userID = getUserIDByName(userName);
+            var allUsers = (from up in database.UserProject
+                            where up.UserID != userID
+                            select up.User);
 
             var Collaborators = (from u in database.User
-                                join up in database.UserProject
-                                on u.ID equals up.UserID
-                                where up.ProjectID == projectID
-                                select u).Distinct();
+                                 join up in database.UserProject
+                                 on u.ID equals up.UserID
+                                 where up.ProjectID == projectID
+                                 && u.ID != userID
+                                 select u).Distinct();
 
             List <UserViewModel> CollaboratorList = new List<UserViewModel>();
             foreach (User user in Collaborators)
@@ -613,25 +639,15 @@ namespace DOGEOnlineGeneralEditor.Services
         #endregion
 
 
+        // A List of functions needed to populate dropdown lists within the website
         #region HelperFunctions
-        public List<SelectListItem> getGenders()
+        public SelectList getUserTypes()
         {
-            var genders = new List<SelectListItem>();
-            genders.Add(new SelectListItem() { Text = "Male", Value = "Male" });
-            genders.Add(new SelectListItem() { Text = "Female", Value = "Female" });
-            genders.Add(new SelectListItem() { Text = "Other", Value = "Other" });
-            return genders;
+            return new SelectList(database.UserType, "ID", "Name");
         }
-
-        public List<SelectListItem> getUserTypes()
+        public SelectList getUserTypes(int typeID)
         {
-            var userTypes = new List<SelectListItem>();
-            
-            foreach(UserType type in database.UserType)
-            {
-                userTypes.Add(new SelectListItem() { Text = type.Name, Value = type.ID.ToString() });
-            }
-            return userTypes;
+            return new SelectList(database.UserType, "ID", "Name", typeID);
         }
 
         public SelectList getLanguageTypes()
