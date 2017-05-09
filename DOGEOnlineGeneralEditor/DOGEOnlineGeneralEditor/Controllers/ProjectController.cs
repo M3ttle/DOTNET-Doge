@@ -71,6 +71,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                     model.Owner = userName;
                     service.addProjectToDatabase(model);
                     service.addUserToProject(userName, model);
+                    TempData["Success"] = string.Format("{0} has been created", model.Name);
                     return RedirectToAction("MyProjects", "Workspace", null);
                 }
             }
@@ -103,13 +104,14 @@ namespace DOGEOnlineGeneralEditor.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (service.projectExists(project.Owner, project.Name))
+                if (service.projectExists(User.Identity.Name, project.Name))
                 {
                     ModelState.AddModelError("", "You already have a project with that name");
                 }
                 else
                 {
                     service.editProject(project);
+                    TempData["Success"] = project.Name + " was successfully edited.";
                     return RedirectToAction("Details", "Project", new { ID = project.ProjectID });
                 }
 
@@ -133,6 +135,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             if (project.Owner != User.Identity.Name)
             {
                 // User is not projectect owner = not allowed to delete
+                ModelState.AddModelError("", "You cannot delete a project you do now own");
             }
             return View(project);
         }
@@ -151,7 +154,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 service.removeProject(id);
             }
-            return RedirectToAction("Details", "Project", new { ID = id });
+            return RedirectToAction("MyProjects", "Workspace", null);
         }
         // Get: 
         [HttpGet]

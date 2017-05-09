@@ -8,14 +8,16 @@
 
 @{Html.RenderPartial("_ProjectsNav"); }
 
-
-
+@if (TempData["Success"] != null)
+{
+    <div>@TempData["Success"]</div>
+}
 <div class="project-table">
     <input type="text" class="search-box" placeholder="Search.." id="my-search">
     <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
     <button class="open-button">Open Project</button>
     <div class="scroll">
-        <table id="my-projcets">
+        <table id="my-projects">
             <thead>
                 <tr>
                     <th>Name of project</th>
@@ -85,6 +87,31 @@
     $(".open-button").on('click', function (e) {
         var ID = $('.highlighted td:nth-child(5)').html();
         window.location.href = '/Project/Details/' + ID;
+    });
+
+
+
+    $(".delete-button").on('click', function (e) {
+        var ID = $('.highlighted td:nth-child(5)').html();
+        if (ID) {
+            window.location.href = '/Project/Delete/' + ID;
+        }
+    });
+
+    var $srows = $('#shared-projects tbody tr');
+    var $mrows = $('#my-projects tbody tr');
+    $('#my-search').keyup(function () {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+        $srows.show().filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+
+        $mrows.show().filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
     });
 
 </script>

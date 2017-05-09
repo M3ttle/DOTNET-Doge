@@ -204,6 +204,9 @@ textarea {
     min-height: 10px;
 }
 
+.hidden-col {
+    display: none;
+}
 
 /* ---------------------------------------- _ProjectsNav ---------------------------------------- */
 
@@ -235,5 +238,6 @@ ul.top-nav li a {
     padding: 14px 16px;
     text-decoration: none;
 }
+
 
 
