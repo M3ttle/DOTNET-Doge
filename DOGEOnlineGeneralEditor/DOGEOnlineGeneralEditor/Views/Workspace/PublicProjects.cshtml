@@ -9,8 +9,6 @@
 
 @{Html.RenderPartial("_ProjectsNav"); }
 
-
-
 <div class="project-table">
     <input type="text" class="search-box" placeholder="Search.." id="public-search">
     <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
@@ -19,7 +17,7 @@
         <table id="public-projcets">
             <thead>
                 <tr>
-                    <th>Name of project</th>
+                    <th data-sortable="true">Name of project</th>
                     <th>Number of Files</th>
                     <th>Owner</th>
                     <th>Date Created</th>
@@ -42,9 +40,9 @@
 </div>
 
 
-<script type="text/javascript">
+<script>
     $("#public-projcets tbody tr").click(function () {
-        $('#public-projcets tr').removeClass('highlighted');
+        $('#public-projcets tr').removeClass('highlighted'); dell
         $(this).addClass('highlighted');
     });
 
@@ -53,4 +51,14 @@
         window.location.href = '/Project/Details/' + ID;
     });
 
+
+    var $prows = $('#public-projcets tbody tr');
+    $('#public-search').keyup(function () {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+        $prows.show().filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
 </script>
