@@ -181,7 +181,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
             int.TryParse(formCollection["ProjectID"], out projectID);
             if (service.addUserToProject(userID, projectID))
             {
-                TempData["Success"] = "User was added to the project";
+                string collaboratorName = service.getUserNameByID(userID);
+                TempData["Success"] = string.Format("{0} was added to the project", collaboratorName);
                 return RedirectToAction("AddUserToProject", new { ID = projectID });
             }
             // Some error happened if we got here

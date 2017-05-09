@@ -4,6 +4,10 @@
 }
 
 <h2>AddUserToProject</h2>
+@if(TempData["Success"] != null)
+{
+    <div>@TempData["Success"]</div>
+}
 <div class="project-table">
     <table class="table">
         <tr>
