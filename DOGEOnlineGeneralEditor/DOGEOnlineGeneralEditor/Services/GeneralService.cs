@@ -21,6 +21,11 @@ namespace DOGEOnlineGeneralEditor.Services
         }
 
         #region FileService
+        /// <summary>
+        /// Returns the ID of the Project that contains the File whose ID is sent as the parameter of the function.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>int</returns>
         public int GetFileProjectID(int id)
         {
             int result = (from f in database.File
@@ -30,7 +35,7 @@ namespace DOGEOnlineGeneralEditor.Services
         }
 
         /// <summary>
-        /// Function that returns true if the project with the given projectID contains a file
+        /// Function that returns true if the Project with the given projectID contains a File
         /// whose filename is fileName.
         /// </summary>
         /// <param name="projectID"></param>
@@ -48,6 +53,14 @@ namespace DOGEOnlineGeneralEditor.Services
             }
             return false;
         }
+
+        /// <summary>
+        /// Function that returns whether a File exists in the database.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="fileName"></param>
+        /// <param name="fileID"></param>
+        /// <returns>bool</returns>
         public bool FileExists(int projectID, string fileName, int fileID)
         {
             File file = (from x in database.File
@@ -62,10 +75,10 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
         /// <summary>
-        /// Function that returns true if the fileID is infact a valid file in the database.
+        /// Function that returns true if a File with the ID fileID exists in the database
         /// </summary>
         /// <param name="fileID"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         public bool FileExists(int fileID)
         {
             File file = database.File.Find(fileID);
@@ -77,6 +90,10 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
 
+        /// <summary>
+        /// Function that creates a File and adds it to the database.
+        /// </summary>
+        /// <param name="model"></param>
 		public void AddFileToDatabase(CreateFileViewModel model)
 		{
             File file = new File
@@ -90,6 +107,10 @@ namespace DOGEOnlineGeneralEditor.Services
 			database.SaveChanges();
 		}
 
+        /// <summary>
+        /// File that creates a File from an uploaded file and adds it to the database.
+        /// </summary>
+        /// <param name="model"></param>
         public void AddFileToDatabase(CreateFileFromFileViewModel model)
         {
             File file = new File
@@ -104,6 +125,11 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
         }
 
+        /// <summary>
+        /// Function that creates the default File for a new Project, whose filename depends on the 
+        /// language type of the Project.
+        /// </summary>
+        /// <param name="projectID"></param>
         public void CreateDefaultFile(int projectID)
         {
             LanguageType projectType = (from x in database.Project
@@ -120,6 +146,10 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
         }
 
+        /// <summary>
+        /// Function that removes the File with the ID fileID from the database.
+        /// </summary>
+        /// <param name="fileID"></param>
         public void RemoveFile(int fileID)
         {
             File file = database.File.Find(fileID);
@@ -127,6 +157,11 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
         }
 
+        /// <summary>
+        /// Function that returns a List of FileViewModels
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns>List<FileViewModel></returns>
         public List<FileViewModel> GetFileViewModelsForProject(int projectID)
         {
             List<FileViewModel> fileViewModels = new List<FileViewModel>();
@@ -139,6 +174,7 @@ namespace DOGEOnlineGeneralEditor.Services
 
             return fileViewModels;
         }
+
         /*
         public FileViewModel GetFileViewModel(int fileID)
         {
@@ -151,8 +187,10 @@ namespace DOGEOnlineGeneralEditor.Services
             }
             var fileViewModel = ConvertFileToViewModel(file);
             return fileViewModel;
-        }*/
+        }
+        */
 
+        
         public EditorViewModel GetEditorViewModel(string userName, int fileID)
         {
             int userID = GetUserIDByName(userName);
@@ -167,6 +205,11 @@ namespace DOGEOnlineGeneralEditor.Services
             return editorViewModel;
         }
 
+        /// <summary>
+        /// Returns a List of Files that a Project contains
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns>List<File></returns>
         public List<File> GetFilesForProject(int projectID)
         {
             var files = (from x in database.File
@@ -175,6 +218,11 @@ namespace DOGEOnlineGeneralEditor.Services
             return files;
         }
 
+        /// <summary>
+        /// Function that creates a FileViewModel from a File.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns>FileViewModel</returns>
         public FileViewModel ConvertFileToViewModel(File file)
         {
             FileViewModel model = new FileViewModel
@@ -188,6 +236,12 @@ namespace DOGEOnlineGeneralEditor.Services
             return model;
         }
 
+        /// <summary>
+        /// Function that creates a EditorViewModel from a file.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="file"></param>
+        /// <returns>EditorViewModel</returns>
         public EditorViewModel ConvertFileToEditorViewModel(int userID, File file)
         {
             string aceTheme = GetUserTheme(userID);
@@ -221,12 +275,11 @@ namespace DOGEOnlineGeneralEditor.Services
 
         #region ProjectService
         /// <summary>
-        /// Function that returns true if a user with the given Id has access to a project
-        /// whose name is projectName
+        /// Function that returns true if a User is the owner of the Project
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="projectName"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         public bool ProjectExists(string userName, string projectName)
         {
             int userID = GetUserIDByName(userName);
@@ -244,6 +297,10 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
 
+        /// <summary>
+        /// Function that adds a Project to the database.
+        /// </summary>
+        /// <param name="model"></param>
         public void AddProjectToDatabase(ProjectViewModel model)
         {
             int ownerID = GetUserIDByName(model.Owner);
@@ -264,6 +321,13 @@ namespace DOGEOnlineGeneralEditor.Services
             CreateDefaultFile(projectID);
         }
         
+        /// <summary>
+        /// Function that returns the ID of a Project whose Name is name and is owned by 
+        /// the User with the ID ownerID.
+        /// </summary>
+        /// <param name="ownerID"></param>
+        /// <param name="name"></param>
+        /// <returns>int</returns>
         public int GetProjectID(int ownerID, string name)
         {
             int id = (from x in database.Project
@@ -420,7 +484,7 @@ namespace DOGEOnlineGeneralEditor.Services
 
             return model;
         }
-        private int GetProjectIDFromViewModel(ProjectViewModel model)
+        /*private int GetProjectIDFromViewModel(ProjectViewModel model)
         {
             int userID = GetUserIDByName(model.Owner);
             var project = (from x in database.Project
@@ -428,7 +492,7 @@ namespace DOGEOnlineGeneralEditor.Services
                            && x.OwnerID == userID
                            select x).SingleOrDefault();
             return project.ID;
-        }
+        }*/
 
         #endregion
         #endregion
@@ -627,13 +691,12 @@ namespace DOGEOnlineGeneralEditor.Services
         public void AddUserToProject(string userName, ProjectViewModel project)
         {
             int userID = GetUserIDByName(userName);
-            int projectID = GetProjectIDFromViewModel(project);
             UserProject userProject = new UserProject
             {
                 UserID = userID,
-                ProjectID = projectID
+                ProjectID = project.ProjectID
             };
-            if(UserProjectExists(userID, projectID))
+            if(UserProjectExists(userID, project.ProjectID))
             {
                 // duplicateexception
             }
