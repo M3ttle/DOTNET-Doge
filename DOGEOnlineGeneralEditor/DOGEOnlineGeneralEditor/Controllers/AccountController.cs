@@ -96,7 +96,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.UserTypeID = service.getUserTypes();
+            ViewBag.UserTypeID = service.GetUserTypes();
             return View();
         }
 
@@ -113,7 +113,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    service.createUser(model);
+                    service.CreateUser(model);
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     return RedirectToAction("MyProjects", "Workspace");
@@ -122,7 +122,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ViewBag.UserTypeID = service.getUserTypes(model.UserTypeID);
+            ViewBag.UserTypeID = service.GetUserTypes(model.UserTypeID);
             return View(model);
         }
 
@@ -145,8 +145,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
 			
-			IndexViewModel model = service.getUserAccountInfoByUserName(User.Identity.Name);
-			ViewBag.UserTypeID = service.getUserTypes(model.UserTypeID);
+			IndexViewModel model = service.GetUserAccountInfoByUserName(User.Identity.Name);
+			ViewBag.UserTypeID = service.GetUserTypes(model.UserTypeID);
 
 			return View(model);
         }
@@ -159,11 +159,11 @@ namespace DOGEOnlineGeneralEditor.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				service.updateUser(model);
+				service.UpdateUser(model);
 				return RedirectToAction("Index", "Account", new { Message = ManageMessageId.UpdateUserSuccess });
 			}
 
-			ViewBag.UserTypeID= service.getUserTypes(model.UserTypeID);
+			ViewBag.UserTypeID= service.GetUserTypes(model.UserTypeID);
 			return View(model);
 		}
 

@@ -42,5 +42,6 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
         public string  Data { get; set; }
         public int LanguageTypeID { get; set; }
         public string UserThemeID { get; set; }
+        public List<LanguageType> LanguageTypes { get; set; }
     }
 }

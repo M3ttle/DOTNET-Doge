@@ -24,7 +24,12 @@
     <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
     <button class="open-button">Open Project</button>
     <div class="scroll-big">
+<<<<<<< HEAD
+        
+        <table id="public-projcets">
+=======
         <table id="public-projects">
+>>>>>>> 4b67f8888fe172ee16bc7d31a078c95844b1cf6f
             <thead>
                 <tr>
                     <th data-sortable="true">Name of project</th>
@@ -41,7 +46,7 @@
                         <td>@item.FileCount</td>
                         <td>@item.Owner</td>
                         <td>@item.DateCreated</td>
-                        <td class="hidden-col">@item.ProjectID</td>
+                        <td class="id-col">@item.ProjectID</td>
                     </tr>
                 }
             </tbody>

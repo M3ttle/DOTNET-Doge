@@ -4,6 +4,10 @@
 }
 
 <h2>AddUserToProject</h2>
+@if(TempData["Success"] != null)
+{
+    <div>@TempData["Success"]</div>
+}
 <div class="project-table">
     <table class="table">
         <tr>
@@ -46,6 +50,7 @@
             }
 
         </table>
+    @Html.ActionLink("Back to project", "Details", "Project", new { id = Model.ProjectID }, null)
     </div>
     @using (Html.BeginForm())
     {
@@ -55,7 +60,6 @@
         <input type="submit" hidden="hidden" id="hiddenSubmit" />
     }
     @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
         <script>
             function setUserID(userID) {
                 $("#HiddenUserID").val(userID);

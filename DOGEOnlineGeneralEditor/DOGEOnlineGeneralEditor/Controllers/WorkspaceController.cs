@@ -25,14 +25,14 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 throw new FileNotFoundException();
             }
-            var model = service.getEditorViewModel(User.Identity.Name, id.Value);
+            var model = service.GetEditorViewModel(User.Identity.Name, id.Value);
 
-            if(service.hasAccess(User.Identity.Name, model.ProjectID) == false)
+            if(service.HasAccess(User.Identity.Name, model.ProjectID) == false)
             {
                 throw new UnauthorizedAccessException();
             }
-            ViewBag.LanguageTypeID = service.getLanguageTypes(model.LanguageTypeID);
-            ViewBag.UserThemeID = service.getAceThemes(model.UserThemeID);
+            ViewBag.LanguageTypeID = service.GetLanguageTypes(model.LanguageTypeID);
+            ViewBag.UserThemeID = service.GetAceThemes(model.UserThemeID);
             string decoded = Server.HtmlDecode(model.Data);
             model.Data = decoded;
             return View(model);
@@ -41,13 +41,13 @@ namespace DOGEOnlineGeneralEditor.Controllers
  		public ActionResult MyProjects()
  		{
             var userName = User.Identity.GetUserName();
-            var model = service.getMyProjectsByName(userName); 
+            var model = service.GetMyProjectsByName(userName); 
             return View(model);
  		}
  
  		public ActionResult PublicProjects()
  		{
-            var model = service.getPublicProjects();
+            var model = service.GetPublicProjects();
  			return View(model);
  		}
  	}

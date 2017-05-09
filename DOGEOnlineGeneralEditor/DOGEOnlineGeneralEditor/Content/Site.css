@@ -14,6 +14,18 @@
 
 /* ---------------------------------------- General CSS ---------------------------------------- */
 
+/* Andri */
+.noscript {
+    display: block;
+    text-align: center;
+    font-size: 50px;
+}
+
+/* Andri */
+.script {
+    display: none;
+}
+
 /* Set body main colors */
 body {
     background: var(--backgroundgray);
@@ -30,7 +42,7 @@ body {
 
 /* Change the main font to something prettier */
 /* It's a font from google, declared in the index frontpage */
-.ubuntu-font, .navbar, footer, button, h1, h2, h3, h4, h5, h6 {
+.ubuntu-font, .navbar, footer, button, .top-nav a, h1, h2, h3, h4, h5, h6 {
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -91,6 +103,10 @@ textarea {
     margin-right: 0;
 }
 
+/* For hiding content */
+.hide {
+    display: none;
+}
 
 /* ---------------------------------------- Frontpage ---------------------------------------- */
 
@@ -195,14 +211,15 @@ textarea {
     border: 2px solid var(--headerblack);
 }
 
-
 #editor {
     height: 100%;
     min-height: 10px;
 }
 
-.hidden-col {
+/* Andri */
+#save-message {
     display: none;
+    color: red;
 }
 
 /* ---------------------------------------- _ProjectsNav ---------------------------------------- */
@@ -237,23 +254,6 @@ ul.top-nav li a {
 }
 
 
-/* ---------------------------------------- Javascript check  ---------------------------------------- */
-
-.noscript {
-    display: block;
-    text-align: center;
-    font-size: 50px;
-}
-
-.script {
-    display: none;
-}
+/* ---------------------------------------- Tables ---------------------------------------- */
 
 
-
-
-/* ---------------------------------------- Editor message  ---------------------------------------- */
-#save-message {
-    display: none;
-    color: red;
-}
