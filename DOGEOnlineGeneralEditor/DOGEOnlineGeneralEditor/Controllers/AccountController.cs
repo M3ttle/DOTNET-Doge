@@ -152,7 +152,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
         }
 
 		//
-		// POST: /Account/Register
+		// POST: /Account/Index
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Index(IndexViewModel model)

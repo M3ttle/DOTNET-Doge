@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DOGEOnlineGeneralEditor.Services;
+using DOGEOnlineGeneralEditor.Utilities;
 
 namespace DOGEOnlineGeneralEditor.Controllers
 {
@@ -17,19 +18,19 @@ namespace DOGEOnlineGeneralEditor.Controllers
         {
             service = new GeneralService(null);
         }
-        // GET: Workspace
-        public ActionResult Index()
-        {
-            return View();
-        }
  
  		public ActionResult Editor(int? id)
  		{
             if(id == null)
             {
-                throw new Exception();
+                throw new FileNotFoundException();
             }
             var model = service.getFileViewModel(id.Value);
+
+            if(service.hasAccess(User.Identity.Name, model.ProjectID) == false)
+            {
+                throw new UnauthorizedAccessException();
+            }
             ViewBag.LanguageTypeID = service.getLanguageTypes(model.LanguageTypeID);
             string decoded = Server.HtmlDecode(model.Data);
             model.Data = decoded;

@@ -14,9 +14,6 @@ namespace DOGEOnlineGeneralEditor.Utilities
     public class FileNotFoundException : Exception
     {
     }
-    public class DuplicateProjectNameException : Exception
-    {
-    }
 
     public class UnauthorizedAccessToProjectException : Exception
     {
