@@ -23,7 +23,7 @@ var markChanges = function (user, object) {
     var range = new Range(object.start.row, object.start.column +1, object.start.row, object.start.column + 50);
 
     //Set the cursor content as the username
-    document.styleSheets[0].addRule('.editorMarker:before', 'content: "' + user + '";');
+    document.styleSheets[0].addRule('.editor-marker:before', 'content: "' + user + '";');
 
     setTimeout(function () {
 
@@ -35,7 +35,8 @@ var markChanges = function (user, object) {
             }
         }
 
-        var marker = editor.session.addMarker(range, "editorMarker", true);
+        var marker = editor.session.addMarker(range, "editor-marker", true);
+
         userNamesMarkerID.push({user: user, markerID: marker});
     }, 100);
 }
