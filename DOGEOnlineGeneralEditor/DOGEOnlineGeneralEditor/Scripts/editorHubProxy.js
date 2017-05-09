@@ -5,6 +5,8 @@ var silent = false;
 var userNamesMarkerID = [];
 var markerColors = [];
 
+
+
 /*
     Client functions
 */
