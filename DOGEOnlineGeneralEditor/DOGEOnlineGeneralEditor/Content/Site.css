@@ -1,5 +1,5 @@
 ﻿:root {
-    --light-bg-color: #3E3D32;
+    
     
     
     --main-white: #f4f4f4;
@@ -7,11 +7,12 @@
     --main-hd-black: #222;
     --main-orange: #FD971F;
 
-
+    /* Color "seashell" is also used */
     --dogegreen: #87D747;
     --dogedarkgreen: #6BB233;
     --headerblack: #222;
     --backgroundgray: #272822;
+    --backgroundbright: #3E3D32;
 }
 
 /* ---------------------------------------- General CSS ---------------------------------------- */
@@ -144,6 +145,7 @@ textarea {
     margin: 30px auto;
     padding: 25px 50px;
     display: table;
+    min-width: 335px;
     background-color: var(--light-of-gray);
     border: 2px solid var(--headerblack);
     border-radius: 25px;
@@ -174,7 +176,7 @@ textarea {
 
 /* Sets all link within forms to black with underscore */
 .form-container a {
-    color: var(--main-hd-black);
+    color: var(--headerblack);
     text-decoration: underline;
     display: block;
     text-align: center;
@@ -201,3 +203,37 @@ textarea {
     height: 100%;
     min-height: 10px;
 }
+
+
+/* ---------------------------------------- _ProjectsNav ---------------------------------------- */
+
+/* Creates the Account and Projects menu */
+.top-nav {
+    display: table;
+    margin: 0 auto 10px auto;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--backgroundbright);
+}
+
+ul.top-nav .active {
+    background-color: var(--dogedarkgreen);
+    border-radius: 0 0 5px 5px;
+}
+
+ul.top-nav li {
+    float: left;
+}
+
+ul.top-nav li a {
+    color: seashell;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+
