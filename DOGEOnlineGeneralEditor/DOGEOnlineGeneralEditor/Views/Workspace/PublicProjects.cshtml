@@ -5,6 +5,16 @@
     ViewData["Title"] = "Public Projects";
 }
 
+<style>
+    table tr:hover {
+        background-color: deeppink;
+    }
+
+    .highlighted {
+        background-color: pink;
+    }
+</style>
+
 @Scripts.Render("~/bundles/jquery")
 
 @{Html.RenderPartial("_ProjectsNav"); }
@@ -40,34 +50,4 @@
 </div>
 
 
-<script>
-    $("#public-projects tbody tr").click(function () {
-        $('#public-projects tr').removeClass('highlighted'); dell
-        $(this).addClass('highlighted');
-    });
-
-    $(".open-button").on('click', function (e) {
-        var ID = $('.highlighted td:nth-child(5)').html();
-        window.location.href = '/Project/Details/' + ID;
-    });
-
-    var $rows = $('#public-projects tbody tr');
-    $('#public-search').keyup(function () {
-        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-
-        $rows.show().filter(function () {
-            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-            return !~text.indexOf(val);
-        }).hide();
-    });
-</script>
-
-
-
-
-
-
-
-
-
-
+<script src="~/Scripts/table.js"></script>

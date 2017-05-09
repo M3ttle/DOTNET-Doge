@@ -4,6 +4,15 @@
     ViewData["Title"] = "My Projects";
 }
 
+<style>
+    table tr:hover {
+        background-color: deeppink;
+    }
+    .highlighted{
+        background-color: pink;
+    }
+</style>
+
 @Scripts.Render("~/bundles/jquery")
 
 @{Html.RenderPartial("_ProjectsNav"); }
@@ -12,7 +21,6 @@
 {
     <div>@TempData["Success"]</div>
 }
-
 
 @{ Html.RenderPartial("_ProjectTable", Model.MyProjects); }
 
@@ -86,53 +94,4 @@
 </div>
 
 
-<script type="text/javascript">
-    $("#my-projcets tbody tr").click(function () {
-        $('tr').removeClass('highlighted');
-        $(this).addClass('highlighted');
-    });
-
-    $("#shared-projects tbody tr").click(function () {
-        $('tr').removeClass('highlighted');
-        $(this).addClass('highlighted');
-    });
-
-    $(".open-button").on('click', function (e) {
-        var ID = $('.highlighted td:nth-child(5)').html();
-        if (ID) {
-            window.location.href = '/Project/Details/' + ID;
-        }
-    });
-
-    $(".delete-button").on('click', function (e) {
-        var ID = $('.highlighted td:nth-child(5)').html();
-        if (ID) {
-            window.location.href = '/Project/Delete/' + ID;
-        }
-    });
-
-    $(".leave-button").on('click', function (e) {
-        var ID = $('.highlighted td:nth-child(5)').html();
-        if (ID) {
-            $('#projectID').val(ID);
-            document.getElementById('leaveProjectSubmit').click();
-        }
-    });
-
-    var $srows = $('#shared-projects tbody tr');
-    var $mrows = $('#my-projects tbody tr');
-    $('#my-search').keyup(function () {
-        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-
-        $srows.show().filter(function () {
-            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-            return !~text.indexOf(val);
-        }).hide();
-
-        $mrows.show().filter(function () {
-            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-            return !~text.indexOf(val);
-        }).hide();
-    });
-
-</script>
+<script src="~/Scripts/table.js"></script>
