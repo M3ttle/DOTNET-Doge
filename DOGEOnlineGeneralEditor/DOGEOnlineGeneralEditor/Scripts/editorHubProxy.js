@@ -14,7 +14,7 @@ fileProxy.client.updateClientFile = function (userWhoChanged, changedData) {
     editor.getSession().getDocument().applyDelta(changedData);
     markChanges(userWhoChanged, changedData);
     silent = false;
-}
+};
 
 /*
     Client functions End
@@ -32,7 +32,7 @@ var markChanges = function (user, object) {
         var firstTimeUser = true;
         // Remove marker if it is there already
         for (var i = 0; i < userNamesMarkerID.length; i++) {
-            if (userNamesMarkerID[i].user == user) {
+            if (userNamesMarkerID[i].user === user) {
                 userMarkerColor = userNamesMarkerID[i].markerColor;
                 editor.session.removeMarker(userNamesMarkerID[i].markerID);
                 userNamesMarkerID.remove(i);
@@ -43,9 +43,9 @@ var markChanges = function (user, object) {
         //Initilizes colors for marker and chooses random number for that user session, from 0 to array length
         if (firstTimeUser) {
             initMarkerColors(0, markerColors.length - 1);
-            userMarkerColor = markerColors[randomIntFromInterval(0, (markerColors.length - 1))];
+            userMarkerColor = markerColors[randomIntFromInterval(0, markerColors.length - 1)];
             // Core of the application
-            if (user == "Frida") {
+            if (user === "Frida") {
                 userMarkerColor = "#FF1493";
             }
         }
@@ -58,12 +58,12 @@ var markChanges = function (user, object) {
 
         userNamesMarkerID.push({ user: user, markerID: marker, markerColor: userMarkerColor });
     }, 100);
-}
+};
 
 var saveFile = function () {
     console.log("saving file...");
     $('#saveBtn').click();
-}
+};
 
 var initMarkerColors = function () {
 
@@ -74,7 +74,7 @@ var initMarkerColors = function () {
     markerColors[4] = "gray";
     markerColors[5] = "green";
     markerColors[6] = "#FF1493";
-}
+};
 
 $("form").on("submit", function () {
     var form = $(this);
@@ -86,8 +86,8 @@ $("form").on("submit", function () {
         error: function (xhr, err) {
             // Note: just for debugging purposes!
             console.log("readyState: " + xhr.readyState +
-                "\nstatus: " + xhr.status)
-            console.log("responseText: " + xhr.responseText)
+                "\nstatus: " + xhr.status);
+            console.log("responseText: " + xhr.responseText);
         }
     });
     return false;
