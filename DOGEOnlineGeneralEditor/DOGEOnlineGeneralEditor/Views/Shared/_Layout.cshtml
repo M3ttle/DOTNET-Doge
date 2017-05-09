@@ -7,57 +7,76 @@
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 4b67f8888fe172ee16bc7d31a078c95844b1cf6f
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <img class="doge-logo" src="~/Images/Doge_white.png" alt="DOGE logo">
-                @if (Request.IsAuthenticated)
-                {
-                    @Html.ActionLink("DOGE", "MyProjects", "Workspace", new { area = "" }, new { @class = "navbar-brand" })
-                }
-                else
-                {
-                    @Html.ActionLink("DOGE", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                }
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-
+    <div class="script">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img class="doge-logo" src="~/Images/Doge_white.png" alt="DOGE logo">
                     @if (Request.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Home", "MyProjects", "Workspace")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        @Html.ActionLink("DOGE", "MyProjects", "Workspace", new { area = "" }, new { @class = "navbar-brand" })
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        @Html.ActionLink("DOGE", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                     }
-                </ul>
-                @Html.Partial("_LoginPartial")
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Home", "MyProjects", "Workspace")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        }
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-    </div>
-    <footer class="navbar-fixed-bottom">
         <div class="container body-content">
-            <p>&copy; @DateTime.Now.Year - DOGE</p>
-        </div>        
-    </footer>   
+            @RenderBody()
+        </div>
+        <footer class="navbar-fixed-bottom">
+            <div class="container body-content">
+                <p>&copy; @DateTime.Now.Year - DOGE</p>
+            </div>
+        </footer>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+
+    </div>
+    <div class="noscript">
+        <p>You need to enable javascript to use this website</p>
+    </div>
+
+
 </body>
 </html>
+
+
+<script type="text/javascript">
+    $('.script').css('display', 'block');
+    $('.noscript').css('display', 'none');
+</script>

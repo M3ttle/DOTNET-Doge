@@ -49,7 +49,7 @@ namespace DOGEOnlineGeneralEditor.Services
             File file = (from x in database.File
                          where x.Name == fileName
                          && x.Project.ID == projectID
-                         select x).SingleOrDefault();
+                         select x).FirstOrDefault();
             if (file != null)
             {
                 return true;
@@ -148,6 +148,20 @@ namespace DOGEOnlineGeneralEditor.Services
             return fileViewModel;
         }
 
+        public EditorViewModel getEditorViewModel(string userName, int fileID)
+        {
+            int userID = getUserIDByName(userName);
+            var file = (from x in database.File
+                        where x.ID == fileID
+                        select x).SingleOrDefault();
+            if(file == null)
+            {
+                throw new FileNotFoundException();
+            }
+            var editorViewModel = convertFileToEditorViewModel(userID, file);
+            return editorViewModel;
+        }
+
         public List<File> getFilesForProject(int projectID)
         {
             var files = (from x in database.File
@@ -169,11 +183,27 @@ namespace DOGEOnlineGeneralEditor.Services
             return model;
         }
 
+        public EditorViewModel convertFileToEditorViewModel(int userID, File file)
+        {
+            string aceTheme = getUserTheme(userID);
+            EditorViewModel model = new EditorViewModel
+            {
+                ProjectID = file.ProjectID,
+                ID = file.ID,
+                Name = file.Name,
+                Data = file.Data,
+                LanguageTypeID = file.LanguageTypeID,
+                UserThemeID = aceTheme,
+                LanguageTypes = getLanguageTypeList(file.LanguageTypeID),
+            };
+            return model;
+        }
+
         /// <summary>
         /// Function which saves an updated file to the database.
         /// </summary>
         /// <param name="model"></param>
-        public void saveFile(FileViewModel model)
+        public void saveFile(EditorViewModel model)
         {
             File file = database.File.Find(model.ID);
             file.Name = model.Name;
@@ -474,12 +504,20 @@ namespace DOGEOnlineGeneralEditor.Services
 			};
 		}
 
-		/// <summary>
-		/// Function that adds a user to the database 
-		/// </summary>
-		/// <param name="applicationUser"></param>
-		/// <returns>bool</returns>
-		public void createUser(RegisterViewModel model)
+        public string getUserTheme(int userID)
+        {
+            string result = (from x in database.User
+                             where x.ID == userID
+                             select x.AceThemeID).SingleOrDefault();
+            return result;
+        }
+
+        /// <summary>
+        /// Function that adds a user to the database 
+        /// </summary>
+        /// <param name="applicationUser"></param>
+        /// <returns>bool</returns>
+        public void createUser(RegisterViewModel model)
         {
             var user = new User
             {
@@ -487,6 +525,7 @@ namespace DOGEOnlineGeneralEditor.Services
                 Email = model.Email,
                 DateCreated = DateTime.Now,
                 Gender = model.Gender,
+                AceThemeID = "Chrome",
                 UserTypeID = model.UserTypeID
             };
 
@@ -511,12 +550,20 @@ namespace DOGEOnlineGeneralEditor.Services
 			database.SaveChanges();
 		}
 
-		/// <summary>
-		/// Function that returns true if a User with a given username exists in the database.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns>bool</returns>
-		public bool userExists(string name)
+        public void updateUserTheme(int userID, string newTheme)
+        {
+            User user = database.User.Find(userID);
+            user.AceThemeID = newTheme;
+            database.Entry(user).State = EntityState.Modified;
+            database.SaveChanges();
+        }
+
+        /// <summary>
+        /// Function that returns true if a User with a given username exists in the database.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>bool</returns>
+        public bool userExists(string name)
         {
             User user = (from x in database.User
                          where x.Name == name
@@ -663,6 +710,19 @@ namespace DOGEOnlineGeneralEditor.Services
         {
             return new SelectList(database.LanguageType, "ID", "Name", typeID);
         }
+        public List<LanguageType> getLanguageTypeList(int typeID)
+        {
+            List<LanguageType> list = new List<LanguageType>();
+            var result = (from x in database.LanguageType
+                          select x).ToList();
+            result.ForEach(c => list.Add(c));
+            return result;
+        }
+        public SelectList getAceThemes(string themeID)
+        {
+            return new SelectList(database.AceTheme, "ID", "Theme", themeID);
+        }
+
         #endregion
     }
 }

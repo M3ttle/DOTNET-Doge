@@ -1,7 +1,4 @@
 ﻿:root {
-    
-    
-    
     --main-white: #f4f4f4;
     --light-of-gray: #d5d5d5;
     --main-hd-black: #222;
@@ -16,6 +13,18 @@
 }
 
 /* ---------------------------------------- General CSS ---------------------------------------- */
+
+/* Andri */
+.noscript {
+    display: block;
+    text-align: center;
+    font-size: 50px;
+}
+
+/* Andri */
+.script {
+    display: none;
+}
 
 /* Set body main colors */
 body {
@@ -207,6 +216,11 @@ textarea {
     min-height: 10px;
 }
 
+/* Andri */
+#save-message {
+    display: none;
+    color: red;
+}
 
 /* ---------------------------------------- _ProjectsNav ---------------------------------------- */
 
@@ -240,6 +254,6 @@ ul.top-nav li a {
 }
 
 
-
 /* ---------------------------------------- Tables ---------------------------------------- */
+
 

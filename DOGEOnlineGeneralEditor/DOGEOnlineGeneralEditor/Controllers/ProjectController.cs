@@ -104,14 +104,16 @@ namespace DOGEOnlineGeneralEditor.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (service.projectExists(User.Identity.Name, project.Name))
+                ProjectViewModel oldProjectViewModel = service.getProjectViewModelByID(project.ProjectID);
+                if (service.projectExists(User.Identity.Name, project.Name)
+                        && oldProjectViewModel.Name != project.Name)
                 {
                     ModelState.AddModelError("", "You already have a project with that name");
                 }
                 else
                 {
                     service.editProject(project);
-                    TempData["Success"] = project.Name + " was successfully edited.";
+                    TempData["Success"] = string.Format("{0} was successfully edited.", project.Name);
                     return RedirectToAction("Details", "Project", new { ID = project.ProjectID });
                 }
 
@@ -136,6 +138,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 // User is not projectect owner = not allowed to delete
                 ModelState.AddModelError("", "You cannot delete a project you do now own");
+                return RedirectToAction("MyProjects", "Workspace", null);
             }
             return View(project);
         }
@@ -149,10 +152,12 @@ namespace DOGEOnlineGeneralEditor.Controllers
             if (project.Owner != User.Identity.Name)
             {
                 // User is not projectect owner = not allowed to delete
+                ModelState.AddModelError("", "You cannot delete a project you do now own");
             }
             else
             {
                 service.removeProject(id);
+                TempData["Success"] = string.Format("The project has been deleted");
             }
             return RedirectToAction("MyProjects", "Workspace", null);
         }
@@ -176,7 +181,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
             int.TryParse(formCollection["ProjectID"], out projectID);
             if (service.addUserToProject(userID, projectID))
             {
-                ViewBag.Success = "User was added to the project";
+                string collaboratorName = service.getUserNameByID(userID);
+                TempData["Success"] = string.Format("{0} was added to the project", collaboratorName);
                 return RedirectToAction("AddUserToProject", new { ID = projectID });
             }
             // Some error happened if we got here
@@ -186,17 +192,18 @@ namespace DOGEOnlineGeneralEditor.Controllers
         [HttpPost]
         public ActionResult LeaveProject(FormCollection formCollection)
         {
-            int userID;
+            int userID = service.getUserIDByName(User.Identity.Name);
             int projectID;
-            int.TryParse(formCollection["UserID"], out userID);
-            int.TryParse(formCollection["ProjectID"], out projectID);
-            if (service.removeUserProject(userID, projectID))
+            if (int.TryParse(formCollection["ProjectID"], out projectID))
             {
-
-                return RedirectToAction("Workspace", "MyProjects");
+                if (service.removeUserProject(userID, projectID))
+                {
+                    TempData["Success"] = "You have left the project";
+                    return RedirectToAction("MyProjects", "Workspace");
+                }
             }
             // Some error happened if we got here
-            return RedirectToAction("Workspace", "MyProjects");
+            return RedirectToAction("MyProjects", "Workspace");
         }
     }
 }
