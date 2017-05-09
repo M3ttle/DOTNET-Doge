@@ -583,6 +583,21 @@ namespace DOGEOnlineGeneralEditor.Services
             database.UserProject.Add(userProject);
             database.SaveChanges();
         }
+
+        public bool removeUserProject (int userID, int projectID)
+        {
+            var userProject = (from up in database.UserProject
+                               where up.UserID == userID
+                               && up.ProjectID == projectID
+                               select up).SingleOrDefault();
+            if(userProject == null)
+            {
+                return false;
+            }
+            database.UserProject.Remove(userProject);
+            database.SaveChanges();
+            return true;
+        }
         public UserCollabViewModel getCollaboratorViewModel(string userName, int projectID)
         {
             int userID = getUserIDByName(userName);
