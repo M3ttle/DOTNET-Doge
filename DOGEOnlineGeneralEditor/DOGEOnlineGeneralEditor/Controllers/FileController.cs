@@ -44,16 +44,18 @@ namespace DOGEOnlineGeneralEditor.Controllers
             return View(model);
         }
 
-        // POST: Files/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: File/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateFileViewModel file)
         {
             if (ModelState.IsValid)
             {
-                if(service.fileExists(file.ProjectID, file.Name))
+                if(service.hasAccess(User.Identity.Name, file.ProjectID) == false)
+                {
+                    throw new UnauthorizedAccessException();
+                }
+                else if(service.fileExists(file.ProjectID, file.Name))
                 {
                     ModelState.AddModelError("", "A file with that name already exists in this project");
                 }
@@ -90,6 +92,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                     else
                     {
                         service.addFileToDatabase(file);
+                        TempData["Success"] = string.Format("{0} has been added to the project.", file.PostedFile.FileName);
                         return RedirectToAction("Details", "Project", new { ID = file.ProjectID });
                     }
                 }
@@ -110,8 +113,9 @@ namespace DOGEOnlineGeneralEditor.Controllers
 
             if(service.fileExists(fileID.Value))
             {
+                int projectID = service.getFileProjectID(fileID.Value);
                 service.removeFile(fileID.Value);
-                return RedirectToAction("Details", "Project", new { ID = service.getFileProjectID(fileID.Value)});
+                return RedirectToAction("Details", "Project", new { ID = projectID});
             }
             //File does not exist exception!
             throw new Exception();
@@ -119,7 +123,8 @@ namespace DOGEOnlineGeneralEditor.Controllers
 
         // POST: File/Save/2
         [HttpPost, ValidateInput(false)]
-        public ActionResult Save(FileViewModel model)
+        [ValidateAntiForgeryToken]
+        public ActionResult Save(EditorViewModel model)
         {
             string encoded = Server.HtmlEncode(model.Data);
             model.Data = encoded;
@@ -132,6 +137,11 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 else
                 {
                     service.saveFile(model);
+                }
+                int userID = service.getUserIDByName(User.Identity.Name);
+                if (model.UserThemeID != service.getUserTheme(userID))
+                {
+                    service.updateUserTheme(userID, model.UserThemeID);
                 }
             }
             return RedirectToAction("Editor", "Workspace", new { ID = model.ID });

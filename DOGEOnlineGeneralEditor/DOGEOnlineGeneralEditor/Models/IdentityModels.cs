@@ -28,6 +28,7 @@ namespace DOGEOnlineGeneralEditor.Models
         IDbSet<LanguageType> LanguageType { get; set; }
         IDbSet<File> File { get; set; }
         IDbSet<UserType> UserType { get; set; }
+        IDbSet<AceTheme> AceTheme { get; set; }
         int SaveChanges();
         System.Data.Entity.Infrastructure.DbEntityEntry Entry(object entity);
     }
@@ -46,6 +47,7 @@ namespace DOGEOnlineGeneralEditor.Models
         public IDbSet<LanguageType> LanguageType { get; set; }
         public IDbSet<File> File { get; set; }
         public IDbSet<UserType> UserType { get; set; }
+        public IDbSet<AceTheme> AceTheme { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
