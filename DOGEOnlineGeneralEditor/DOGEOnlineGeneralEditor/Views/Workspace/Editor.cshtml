@@ -13,6 +13,7 @@
 
 @{Html.RenderPartial("_ProjectsNav"); }
 
+
 @using (Html.BeginForm("Save", "File", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
@@ -37,11 +38,11 @@
             </div>
         </div>
         
-        @Html.HiddenFor(m => m.Data, new { @id = "hiddenEditor"})
+        @Html.HiddenFor(m => m.Data, new { @id = "hidden-editor"})
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input id="saveBtn" name="saveBtn" type="submit" value="Save" class="btn btn-default" />
+                <input id="saveBtn" name="saveBtn" type="submit" value="Save" class="save-button" />
             </div>
         </div>
     </div>
@@ -50,8 +51,7 @@
 <header class="header">
     <div class="innertube">
         <div class="topbar">
-            <button id="inviteuser">Invite User</button>
-            <button id="savefile">Save</button>
+            <div id="save-message">Your file has been saved</div>
 
             <label for="mode">Mode</label>
 
@@ -231,8 +231,13 @@
 
         // Copy the contents of the editor into our hidden editor for further processing
         $("form").submit(function () {
-            $("#hiddenEditor").val(editor.getSession().getValue());
+            $("#hidden-editor").val(editor.getSession().getValue());
         });
+
+        $(".save-button").click(function () {
+            $('#save-message').fadeIn().delay(3000).fadeOut();
+        });
+
 
     });
 
