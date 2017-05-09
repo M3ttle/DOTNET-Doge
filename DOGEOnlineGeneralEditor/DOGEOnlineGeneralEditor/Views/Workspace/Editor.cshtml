@@ -13,13 +13,14 @@
 
 @{Html.RenderPartial("_ProjectsNav"); }
 
+
 @using (Html.BeginForm("Save", "File", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-inline">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.ProjectID)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -51,17 +52,23 @@
             </div>
         </div>
         
-        @Html.HiddenFor(m => m.Data, new { @id = "hiddenEditor"})
+        @Html.HiddenFor(m => m.Data, new { @id = "hidden-editor"})
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input id="saveBtn" name="saveBtn" type="submit" value="Save" class="btn btn-default" />
+                <input id="saveBtn" name="saveBtn" type="submit" value="Save" class="save-button" />
             </div>
         </div>
     </div>
 }
 
 <header class="header">
+
+    <div class="innertube">
+        <div class="topbar">
+            <div id="save-message">Your file has been saved</div>
+        </div>
+    </div>
 
 </header>
 
@@ -95,8 +102,13 @@
 
         // Copy the contents of the editor into our hidden editor for further processing
         $("form").submit(function () {
-            $("#hiddenEditor").val(editor.getSession().getValue());
+            $("#hidden-editor").val(editor.getSession().getValue());
         });
+
+        $(".save-button").click(function () {
+            $('#save-message').fadeIn().delay(3000).fadeOut();
+        });
+
 
     });
 

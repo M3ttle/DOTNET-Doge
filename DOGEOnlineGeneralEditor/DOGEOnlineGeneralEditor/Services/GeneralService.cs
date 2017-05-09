@@ -49,7 +49,7 @@ namespace DOGEOnlineGeneralEditor.Services
             File file = (from x in database.File
                          where x.Name == fileName
                          && x.Project.ID == projectID
-                         select x).SingleOrDefault();
+                         select x).FirstOrDefault();
             if (file != null)
             {
                 return true;

@@ -1,7 +1,4 @@
 ﻿:root {
-    
-    
-    
     --main-white: #f4f4f4;
     --light-of-gray: #d5d5d5;
     --main-hd-black: #222;
@@ -240,4 +237,23 @@ ul.top-nav li a {
 }
 
 
+/* ---------------------------------------- Javascript check  ---------------------------------------- */
 
+.noscript {
+    display: block;
+    text-align: center;
+    font-size: 50px;
+}
+
+.script {
+    display: none;
+}
+
+
+
+
+/* ---------------------------------------- Editor message  ---------------------------------------- */
+#save-message {
+    display: none;
+    color: red;
+}
