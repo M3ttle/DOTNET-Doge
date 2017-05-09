@@ -92,7 +92,9 @@
 
     $(".open-button").on('click', function (e) {
         var ID = $('.highlighted td:nth-child(5)').html();
-        window.location.href = '/Project/Details/' + ID;
+        if (ID) {
+            window.location.href = '/Project/Details/' + ID;
+        }
     });
 
     $(".delete-button").on('click', function (e) {

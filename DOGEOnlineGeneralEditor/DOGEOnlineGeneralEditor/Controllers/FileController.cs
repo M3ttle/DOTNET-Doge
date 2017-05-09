@@ -132,18 +132,19 @@ namespace DOGEOnlineGeneralEditor.Controllers
             {
                 if(service.fileExists(model.ProjectID, model.Name))
                 {
-                    ModelState.AddModelError("", "A file with that name already exists in this project");
+                    // File Exists!!
                 }
                 else
                 {
                     service.saveFile(model);
-                }
-                int userID = service.getUserIDByName(User.Identity.Name);
-                if (model.UserThemeID != service.getUserTheme(userID))
-                {
-                    service.updateUserTheme(userID, model.UserThemeID);
+                    int userID = service.getUserIDByName(User.Identity.Name);
+                    if (model.UserThemeID != service.getUserTheme(userID))
+                    {
+                        service.updateUserTheme(userID, model.UserThemeID);
+                    }
                 }
             }
+
             return RedirectToAction("Editor", "Workspace", new { ID = model.ID });
         }
     }

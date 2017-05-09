@@ -14,7 +14,7 @@
     <button class="create-button" onclick="location.href='@Url.Action("Create", "Project")';return false;">Create New</button>
     <button class="open-button">Open Project</button>
     <div class="scroll-big">
-        <table id="public-projcets">
+        <table id="public-projects">
             <thead>
                 <tr>
                     <th data-sortable="true">Name of project</th>
@@ -41,8 +41,8 @@
 
 
 <script>
-    $("#public-projcets tbody tr").click(function () {
-        $('#public-projcets tr').removeClass('highlighted'); dell
+    $("#public-projects tbody tr").click(function () {
+        $('#public-projects tr').removeClass('highlighted'); dell
         $(this).addClass('highlighted');
     });
 
@@ -51,14 +51,23 @@
         window.location.href = '/Project/Details/' + ID;
     });
 
-
-    var $prows = $('#public-projcets tbody tr');
+    var $rows = $('#public-projects tbody tr');
     $('#public-search').keyup(function () {
         var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
 
-        $prows.show().filter(function () {
+        $rows.show().filter(function () {
             var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
             return !~text.indexOf(val);
         }).hide();
     });
 </script>
+
+
+
+
+
+
+
+
+
+

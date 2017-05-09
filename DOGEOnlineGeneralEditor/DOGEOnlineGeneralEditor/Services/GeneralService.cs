@@ -49,7 +49,7 @@ namespace DOGEOnlineGeneralEditor.Services
             File file = (from x in database.File
                          where x.Name == fileName
                          && x.Project.ID == projectID
-                         select x).SingleOrDefault();
+                         select x).FirstOrDefault();
             if (file != null)
             {
                 return true;
@@ -193,7 +193,8 @@ namespace DOGEOnlineGeneralEditor.Services
                 Name = file.Name,
                 Data = file.Data,
                 LanguageTypeID = file.LanguageTypeID,
-                UserThemeID = aceTheme 
+                UserThemeID = aceTheme,
+                LanguageTypes = getLanguageTypeList(file.LanguageTypeID),
             };
             return model;
         }
@@ -709,7 +710,14 @@ namespace DOGEOnlineGeneralEditor.Services
         {
             return new SelectList(database.LanguageType, "ID", "Name", typeID);
         }
-
+        public List<LanguageType> getLanguageTypeList(int typeID)
+        {
+            List<LanguageType> list = new List<LanguageType>();
+            var result = (from x in database.LanguageType
+                          select x).ToList();
+            result.ForEach(c => list.Add(c));
+            return result;
+        }
         public SelectList getAceThemes(string themeID)
         {
             return new SelectList(database.AceTheme, "ID", "Theme", themeID);
