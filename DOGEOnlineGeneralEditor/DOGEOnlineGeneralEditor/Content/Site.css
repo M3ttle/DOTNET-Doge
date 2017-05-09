@@ -1,43 +1,51 @@
 ﻿:root {
     --light-bg-color: #3E3D32;
-    --main-green: #A6E22E;
-    --main-bg-color: #272822;
+    
+    
     --main-white: #f4f4f4;
     --light-of-gray: #d5d5d5;
     --main-hd-black: #222;
     --main-orange: #FD971F;
+
+
+    --dogegreen: #87D747;
+    --dogedarkgreen: #6BB233;
+    --headerblack: #222;
+    --backgroundgray: #272822;
 }
 
+/* ---------------------------------------- General CSS ---------------------------------------- */
+
+/* Set body main colors */
 body {
+    background: var(--backgroundgray);
     padding-top: 50px;
-    background: var(--main-bg-color);
-    color: var(--main-white);
+    padding-bottom: 20px;
+    color: seashell;
 }
 
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 20px 0;
-    background: var(--main-hd-black);
-    box-shadow: -300px 0 0 var(--main-hd-black), 300px 0 0 var(--main-hd-black);
-    z-index: 6;
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column */
+.dl-horizontal dt {
+    white-space: normal;
 }
 
-html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote,
-pre, form, fieldset, table, th, td {
-    border: 0;
+/* Change the main font to something prettier */
+/* It's a font from google, declared in the index frontpage */
+.ubuntu-font, .navbar, footer, button, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Ubuntu', sans-serif;
 }
 
-input:not([type=submit]):focus, input:active, button:active {
-    outline: 0 !important;
-}
 
-#doge-header {
+/* ---------------------------------------- _Layout ---------------------------------------- */
+
+/* Fix the position of the websites logo */
+.doge-logo {
     float: left;
     height: 50px;
-    padding: 5px 5px;
+    padding: 8px 14px 8px 8px;
 }
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -45,17 +53,26 @@ input:not([type=submit]):focus, input:active, button:active {
     padding-right: 15px;
 }
 
+/* Set footer that is always on the bottom of the page */
+footer {
+    padding: 0;
+    background: var(--headerblack);
+}
+
+/* Sets the text in footer to the right */
+footer p {
+    display: flex;
+    justify-content: flex-end;
+    margin: 4px 0;
+    padding: 2px 15px;
+    color: #9d9d9d;
+}
+
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,
 textarea {
     max-width: 280px;
-}
-
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
 }
 
 /* buttons and links extension to use brackets: [ click me ] */
@@ -71,264 +88,71 @@ textarea {
     padding-left: 0.5em;
 }
 
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
-}
-
-/*DOGEOnlineGeneralEditor css*/
-
-button, input[type="submit"] {
-    border: 0;
-    box-shadow: 0 3px 0 var(--main-white);
-    border-radius: 5px;
-    color: var(--main-bg-color);
-    box-shadow: 0 5px 0px var(--light-bg-color);
-    border-bottom: 2px solid var(--light-bg-color);
-}
-
-    button:hover, input[type="submit"]:hover {
-        background: var(--light-of-gray);
-        box-shadow: 0 4px 1px var(--light-bg-color);
-        border-bottom: 2px solid var(--light-bg-color);
-        transition: all 0.1s ease-in;
-    }
-
-    button:active, input[type="submit"]:active {
-        transform: translateY(4px);
-        border-bottom-width: 2px;
-        box-shadow: none;
-    }
-
-input {
-    color: var(--main-hd-black);
-    padding-left: 5px;
-    border-radius: 5px;
-}
-
-select {
-    color: var(--main-hd-black);
-    border-radius: 5px 5px 0 0;
+/* fixing because bootstrap set it to -15px for some reason */
+.navbar-right {
+    margin-right: 0;
 }
 
 
-table {
-    width: 100%;
-    overflow: scroll;
-    background: var(--main-white);
+/* ---------------------------------------- Frontpage ---------------------------------------- */
+
+/* h1 and p following them are centered, mostly for the frontpage */
+h1, h1 + p {
+    text-align: center;
 }
 
-    table td, table th {
-        border: 1px solid var(--main-bg-color);
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: var(--light-of-gray);
-    }
-
-#home-editor {
-    display: table;
-    margin: 0 auto;
-    width: 50%;
-    height: 300px;
-    border-right: 3px solid var(--light-bg-color);
+/* Creates a banner spanning the whole width of the site */
+.banner {
+    margin: 0 calc(50% - 50vw);
+    margin-top: 20px;
+    height: 120px;
+    text-align: center;
+    background-image: url("/Images/bg.png");
+    background-repeat: repeat;
+    border-top: 1px solid var(--headerblack);
+    border-bottom: 1px solid var(--headerblack);
 }
 
-
-#editor {
-    height: 500px;
-}
-
-.full-banner {
-    background: var(--light-bg-color);
-    padding: 15px 0;
-    margin: 10px auto;
-}
-
-.signup-button {
-    border-radius: 10px;
-    display: table;
-    margin: 0 auto;
+.signup-button
+{
     height: 70px;
     width: 200px;
-    background: var(--main-green);
-    font-size: 36px;
-    box-shadow: 0 5px 0px var(--main-white);
-    border-bottom: 2px solid var(--main-white);
+    border-radius: 4px;
+    font-size: 30px;
+    color: var(--backgroundgray);
+    background-color: var(--dogegreen);
+    border-color: black;
+    margin-top: 22px;
 }
 
-    .signup-button:hover {
-        background: var(--main-green);
-        box-shadow: 0 4px 1px var(--main-white);
-        border-bottom: 2px solid var(--main-white);
-        transition: all 0.1s ease-in;
-    }
-
-    .signup-button:active {
-        box-shadow: none;
-    }
-
-.home-text {
-    padding-top: 20px;
+.signup-button:active
+{
+    background-color: var(--dogedarkgreen);
 }
 
-    .home-text p {
-        text-align: center;
-    }
+/* ---------------------------------------- Forms ---------------------------------------- */
 
-    .home-text h1 {
-        display: table;
-        font-size: 40px;
-        margin: 20px auto;
-    }
-
-
-/*My Projects and All Projects*/
-
-.project-table {
-    display: table;
-    margin: 0 auto;
-    width: 60%;
-    color: black;
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
 }
-
-
-
-ul.top-nav {
-    display: table;
-    margin: 0 auto 10px auto;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    list-style-type: none;
-    padding: 0;
-    overflow: hidden;
-    background: var(--light-bg-color);
-    color: var(--main-white);
-}
-
-    ul.top-nav .active {
-        background: var(--main-green);
-        border-radius: 0 0 5px 5px;
-    }
-
-    ul.top-nav li {
-        float: left;
-    }
-
-        ul.top-nav li a {
-            color: var(--main-white);
-            display: block;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-ul.topnav li.right {
-    float: right;
-}
-
-
-
-#shared-projects, #my-projcets {
-    min-height: 100px;
-    height: auto;
-}
-
-.scroll {
-    overflow-y: auto;
-    max-height: 220px;
-}
-
-.scroll-big {
-    overflow-y: auto;
-    max-height: 440px;
-}
-
-.create-button, .open-button {
-    margin-left: 30px;
-    margin-bottom: 20px;
-    height: 26px;
-    width: 120px;
-}
-
-.delete-button, .leave-button {
-    margin: 10px 0 10px 420px;
-    height: 26px;
-    width: 140px;
-}
-
-.search-box {
-    width: 110px;
-    margin-right: 30px;
-    border: 2px solid var(--light-of-gray);
-    font-size: 12px;
-    background-color: var(--main-white);
-    padding: 4px 20px 4px 12px;
-    -webkit-transition: width 0.3s ease-in;
-    transition: width 0.3s ease-out;
-}
-
-    .search-box:focus {
-        width: 46%;
-    }
-
-.header {
-    height: 60px;
-    display: table;
-    margin: 0 auto;
-    padding: 20px 0 0 30px;
-    width: 100%;
-    background: var(--main-bg-color);
-    color: var(--main-white);
-}
-
-    .header select, .header button {
-        color: var(--main-bg-color);
-    }
-
-main {
-    padding-bottom: 10010px;
-    margin-bottom: -10000px;
-    float: left;
-    width: 100%;
-}
-
-.editorMarker {
-    position: absolute;
-    background: var(--main-green);
-    z-index: 40;
-    width: 2px !important
-}
-    .editorMarker::before {
-        position: absolute;
-        background: var(--main-green);
-        z-index: 999;
-        top: -100%;
-        left: 0;
-    }
-
 
 /* Used for most forms, makes the small window around the form */
-/* remove "<div class="col-md-offset-2 col-md-10">" around the button */
-/* for perfect centering */
 .form-container {
     margin: 30px auto;
     padding: 25px 50px;
     display: table;
     background-color: var(--light-of-gray);
-    border: 2px solid;
+    border: 2px solid var(--headerblack);
     border-radius: 25px;
-    color: var(--main-hd-black)
+    color: var(--main-hd-black);
 }
 
 /* Used for submit buttons, to center them */
-div.form-group input[type=submit] {
+/* remove "<div class="col-md-offset-2 col-md-10">" around the button */
+.form-group input[type=submit] {
     width: 150px;
     height: 50px;
     margin-top: 60px;
@@ -346,25 +170,9 @@ div.form-group input[type=submit] {
     .control-label {
         width: auto;
     }
-
-    .radio label, .checkbox label {
-        padding-left: 20px;
-    }
 }
 
-@media (max-width: 992px) {
-    .radio input[type="radio"],
-    .radio-inline input[type="radio"],
-    .checkbox input[type="checkbox"],
-    .checkbox-inline input[type="checkbox"] {
-        margin-left: 0;
-    }
-
-    .checkbox {
-        display: table;
-    }
-}
-
+/* Sets all link within forms to black with underscore */
 .form-container a {
     color: var(--main-hd-black);
     text-decoration: underline;
@@ -373,15 +181,23 @@ div.form-group input[type=submit] {
 }
 
 
+/* ---------------------------------------- Editor ---------------------------------------- */
 
-tbody tr:hover {
-    background-color: var(--main-green);
+#home-editor {
+    display:inline-block;
+    display: flex;
+    justify-content: center;
+    bottom: 12px;
+    margin: 30px auto 10px auto;
+    width: 70%;
+    min-width: 200px;
+    height: 300px;
+    min-height: 100px;
+    border: 2px solid var(--headerblack);
 }
 
-tbody tr.highlighted{
-    background: var(--main-orange);
-}
 
-.hidden-col {
-    display: none;
+#editor {
+    height: 100%;
+    min-height: 10px;
 }
