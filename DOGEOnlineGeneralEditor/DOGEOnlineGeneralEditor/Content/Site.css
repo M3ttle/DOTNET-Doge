@@ -33,7 +33,7 @@ body {
 
 /* Change the main font to something prettier */
 /* It's a font from google, declared in the index frontpage */
-.ubuntu-font, .navbar, footer, button, h1, h2, h3, h4, h5, h6 {
+.ubuntu-font, .navbar, footer, button, .top-nav a, h1, h2, h3, h4, h5, h6 {
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -94,6 +94,10 @@ textarea {
     margin-right: 0;
 }
 
+/* For hiding content */
+.hide {
+    display: none;
+}
 
 /* ---------------------------------------- Frontpage ---------------------------------------- */
 
@@ -198,15 +202,11 @@ textarea {
     border: 2px solid var(--headerblack);
 }
 
-
 #editor {
     height: 100%;
     min-height: 10px;
 }
 
-.hidden-col {
-    display: none;
-}
 
 /* ---------------------------------------- _ProjectsNav ---------------------------------------- */
 
@@ -240,4 +240,6 @@ ul.top-nav li a {
 }
 
 
+
+/* ---------------------------------------- Tables ---------------------------------------- */
 
