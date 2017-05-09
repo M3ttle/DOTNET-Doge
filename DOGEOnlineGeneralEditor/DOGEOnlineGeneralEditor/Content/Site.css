@@ -225,7 +225,7 @@ textarea {
 /* To show where other users are in the file */
 .editor-marker {
     position: absolute;
-    background: var(--dogegreen);
+    /*background: var(--dogegreen);*/
     z-index: 40;
     width: 2px !important
 }
@@ -233,7 +233,7 @@ textarea {
 /* To show where other users are in the file */
 .editor-marker::before {
     position: absolute;
-    background: var(--dogegreen);
+    /*background: var(--dogegreen);*/
     z-index: 999;
     top: -100%;
     left: 0;
