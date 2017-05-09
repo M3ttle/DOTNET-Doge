@@ -51,6 +51,4 @@ COPY ./bin/Release/PublishOutput/ /inetpub/wwwroot
 # Build and run the dotnet application from within the container
 #ENTRYPOINT ["dotnet", "run"]
 
-#git fetch origin master
-#git merge origin/master
-#git push origin stage:master
+#      git fetch origin master && git merge origin/master && git push origin stage:master
