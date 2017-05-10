@@ -5,12 +5,6 @@
     ViewData["Title"] = "Editor";
 }
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/ace")
-
-@Scripts.Render("~/bundles/signalr")
-<script src="~/signalr/hubs"></script>
-
 @using (Html.BeginForm("Save", "File", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
@@ -72,34 +66,42 @@
 <div id="editor">@Model.Data</div>
 <input type="hidden" id="userNameLogged" name="userNameLogged" value="@HttpContext.Current.User.Identity.Name" />
 
-<script>
-    $(function () {
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/ace")
+    @Scripts.Render("~/bundles/signalr")
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/editorHubProxy.js"></script>
+
+    <script>
+        $(function () {
         
-        var editor = ace.edit("editor");
-        var theme = $("#UserThemeID").val();
-        var selected = $(this).find('option:selected');
-        var mode = selected.data('mode');
-        editor.getSession().setMode(mode);
-        editor.setTheme(theme);
-        editor.getSession().setUseWrapMode(true);
-        editor.setShowPrintMargin(false);
-        editor.focus();
-        
-        $("#LanguageTypeID").change(function () {
-            var selected = $(this).find('option:selected');
+            var editor = ace.edit("editor");
+            var theme = $("#UserThemeID").val();
+            var selected = $("#LanguageTypeID").find('option:selected');
             var mode = selected.data('mode');
             editor.getSession().setMode(mode);
-        });
-
-        $("#UserThemeID").change(function () {
-            var theme = $("#UserThemeID").val();
             editor.setTheme(theme);
-        });
+            editor.getSession().setUseWrapMode(true);
+            editor.setShowPrintMargin(false);
+            editor.focus();
+        
+            $("#LanguageTypeID").change(function () {
+                var selected = $(this).find('option:selected');
+                var mode = selected.data('mode');
+                editor.getSession().setMode(mode);
+            });
 
-        // Copy the contents of the editor into our hidden editor for further processing
-        $("form").submit(function () {
-            $("#hidden-editor").val(editor.getSession().getValue());
+            $("#UserThemeID").change(function () {
+                var theme = $("#UserThemeID").val();
+                editor.setTheme(theme);
+            });
+
+            // Copy the contents of the editor into our hidden editor for further processing
+            $("form").submit(function () {
+                $("#hidden-editor").val(editor.getSession().getValue());
+            });
         });
-    });
-</script>
-<script src="~/Scripts/editorHubProxy.js"></script>
+    </script>
+}
