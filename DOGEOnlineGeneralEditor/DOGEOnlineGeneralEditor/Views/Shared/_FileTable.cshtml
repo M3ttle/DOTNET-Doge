@@ -1,0 +1,33 @@
+﻿@model IEnumerable<DOGEOnlineGeneralEditor.Models.ViewModels.FileViewModel>
+
+
+<div class="table-container">
+    <table id="files-table" class="table">
+            @if (!Model.Any())
+            {
+                <tr>
+                    <th>This project is empty</th>
+                    <th></th>
+                </tr>}
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Editor", "Workspace", new { id = item.ID }, null)">
+                            @item.Name <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("Delete", "File", FormMethod.Post, null))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("fileID", item.ID)
+                            <label for="delete-file-submit"><i class="glyphicon glyphicon-trash"></i></label>
+                            <input type="submit" id="delete-file-submit" class="hidden" />
+                        }
+                    </td>
+                </tr>
+            }
+    </table>
+</div>

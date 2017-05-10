@@ -661,6 +661,7 @@
     <Content Include="Views\Project\AddUserToProject.cshtml" />
     <Content Include="Views\Shared\UnauthorizedAccessError.cshtml" />
     <Content Include="Views\Shared\_ProjectTable.cshtml" />
+    <Content Include="Views\Shared\_FileTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

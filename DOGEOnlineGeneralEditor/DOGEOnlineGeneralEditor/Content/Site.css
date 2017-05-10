@@ -41,9 +41,15 @@ body {
     white-space: normal;
 }
 
+/* Sets the font size of the text above containers */
+.doge-header {
+    font-size: 26px;
+    margin: 25px 0 2px 25px;
+}
+
 /* Change the main font to something prettier */
 /* It's a font from google, declared in the index frontpage */
-.ubuntu-font, .navbar, footer, button, .top-nav a, h1, h2, h3, h4, h5, h6, th, .table-header {
+.ubuntu-font, .navbar, footer, button, .top-nav a, h1, h2, h3, h4, h5, h6, th, .doge-header {
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -259,41 +265,48 @@ table a:hover, .glyphicon-remove:hover, .glyphicon-trash:hover {
     font-size: 15px;
 }
 
-/* Set the columns to a fixed size */
-th:nth-child(1), td:nth-child(1) {
+/* Set project table columns to a fixed size */
+th:nth-child(1), .project-container td:nth-child(1) {
     width: 34%;
 }
-th:nth-child(2), td:nth-child(2) {
+th:nth-child(2), .project-container td:nth-child(2) {
     width: 25%;
 }
-th:nth-child(3), td:nth-child(3) {
+th:nth-child(3), .project-container td:nth-child(3) {
     width: 15%;
     text-align: center;
 }
-th:nth-child(4), td:nth-child(4) {
+th:nth-child(4), .project-container td:nth-child(4) {
     width: 20%;
 }
-th:nth-child(5), td:nth-child(5) {
+th:nth-child(5), .project-container td:nth-child(5) {
     width: 6%;
     text-align: right;
 }
 
-/* Makes the small window around the table */
+/* Set file table columns to a fixed size */
+.file-container td:nth-child(1) {
+    width: 80%;
+}
+.file-container td:nth-child(2) {
+    width: 20%;
+}
+
+/* Makes the window around the table */
 .table-container {
     margin: 0 auto;
     padding: 0 20px;
     display: table;
-    min-width: 335px;
     background-color: var(--lightgray);
     border: 2px solid var(--headerblack);
     border-radius: 10px;
     color: var(--main-hd-black);
 }
 
-/* Sets the font size of the text above the tables */
-.table-header {
-    font-size: 26px;
-    margin: 25px 0 2px 25px;
+/* Sets restrictions to the file table */
+.file-container {
+    /* TODO center files table */
+    max-width: 500px;
 }
 
 /* Makes it possible to have fixed sized columns */
@@ -306,8 +319,14 @@ th:nth-child(5), td:nth-child(5) {
 .glyphicon-plus-sign {
     color: var(--dogegreen);
 }
+.glyphicon-plus-sign:hover {
+    font-size: 28px;
+}
 .glyphicon-search {
     color: #1FAECC;
+}
+.glyphicon-search:hover {
+    font-size: 28px;
 }
 
 @media (min-width: 768px) {
