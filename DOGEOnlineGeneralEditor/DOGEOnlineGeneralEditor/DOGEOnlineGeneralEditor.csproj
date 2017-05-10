@@ -633,6 +633,7 @@
     <Content Include="Scripts\ace-min-noconflict\worker-php.js" />
     <Content Include="Scripts\ace-min-noconflict\worker-xml.js" />
     <Content Include="Scripts\ace-min-noconflict\worker-xquery.js" />
+    <Content Include="Scripts\table.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
