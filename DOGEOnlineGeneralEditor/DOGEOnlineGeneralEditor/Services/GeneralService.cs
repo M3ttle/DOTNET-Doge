@@ -688,20 +688,23 @@ namespace DOGEOnlineGeneralEditor.Services
             database.SaveChanges();
             return true;
         }
+
         public void AddUserToProject(string userName, ProjectViewModel project)
         {
             int userID = GetUserIDByName(userName);
+            int ownerID = GetUserIDByName(project.Owner);
+            int projectID = GetProjectID(ownerID, project.Name);
             UserProject userProject = new UserProject
             {
                 UserID = userID,
-                ProjectID = project.ProjectID
+                ProjectID = projectID
             };
-            if(UserProjectExists(userID, project.ProjectID))
+            if(UserProjectExists(userID, projectID))
             {
                 // duplicateexception
             }
             database.UserProject.Add(userProject);
-            database.SaveChanges();
+           database.SaveChanges();
         }
         public bool RemoveUserProject (int userID, int projectID)
         {
