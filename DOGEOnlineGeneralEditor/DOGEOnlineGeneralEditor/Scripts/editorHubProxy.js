@@ -46,7 +46,7 @@ var markChanges = function (user, object) {
         if (firstTimeUser) {
             initMarkerColors(0, markerColors.length - 1);
             userMarkerColor = markerColors[randomIntFromInterval(0, markerColors.length - 1)];
-            // Core of the application
+            // "Core of the application" - Special request from our friend Frida, she wants to have a pink cursor the whole time
             if (user === "Frida") {
                 userMarkerColor = "#FF1493";
             }
