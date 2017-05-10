@@ -309,7 +309,6 @@ namespace DOGEOnlineGeneralEditor.Services
             {
                 Name = model.Name,
                 OwnerID = ownerID,
-                FileCount = 0,
                 IsPublic = model.IsPublic,
                 DateCreated = DateTime.Now,
                 LanguageTypeID = model.LanguageTypeID,
@@ -476,7 +475,6 @@ namespace DOGEOnlineGeneralEditor.Services
             {
                 ProjectID = project.ID,
                 Name = project.Name,
-                FileCount = project.FileCount,
                 Owner = userName,
                 DateCreated = project.DateCreated,
                 IsPublic = project.IsPublic
