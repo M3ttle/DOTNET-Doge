@@ -75,7 +75,6 @@ var initMarkerColors = function () {
     markerColors[3] = "pink";
     markerColors[4] = "gray";
     markerColors[5] = "green";
-    markerColors[6] = "#FF1493";
 };
 
 $("form").on("submit", function () {
