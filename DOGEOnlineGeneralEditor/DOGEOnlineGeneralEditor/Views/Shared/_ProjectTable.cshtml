@@ -3,13 +3,23 @@
 
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Owner</th>
-                <th>Public</th>
-                <th>Created</th>
-                @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+                @if (!Model.Any())
                 {
-                    <th></th>}
+                
+                    <th>There are no projects to show</th>
+                    <th></th>
+                }
+                else
+                {
+                    <th>Name</th>
+                    <th>Owner</th>
+                    <th>Public</th>
+                    <th>Created</th>
+                    if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+                    {
+                        <th></th>}
+}
+                
             </tr>
         </thead>
         <tbody>

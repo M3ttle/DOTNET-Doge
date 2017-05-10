@@ -260,7 +260,7 @@ table a, table a:visited {
 }
 
 /* Adds a slight size change to clickable items */
-table a:hover, .glyphicon-remove:hover, .glyphicon-trash:hover {
+table a:hover, table .glyphicon-remove:hover, table .glyphicon-trash:hover {
     color: inherit;
     font-size: 15px;
 }
@@ -272,16 +272,15 @@ th:nth-child(1), .project-container td:nth-child(1) {
 th:nth-child(2), .project-container td:nth-child(2) {
     width: 25%;
 }
-th:nth-child(3), .project-container td:nth-child(3) {
+th:nth-child(3), td:nth-child(3) {
     width: 15%;
     text-align: center;
 }
-th:nth-child(4), .project-container td:nth-child(4) {
+th:nth-child(4), .td:nth-child(4) {
     width: 20%;
 }
-th:nth-child(5), .project-container td:nth-child(5) {
+th:nth-child(5), .td:nth-child(5) {
     width: 6%;
-    text-align: right;
 }
 
 /* Set file table columns to a fixed size */
@@ -305,7 +304,7 @@ th:nth-child(5), .project-container td:nth-child(5) {
 
 /* Sets restrictions to the file table */
 .file-container {
-    /* TODO center files table */
+    display: table;
     max-width: 500px;
 }
 
@@ -315,18 +314,31 @@ th:nth-child(5), .project-container td:nth-child(5) {
     margin: 0;
 }
 
-/* Colors the create and search icons */
-.glyphicon-plus-sign {
+/* Changes the icons size when hover in doge-header */
+.doge-header .glyphicon:hover {
+    font-size: 28px;
+}
+
+/* Gives the doge-header icons a bit of padding */
+.doge-header .glyphicon {
+    padding-right: 6px;
+}
+
+/* Colors the icons in the doge-header */
+.doge-header .glyphicon-plus-sign {
     color: var(--dogegreen);
 }
-.glyphicon-plus-sign:hover {
-    font-size: 28px;
-}
-.glyphicon-search {
+.doge-header .glyphicon-search {
     color: #1FAECC;
 }
-.glyphicon-search:hover {
-    font-size: 28px;
+.doge-header .glyphicon-send {
+    color: #FF3348;
+}
+.doge-header .glyphicon-trash {
+    color: #E67700;
+}
+.doge-header .glyphicon-pencil {
+    color: #FFC300;
 }
 
 @media (min-width: 768px) {
