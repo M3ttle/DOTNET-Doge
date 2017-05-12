@@ -17,13 +17,13 @@ namespace DOGEOnlineGeneralEditor.Utilities
 
             string viewName = "Error";
 
-            if (ex is UserNotFoundException)
-            {
-                viewName = "UserNotFoundError";
-            }
-            else if (ex is ProjectNotFoundException)
+            if (ex is CustomProjectNotFoundException)
             {
                 viewName = "ProjectNotFoundError";
+            }
+            else if (ex is CustomFileNotFoundException)
+            {
+                viewName = "FileNotFoundError";
             }
             else if (ex is UnauthorizedAccessToProjectException)
             {

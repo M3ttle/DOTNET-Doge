@@ -46,7 +46,7 @@ namespace DOGEOnlineGeneralEditor
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
-                AllowOnlyAlphanumericUserNames = false,
+                AllowOnlyAlphanumericUserNames = true,
                 RequireUniqueEmail = true
             };
 
@@ -55,7 +55,7 @@ namespace DOGEOnlineGeneralEditor
             {
                 RequiredLength = 6,
                 RequireNonLetterOrDigit = false,
-                RequireDigit = false,
+                RequireDigit = true,
                 RequireLowercase = false,
                 RequireUppercase = false,
             };

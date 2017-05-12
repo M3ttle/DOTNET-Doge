@@ -1,69 +1,23 @@
-﻿@model DOGEOnlineGeneralEditor.Models.ViewModels.UserCollabViewModel
+﻿@model DOGEOnlineGeneralEditor.Models.ViewModels.UserCollaboratorViewModel
 @{
     ViewBag.Title = "AddUserToProject";
 }
 
-<h2>AddUserToProject</h2>
-@if(TempData["Success"] != null)
-{
-    <div>@TempData["Success"]</div>
-}
-<div class="project-table">
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NotCollaborators)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model.NotCollaborators)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    <button onclick="setUserID('@item.UserID')" class="btn-default">Add</button>
-                </td>
-            </tr>
-        }
-
-    </table>
-</div>
-<div class="project-table">
-
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Collaborators)
-                </th>
-            </tr>
-
-            @foreach (var item in Model.Collaborators)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
-                </tr>
-            }
-
+<div class="small-table-container">
+    <div class="doge-header">Add user to project
+        <i data-toggle="tooltip" data-placement="bottom" title="Search for Projects" class="glyphicon glyphicon-search" id="glyphicon-users-search"></i><!--
+     --><input type="text" id="users-search" class="table-searchbar" placeholder="Search..." /><!--
+ --></div>
+    <div class="table-container">
+        <table id="users-table" class="table">
+            @{ Html.RenderPartial("_UserTable", Model); }
         </table>
-    @Html.ActionLink("Back to project", "Details", "Project", new { id = Model.ProjectID }, null)
     </div>
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.ProjectID)
-        @Html.Hidden("UserID", null, htmlAttributes: new { @id = "HiddenUserID" })
-        <input type="submit" hidden="hidden" id="hiddenSubmit" />
-    }
-    @section Scripts {
-        <script>
-            function setUserID(userID) {
-                $("#HiddenUserID").val(userID);
-                document.getElementById("hiddenSubmit").click();
-            }
-        </script>
-    }
+    @Html.ActionLink("Back to project", "Details", "Project", new { id = Model.ProjectID }, null)
+</div>
+
+}
+@section Scripts 
+{
+    <script src="~/Scripts/table.js"></script>
+}

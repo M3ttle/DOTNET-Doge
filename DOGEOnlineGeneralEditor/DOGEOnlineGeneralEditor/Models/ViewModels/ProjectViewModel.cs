@@ -9,14 +9,14 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
 {
     public class ProjectViewModel
     {
-        public int ProjectID { get; set; }
+        public int ID { get; set; }
         [Required]
-        [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "The {0} must be between 3-30 characters long.", MinimumLength = 3)]
         [Display(Name = "Name")]
         public string Name { get; set; }
         public string Owner { get; set; }
-        public int FileCount { get; set; }
         public int LanguageTypeID { get; set; }
+		[Display(Name = "Public")]
         public bool IsPublic { get; set; }
         public DateTime DateCreated { get; set; }
         public List<FileViewModel> Files { get; set; }

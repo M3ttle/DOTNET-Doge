@@ -6,25 +6,30 @@
 
 @Scripts.Render("~/bundles/jquery")
 
-@if (TempData["Success"] != null)
-{
-    <div>@TempData["Success"]</div>
-}
 
-
-<div class="doge-header">My Projects  <a href="@Url.Action("Create", "Project")"><i class="glyphicon glyphicon-plus-sign"></i></a>  <i class="glyphicon glyphicon-search"></i> search bar birtist hér</div>
-
+<div class="doge-header">My Projects  
+    <a href="@Url.Action("Create", "Project")"><i data-toggle="tooltip" data-placement="bottom" title="Create Project" class="glyphicon glyphicon-plus-sign"></i></a><!--
+ --><i data-toggle="tooltip" data-placement="bottom" title="Search for Projects" class="glyphicon glyphicon-search" id="glyphicon-my-search"></i>
+    <input type="text" class="table-searchbar text-box" id="my-search" placeholder="Search..." /> 
+</div>
 <div class="table-container">
     <table id="my-projects-table" class="table">
         @{ Html.RenderPartial("_ProjectTable", Model.MyProjects); }
     </table>
 </div>
 
-<div class="doge-header">Collaboration Projects  <i class="glyphicon glyphicon-search"></i></div>
-
+<div class="doge-header">Collaboration Projects  
+    <i data-toggle="tooltip" data-placement="bottom" title="Search for Projects" class="glyphicon glyphicon-search" id="glyphicon-collaboration-search"></i>
+    <input type="text" id="collaboration-search" class="table-searchbar" placeholder="Search..." />
+</div>
 <div class="table-container">
     <table id="collaboration-projects-table" class="table">
         @{ Html.RenderPartial("_ProjectTable", Model.CollaborationProjects); }
     </table>
 </div>
 
+
+@section Scripts {
+
+    <script src="~/Scripts/table.js"></script>
+}

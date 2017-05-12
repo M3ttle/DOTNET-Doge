@@ -1,60 +1,76 @@
 ﻿@model IEnumerable<DOGEOnlineGeneralEditor.Models.ViewModels.ProjectViewModel>
 
 
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Owner</th>
-                <th>Public</th>
-                <th>Created</th>
-                @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
-                {
-                    <th></th>}
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+<thead>
+    <tr>
+        @if (!Model.Any())
+        {
+                
+            <th>There are no projects to show</th>
+            <th></th>
+        }
+        else
+        {
+            <th>Name</th>
+            <th>Owner</th>
+
+            if(!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
             {
-                <tr>
-                    <td>
-                        @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
-                        {
-                            <a href="@Url.Action("Details", "Project", new { id = item.ProjectID }, null)">
-                                @item.Name <i class="glyphicon glyphicon-pencil"></i>
-                            </a>
-}
-                        else
-                        {
-                            @Html.DisplayFor(modelItem => item.Name)
-}
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.Owner)</td>
-                    <td>
-                        @if (item.IsPublic)
-                        {
-                            <i class="glyphicon glyphicon-ok"></i>
-}
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
-                    @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+                <th>Public</th>
+            }
+            else
+            {
+                <td class="hidden"></td>
+            }
+            
+            <th>Created</th>
+            <th></th>
+        }              
+    </tr>
+</thead>
+<tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+               <a data-toggle="tooltip" data-placement="right" title="Open Project" href="@Url.Action("Details", "Project", new { id = item.ID }, null)">
+                    @item.Name <i class="glyphicon glyphicon-pencil"></i>
+               </a>
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.Owner)</td>
+            @if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+            { 
+            <td>
+                @if (item.IsPublic)
+                {
+                    <i class="glyphicon glyphicon-ok"></i>
+                }
+            </td>
+            }
+            else
+            {
+                <td class="hidden"></td>
+            }
+            <td>@item.DateCreated.ToShortDateString()</td>
+            <td>
+                <a data-toggle="tooltip" data-placement="bottom" title="Add User to Project" href="@Url.Action("AddUserToProject", "Project", new { id = item.ID }, null)"><i class="glyphicon glyphicon-send"></i></a>
+                @if (item.Owner == User.Identity.Name)
+                {
+                    <input type="hidden" name="ProjectID" value="@item.ID" />
+                    <i data-toggle="tooltip" data-placement="bottom" title="Delete Project" class="glyphicon glyphicon-trash trash-project"></i>
+                }
+                else if (!(ViewContext.RouteData.Values["Action"].ToString() == "PublicProjects"))
+                {
+                    using (Html.BeginForm("LeaveProject", "Project", FormMethod.Post, null))
                     {
-                        <td>
-                            @{ if (item.Owner == User.Identity.Name)
-                                {
-                                    <i class="glyphicon glyphicon-trash"></i>
-}
-                                else
-                                {
-                                    using (Html.BeginForm("LeaveProject", "Project", FormMethod.Post, null))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        @Html.Hidden("ProjectID", null, htmlAttributes: new { @id = item.ProjectID });
-                                        <label for="leave-project-submit"><i class="glyphicon glyphicon-remove"></i></label>
-                                        <input type="submit" id="leave-project-submit" class="hidden" />
-}
-                                }
-                            }
-                        </td>   }
-                </tr>            }
-        </tbody>
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ProjectID" value="@item.ID" />
+                        <label for="@item.ID"><i data-toggle="tooltip" data-placement="bottom" title="Leave Project" class="glyphicon glyphicon-remove"></i></label>
+                        <input type="submit" id="@item.ID" class="hidden" />
+                    }
+                }
+            </td>               
+        </tr>            
+    }
+</tbody>
     

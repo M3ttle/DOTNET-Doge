@@ -1,37 +1,41 @@
-﻿:root {
-    --main-white: #f4f4f4;
-    
-    --main-hd-black: #222;
-    --main-orange: #FD971F;
+﻿
 
-    /* Color "seashell" is also used */
-    --dogegreen: #87D747;
-    --dogedarkgreen: #6BB233;
-    --headerblack: #222;
-    --backgroundgray: #272822;
-    --mediumgray: #3E3D32;
-    --lightgray: #d5d5d5;
+/*      
+    COLORS USED:
+        green: #87D747;
+        headerblack: #222;
+        backgroundgray: #272822;
+        lightgray: #d5d5d5;
+*/
+
+
+
+@font-face {
+    font-family: 'myfontfamily';
+    src: url('/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/glyphicons-halflings-regular.woff') format('woff'),
+         url('/fonts/glyphicons-halflings-regular.woff2') format('woff2');
 }
 
 /* ---------------------------------------- General CSS ---------------------------------------- */
 
-/* Andri */
+/*Javascript not enabled */
 .noscript {
     display: block;
     text-align: center;
     font-size: 50px;
 }
 
-/* Andri */
+/* Javascript not disabled */
 .script {
     display: none;
 }
 
 /* Set body main colors */
 body {
-    background: var(--backgroundgray);
+    background: #272822;
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 56px;
     color: seashell;
 }
 
@@ -45,13 +49,75 @@ body {
 .doge-header {
     font-size: 26px;
     margin: 25px 0 2px 25px;
+    display: inline-block;
+    min-width: 70px;
+    word-break: break-word;
+    word-wrap: break-word;
+}
+
+/* Changes the icons size when hover in doge-header */
+.doge-header .glyphicon:hover {
+    font-size: 28px;
+}
+
+/* Gives the doge-header icons a bit of padding */
+.doge-header .glyphicon {
+    padding: 0 4px;
+}
+
+/* Colors the icons in the doge-header */
+.doge-header .glyphicon-plus-sign {
+    color: #87D747;
+}
+.doge-header .glyphicon-search {
+    color: #1FAECC;
+    cursor: pointer;
+}
+.doge-header .glyphicon-send {
+    color: #FF3348;
+}
+.doge-header .glyphicon-trash {
+    color: #E67700;
+}
+.doge-header .glyphicon-pencil {
+    color: #FFC300;
+}
+
+/* Keeps the icons together in a line */
+.doge-header-icons {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+/* Bigger font size for regular buttons */
+.btn {
+    font-size: 18px;
+}
+
+.doge-background {
+    background-image: url("../Images/Doge_background.jpg");    
+}
+
+.doge-image {
+    display: inline-block;
+    width: 370px;
+}
+
+.doge-error {
+    word-wrap: break-word;
 }
 
 /* Change the main font to something prettier */
 /* It's a font from google, declared in the index frontpage */
-.ubuntu-font, .navbar, footer, button, .top-nav a, h1, h2, h3, h4, h5, h6, th, .doge-header {
+.ubuntu-font, .navbar, footer, button, .btn, .top-nav a, h1, h2, h3, h4, h5, h6, th, label, .doge-header {
     font-family: 'Ubuntu', sans-serif;
 }
+h1, h2, h3, h4, h5, h6, .doge-header, .front-page-p, .glyphicon-floppy-disk, .glyphicon-folder-open { 
+    text-shadow: 1px 1px #272822;
+}
+
+
 
 
 /* ---------------------------------------- _Layout ---------------------------------------- */
@@ -63,8 +129,14 @@ body {
     padding: 8px 14px 8px 8px;
 }
 
+/* Size of logo text */
 .navbar-brand {
-    font-size: 26px
+    font-size: 28px;
+}
+
+/* Size of links in navigation bar */
+.navbar-nav {
+    font-size: 15px;
 }
 
 /* Wrapping element */
@@ -77,7 +149,7 @@ body {
 /* Set footer that is always on the bottom of the page */
 footer {
     padding: 0;
-    background: var(--headerblack);
+    background: #222;
 }
 
 /* Sets the text in footer to the right */
@@ -87,13 +159,6 @@ footer p {
     margin: 4px 0;
     padding: 2px 15px;
     color: #9d9d9d;
-}
-
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
 }
 
 /* buttons and links extension to use brackets: [ click me ] */
@@ -109,7 +174,7 @@ textarea {
     padding-left: 0.5em;
 }
 
-/* fixing because bootstrap set it to -15px for some reason */
+/* Fixing because bootstrap set it to -15px for some reason */
 .navbar-right {
     margin-right: 0;
 }
@@ -134,46 +199,45 @@ h1, h1 + p {
     text-align: center;
     background-image: url("/Images/bg.png");
     background-repeat: repeat;
-    border-top: 1px solid var(--headerblack);
-    border-bottom: 1px solid var(--headerblack);
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
 }
 
+/* Edits the look of the frontpage signup button */
 .signup-button
 {
     height: 70px;
     width: 200px;
     border-radius: 4px;
     font-size: 30px;
-    color: var(--backgroundgray);
-    background-color: var(--dogegreen);
+    color: #272822;
+    background-color: #87D747;
     border-color: black;
+    border-width: 1px;
     margin-top: 22px;
 }
-
 .signup-button:active
 {
-    background-color: var(--dogedarkgreen);
+    background-color: #87D747;
 }
 
 /* ---------------------------------------- Forms ---------------------------------------- */
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
+input, select, textarea {
+    display: inline;
     max-width: 280px;
 }
 
 /* Used for most forms, makes the small window around the form */
 .form-container {
-    margin: 20px auto;
-    padding: 25px 50px;
-    display: table;
-    min-width: 340px;
-    background-color: var(--lightgray);
-    border: 2px solid var(--headerblack);
+    padding: 20px 50px;
+    display: inline-block;
+    width: 370px;
+    background-color: #d5d5d5;
+    border: 1px solid #222;
     border-radius: 10px;
-    color: var(--main-hd-black);
+    color: #222;
 }
 
 /* Used for submit buttons, to center them */
@@ -191,7 +255,6 @@ textarea {
         width: auto;
     }
 }
-
 @media (min-width: 992px) {
     .control-label {
         width: auto;
@@ -200,12 +263,23 @@ textarea {
 
 /* Sets all link within forms to black with underscore */
 .form-container a {
-    color: var(--headerblack);
+    color: #222;
     text-decoration: underline;
     display: block;
     text-align: center;
 }
 
+/* For two forms to fit side by side */
+.space-around
+{
+    display: flex;
+}
+@media (max-width: 768px) {
+    .space-around
+    {
+        flex-direction: column;
+    }
+}
 
 /* ---------------------------------------- Editor ---------------------------------------- */
 
@@ -219,12 +293,13 @@ textarea {
     min-width: 200px;
     height: 300px;
     min-height: 100px;
-    border: 2px solid var(--headerblack);
+    border: 2px solid #222;
 }
 
 #editor {
-    height: 100%;
+    height: 550px;
     min-height: 400px;
+    border: 2px solid #222;
 }
 
 /* Andri */
@@ -236,20 +311,86 @@ textarea {
 /* To show where other users are in the file */
 .editor-marker {
     position: absolute;
-    /*background: var(--dogegreen);*/
+    /*background: #87D747;*/
     z-index: 40;
-    width: 2px !important
+    width: 2px;
 }
 
 /* To show where other users are in the file */
 .editor-marker::before {
     position: absolute;
-    /*background: var(--dogegreen);*/
+    /*background: #87D747;*/
     z-index: 999;
     top: -100%;
     left: 0;
 }
 
+/* Container that holds the file form and doge header */
+.editor-nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+/* Displays messages for the editor */
+#editor-notification {
+   display: flex;
+   align-items: flex-end;
+}
+#editor-notification label {
+    font-weight: normal;
+    color: #87D747;
+    text-align: right;
+    padding-left: 10px;
+    margin: 0;
+}
+#editor-notification .editor-error-message {
+    color: red;
+}
+@media (max-width: 768px) {
+
+    /* Error messages for the editor */
+    #editor-notification label {
+        font-size: 10px;
+    }
+}
+
+/* The editors navigation bar */
+.editor-nav { 
+    display: flex;  
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin: 4px 2px;
+}
+.editor-nav:first-child {
+    justify-content: flex-start;
+}
+
+/* Details on containers in the editors navigation bar */
+.editor-nav .form-group {
+    margin: 0 1px 0 9px;
+}
+
+/* Details on the forlder and save icon */
+.editor-nav:nth-child(2), .editor-nav:nth-child(3) {
+    height: 34px;
+}
+.glyphicon-floppy-disk {
+    font-size: 32px;
+    padding-left: 8px;
+}
+.form-group .glyphicon-folder-open {
+    font-size: 30px;
+    padding-left: 8px;
+}
+.glyphicon-floppy-disk:hover {
+    cursor: pointer;
+    font-size: 34px;
+}
+.form-group .glyphicon-folder-open:hover {
+    cursor: pointer;
+    font-size: 32px;
+}
 
 /* ---------------------------------------- Tables ---------------------------------------- */
 
@@ -259,84 +400,122 @@ table a, table a:visited {
     text-decoration: underline;
 }
 
-/* Adds a slight size change to clickable items */
-table a:hover, .glyphicon-remove:hover, .glyphicon-trash:hover {
+/* Adds a slight change to clickable items */
+table a:hover, table .glyphicon-remove:hover, table .glyphicon-trash:hover, table .glyphicon-send:hover, table .glyphicon-pencil:hover {
     color: inherit;
+    cursor: pointer;
     font-size: 15px;
+}
+table .glyphicon-remove, table .glyphicon-trash, table .glyphicon-send {
+    padding-left: 4px;
+}
+
+table form {
+    display: inline;
+
 }
 
 /* Set project table columns to a fixed size */
-th:nth-child(1), .project-container td:nth-child(1) {
-    width: 34%;
+th:nth-child(1), td:nth-child(1) {
+    width: 45%;
+    word-wrap: break-word;
 }
-th:nth-child(2), .project-container td:nth-child(2) {
-    width: 25%;
-}
-th:nth-child(3), .project-container td:nth-child(3) {
+th:nth-child(2), td:nth-child(2) {
     width: 15%;
     text-align: center;
 }
-th:nth-child(4), .project-container td:nth-child(4) {
-    width: 20%;
+th:nth-child(3), td:nth-child(3) {
+    width: 15%;
+    text-align: center;
 }
-th:nth-child(5), .project-container td:nth-child(5) {
-    width: 6%;
+th:nth-child(4), td:nth-child(4) {
+    width: 15%;
+    text-align: center;
+}
+th:nth-child(5), td:nth-child(5) {
+    width: 10%;
     text-align: right;
 }
 
-/* Set file table columns to a fixed size */
-.file-container td:nth-child(1) {
-    width: 80%;
+/* Hides the created column for mobile/smaller screens */
+@media(max-width: 768px) {
+    th:nth-child(4), td:nth-child(4) {
+        display: none;
+    }   
 }
-.file-container td:nth-child(2) {
-    width: 20%;
+
+/* Set smaller table columns to a fixed size */
+.files-table th:nth-child(1), .files-table td:nth-child(1) {
+    width: 90%;
+}
+.files-table th:nth-child(2), .files-table td:nth-child(2) {
+    width: 10%;
+    text-align: right;
+}
+
+/* Sets the overall table look */
+.table {
+    margin: 0 auto;
+    padding: 0 25px;
+    display: table;
+    table-layout: fixed;
+    border-collapse: initial;
+    width: 100%;
+    background-color: #d5d5d5;
+    border: 1px solid #222;
+    border-radius: 10px;
+    color: #222;
+}
+
+/* Resets table borders from bootstrap */    
+.table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td{
+    border-width: 0 0 1px 0;
+    border-style: none none solid none;
+    border-color: #C5C5C5;
+    vertical-align: middle;
 }
 
 /* Makes the window around the table */
 .table-container {
-    margin: 0 auto;
-    padding: 0 20px;
+    width: 100%;
+}
+
+/* Sets restrictions smaller tables */
+.small-table-container {
     display: table;
-    background-color: var(--lightgray);
-    border: 2px solid var(--headerblack);
-    border-radius: 10px;
-    color: var(--main-hd-black);
+    margin: 0 auto;
+    width: 370px;
 }
 
-/* Sets restrictions to the file table */
-.file-container {
-    /* TODO center files table */
-    max-width: 500px;
-}
-
-/* Makes it possible to have fixed sized columns */
-.table {
-    table-layout: fixed;
-    margin: 0;
-}
-
-/* Colors the create and search icons */
-.glyphicon-plus-sign {
-    color: var(--dogegreen);
-}
-.glyphicon-plus-sign:hover {
-    font-size: 28px;
-}
-.glyphicon-search {
-    color: #1FAECC;
-}
-.glyphicon-search:hover {
-    font-size: 28px;
-}
-
-@media (min-width: 768px) {
-    .table-container {
-        padding: 0 40px;
+@media (max-width: 768px) {
+    .table {
+        padding: 0 5px;
     }
 }
 
-@media (min-width: 992px) {
-    .table-container {
-        padding: 0 40px;
+@media (max-width: 992px) {
+    .table {
+        padding: 0 15px;
     }
 }
+
+/* Search bar modifications */
+.table-searchbar {
+    width: 0;
+    border: 0;
+    vertical-align: text-top;
+    height: 30px;
+    font-size: 16px;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+}
+.table-search-bar-open {
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+    .table-search-bar-open:focus {
+        box-shadow: 0 0 5px #51cbee;
+        border: 1px solid #51cbee;
+        outline: 0;
+    }

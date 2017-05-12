@@ -1,0 +1,35 @@
+﻿@model DOGEOnlineGeneralEditor.Models.ViewModels.UserCollaboratorViewModel
+
+
+<thead>
+    <tr>
+        @if (!Model.NotCollaborators.Any())
+        {
+            <th>There are no users to show</th>
+            <th></th>
+        }
+        else
+        {
+            <th>Name</th>
+            <th></th>
+        }
+    </tr>
+</thead>
+<tbody>
+    @foreach (var item in Model.NotCollaborators)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            <td>
+                @using (Html.BeginForm("AddUserToProject", "Project", FormMethod.Post, null))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("ProjectID", Model.ProjectID);
+                    @Html.Hidden("UserID", item.ID);
+                    <label for="@item.ID"><i class="glyphicon glyphicon-send"></i></label>
+                    <input type="submit" id="@item.ID" class="hidden" />
+                }
+            </td>
+        </tr>            
+    }
+</tbody>

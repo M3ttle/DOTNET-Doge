@@ -30,9 +30,20 @@ namespace DOGEOnlineGeneralEditor
 
             bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
                     "~/Scripts/jquery.signalR-2.2.2.min.js"));
-
+            /*
             bundles.Add(new ScriptBundle("~/bundles/ace").Include(
-                       "~/Scripts/ace-min-noconflict/ace.js"));
+                       "~/Scripts/ace-min-noconflict/ace.js",
+                       "~/Scripts/ace-min-noconflict/*.js"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/ace").IncludeDirectory(
+                    "~/Scripts/ace-min-noconflict", "*.js", true));
+            */
+            bundles.Add(new ScriptBundle("~/bundles/ace").Include(
+                       "~/Scripts/ace-min-noconflict/ace.js",
+                       "~/Scripts/ace-min-noconflict/mode-css.js"));
+
+
+
         }
     }
 }

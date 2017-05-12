@@ -5,16 +5,12 @@ using System.Web;
 
 namespace DOGEOnlineGeneralEditor.Utilities
 {
-    public class UserNotFoundException : Exception
+    public class CustomProjectNotFoundException : Exception
     {
     }
-    public class ProjectNotFoundException : Exception
+    public class CustomFileNotFoundException : Exception
     {
     }
-    public class FileNotFoundException : Exception
-    {
-    }
-
     public class UnauthorizedAccessToProjectException : Exception
     {
     }

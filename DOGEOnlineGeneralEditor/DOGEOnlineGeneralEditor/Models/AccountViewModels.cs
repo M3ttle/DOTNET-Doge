@@ -22,13 +22,13 @@ namespace DOGEOnlineGeneralEditor.Models
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "The {0} must be between 3-30 characters long.", MinimumLength = 3)]
         [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
         [EmailAddress]
-        [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "The {0} must be between 3-50 characters long.", MinimumLength = 3)]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -41,7 +41,7 @@ namespace DOGEOnlineGeneralEditor.Models
         public int UserTypeID {get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be between 6-100 characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -54,9 +54,11 @@ namespace DOGEOnlineGeneralEditor.Models
 
     public class IndexViewModel
     {
+		[Required]
 		[Display(Name = "Username: ")]
 		public string Name { get; set; }
 
+		[Required]
 		[Display(Name = "Email: ")]
 		public string Email { get; set; }
 

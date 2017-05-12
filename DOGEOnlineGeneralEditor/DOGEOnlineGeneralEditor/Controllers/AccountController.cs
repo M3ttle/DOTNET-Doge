@@ -145,7 +145,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
 			
-			IndexViewModel model = service.GetUserAccountInfoByUserName(User.Identity.Name);
+			IndexViewModel model = service.GetUserIndexViewModel(User.Identity.Name);
 			ViewBag.UserTypeID = service.GetUserTypes(model.UserTypeID);
 
 			return View(model);

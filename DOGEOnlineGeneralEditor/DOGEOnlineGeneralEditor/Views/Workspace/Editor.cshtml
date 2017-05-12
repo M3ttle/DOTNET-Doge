@@ -4,102 +4,106 @@
 @{
     ViewData["Title"] = "Editor";
 }
-
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/ace")
-
-@Scripts.Render("~/bundles/signalr")
-<script src="~/signalr/hubs"></script>
+<script>
+    var redirectMyProject = function(){
+        window.location.replace("/Project/Details/" + $("#ProjectID").val())
+    }
+</script>
 
 @using (Html.BeginForm("Save", "File", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
+    <div class="editor-nav-container">
+        <div class="doge-header">Code</div>
+        
+        <div class="editor-nav">
+            @Html.HiddenFor(model => model.ID)
+            @Html.HiddenFor(model => model.ProjectID)
 
-    <div class="form-inline">
-        @Html.HiddenFor(model => model.ID)
-        @Html.HiddenFor(model => model.ProjectID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="from-group">
-            <select id="LanguageTypeID" name="LanguageTypeID" class="form-control">
-                @foreach (var item in Model.LanguageTypes)
-                {
-                    if (item.ID == Model.LanguageTypeID)
-                    {
-                        <option value="@item.ID" data-mode="@item.AceMode" selected="selected">@item.Name</option>
-                    }
-                    else
-                    {
-                        <option value="@item.ID" data-mode="@item.AceMode">@item.Name</option>
-                    }
-                }
-            </select>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserThemeID, "Ace Theme", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
                 @Html.DropDownList("UserThemeID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.UserThemeID, "", new { @class = "text-danger" })
             </div>
-        </div>
-        
-        @Html.HiddenFor(m => m.Data, new { @id = "hidden-editor"})
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input id="saveBtn" name="saveBtn" type="submit" value="Save" class="save-button" />
+            
+            <div class="form-group">
+                <select id="LanguageTypeID" name="LanguageTypeID" class="form-control">
+                    @foreach (var item in Model.LanguageTypes)
+                    {
+                        if (item.ID == Model.LanguageTypeID)
+                        {
+                            <option value="@item.ID" data-mode="@item.AceMode" selected="selected">@item.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.ID" data-mode="@item.AceMode">@item.Name</option>
+                        }
+                    }
+                </select>
             </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" id="saveBtn" name="saveBtn" class="hidden" />
+                <label for="saveBtn"><i data-toggle="tooltip" data-placement="bottom" title="Save Changes" class="glyphicon glyphicon-floppy-disk"></i></label>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="redirect" name="redirect" class="hidden" />
+                <label for="redirect"><i onclick="redirectMyProject()" class="glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="bottom" title="Return to Project"></i></label>
+            </div>
+            
+            <div id="editor-notification">
+                <label></label>
+            </div>
+            @Html.HiddenFor(m => m.Data, new { @id = "hidden-editor" })
         </div>
     </div>
 }
 
-<header class="header">
 
-    <div class="innertube">
-        <div class="topbar">
-        </div>
-    </div>
-
-</header>
 
 <input value="@Model.ID" id="fileID" name="fileID" type="hidden">
 <div id="editor">@Model.Data</div>
 <input type="hidden" id="userNameLogged" name="userNameLogged" value="@HttpContext.Current.User.Identity.Name" />
+@section Scripts {
+    <script src="~/Scripts/ace-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/editorHubProxy.js"></script>
 
-<script>
-    $(function () {
+    <script>
+        $(function () {
+            // Set default path for ace editor
+            ace.config.set('basePath', '/Scripts/ace-min-noconflict');
         
-        var editor = ace.edit("editor");
-        var theme = $("#UserThemeID").val();
-        var selected = $(this).find('option:selected');
-        var mode = selected.data('mode');
-        editor.getSession().setMode(mode);
-        editor.setTheme(theme);
-        editor.getSession().setUseWrapMode(true);
-        editor.setShowPrintMargin(false);
-        editor.focus();
-        
-        $("#LanguageTypeID").change(function () {
-            var selected = $(this).find('option:selected');
+            var editor = ace.edit("editor");
+            var theme = $("#UserThemeID").val();
+            var selected = $("#LanguageTypeID").find('option:selected');
             var mode = selected.data('mode');
             editor.getSession().setMode(mode);
-        });
-
-        $("#UserThemeID").change(function () {
-            var theme = $("#UserThemeID").val();
             editor.setTheme(theme);
-        });
+            editor.getSession().setUseWrapMode(true);
+            editor.setShowPrintMargin(false);
+            editor.focus();
+        
+            $("#LanguageTypeID").change(function () {
+                var selected = $(this).find('option:selected');
+                var mode = selected.data('mode');
+                editor.getSession().setMode(mode);
+            });
 
-        // Copy the contents of the editor into our hidden editor for further processing
-        $("form").submit(function () {
-            $("#hidden-editor").val(editor.getSession().getValue());
+            $("#UserThemeID").change(function () {
+                var theme = $("#UserThemeID").val();
+                editor.setTheme(theme);
+
+            });
+
+            // Copy the contents of the editor into our hidden editor for further processing
+            $("form").submit(function () {
+                $("#hidden-editor").val(editor.getSession().getValue());
+            });
         });
-    });
-</script>
-<script src="~/Scripts/editorHubProxy.js"></script>
+    </script>
+}

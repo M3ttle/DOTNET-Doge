@@ -7,13 +7,13 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
 {
     public class UserViewModel
     {
-        public int UserID { get; set; }
-        public string UserName { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
     }
 
-    public class UserCollabViewModel
+    public class UserCollaboratorViewModel
     {
-        public int? ProjectID { get; set; }
+        public int ProjectID { get; set; }
         public List<UserViewModel> Collaborators { get; set; }
         public List<UserViewModel> NotCollaborators { get; set; }
     }

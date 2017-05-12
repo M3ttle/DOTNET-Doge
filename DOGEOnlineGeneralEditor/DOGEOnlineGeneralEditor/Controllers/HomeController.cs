@@ -10,21 +10,11 @@ namespace DOGEOnlineGeneralEditor.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "About DOGE";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Contact DOGE";
-
-            return View();
+			if (User.Identity.IsAuthenticated)
+			{
+				return RedirectToAction("MyProjects", "Workspace");
+			}
+			return View();
         }
     }
 }
