@@ -22,40 +22,39 @@ namespace DOGEOnlineGeneralEditor.Services
 
         #region FileService
         /// <summary>
-        /// Returns the ID of the Project that contains the File whose ID is sent as the parameter of the function.
+        /// Returns the ID of the project that contains the given file ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="fileID"></param>
         /// <returns>int</returns>
-        public int GetFileProjectID(int id)
+        public int GetProjectIDOfFile(int fileID)
         {
-            int result = (from f in database.File
-                          where f.ID == id
-                          select f.ProjectID).SingleOrDefault();
-            return result;
+            int projectID = (from f in database.File
+                             where f.ID == fileID
+                             select f.ProjectID).SingleOrDefault();
+            return projectID;
         }
-
         /// <summary>
-        /// Function that returns true if the Project with the given projectID contains a File
-        /// whose filename is fileName.
+        /// Function that returns true if the project with the given project ID contains a file
+        /// whose name is the given file name.
         /// </summary>
         /// <param name="projectID"></param>
         /// <param name="fileName"></param>
         /// <returns>bool</returns>
         public bool FileExists(int projectID, string fileName)
         {
-            File file = (from x in database.File
-                         where x.Name == fileName
-                         && x.Project.ID == projectID
-                         select x).FirstOrDefault();
+            var file = (from f in database.File
+                        where f.Name == fileName
+                        && f.Project.ID == projectID
+                        select f).FirstOrDefault();
             if (file != null)
             {
                 return true;
             }
             return false;
         }
-
         /// <summary>
-        /// Function that returns whether a File exists in the database.
+        /// Function that returns true if a project contains a file with the given name
+        /// and the file is not the existing file.
         /// </summary>
         /// <param name="projectID"></param>
         /// <param name="fileName"></param>
@@ -63,11 +62,11 @@ namespace DOGEOnlineGeneralEditor.Services
         /// <returns>bool</returns>
         public bool FileExists(int projectID, string fileName, int fileID)
         {
-            File file = (from x in database.File
-                         where x.Name == fileName
-                         && x.Project.ID == projectID
-                         && x.ID != fileID
-                         select x).FirstOrDefault();
+            var file = (from f in database.File
+                        where f.Name == fileName
+                        && f.Project.ID == projectID
+                        && f.ID != fileID
+                        select f).SingleOrDefault();
             if (file != null)
             {
                 return true;
@@ -75,27 +74,25 @@ namespace DOGEOnlineGeneralEditor.Services
             return false;
         }
         /// <summary>
-        /// Function that returns true if a File with the ID fileID exists in the database
+        /// Function that returns true if a file with the given ID exists in the database.
         /// </summary>
         /// <param name="fileID"></param>
         /// <returns>bool</returns>
         public bool FileExists(int fileID)
         {
-            File file = database.File.Find(fileID);
-
-            if(file != null)
+            var file = database.File.Find(fileID);
+            if (file != null)
             {
                 return true;
             }
             return false;
         }
-
         /// <summary>
-        /// Function that creates a File and adds it to the database.
+        /// Function that creates a file and adds it to the database.
         /// </summary>
         /// <param name="model"></param>
-		public void AddFileToDatabase(CreateFileViewModel model)
-		{
+		public void CreateFile(CreateFileViewModel model)
+        {
             File file = new File
             {
                 Name = model.Name,
@@ -103,15 +100,15 @@ namespace DOGEOnlineGeneralEditor.Services
                 ProjectID = model.ProjectID,
                 DateCreated = DateTime.Now,
             };
-			database.File.Add(file);
-			database.SaveChanges();
-		}
 
+            database.File.Add(file);
+            database.SaveChanges();
+        }
         /// <summary>
-        /// File that creates a File from an uploaded file and adds it to the database.
+        /// Function that creates a file from an uploaded file and adds it to the database.
         /// </summary>
         /// <param name="model"></param>
-        public void AddFileToDatabase(CreateFileFromFileViewModel model)
+        public void CreateFile(CreateFileFromFileViewModel model)
         {
             File file = new File
             {
@@ -121,44 +118,71 @@ namespace DOGEOnlineGeneralEditor.Services
                 Data = model.Data,
                 DateCreated = DateTime.Now,
             };
+
             database.File.Add(file);
             database.SaveChanges();
         }
-
         /// <summary>
-        /// Function that creates the default File for a new Project, whose filename depends on the 
-        /// language type of the Project.
+        /// Function that checks whether the MIME type of a file being uploaded is supported
+        /// or not.
+        /// </summary>
+        /// <param name="MIMEType"></param>
+        /// <returns></returns>
+        public bool MIMETypeIsValid(string MIMEType)
+        {
+            List<string> typeList = new List<string>
+            {
+                "text/html",
+                "text/plain",
+                "text/css",
+                "application/javascript",
+                "application/json",
+                "text/javascript"
+            };
+
+            foreach (var type in typeList)
+            {
+                if (type == MIMEType)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// Function that creates the default file for a new project, whose file name 
+        /// depends on the language type of the project.
         /// </summary>
         /// <param name="projectID"></param>
         public void CreateDefaultFile(int projectID)
         {
-            LanguageType projectType = (from x in database.Project
-                                        where x.ID == projectID
-                                        select x.LanguageType).First();
+            var languageType = (from p in database.Project
+                                where p.ID == projectID
+                                select p.LanguageType).First();
             File file = new File
             {
-                Name = projectType.DefaultName,
-                LanguageTypeID = projectType.ID,
+                Name = languageType.DefaultName,
+                LanguageTypeID = languageType.ID,
                 ProjectID = projectID,
                 DateCreated = DateTime.Now
             };
+
             database.File.Add(file);
             database.SaveChanges();
         }
-
         /// <summary>
-        /// Function that removes the File with the ID fileID from the database.
+        /// Function that removes the file with the given ID from the database.
         /// </summary>
         /// <param name="fileID"></param>
         public void RemoveFile(int fileID)
         {
-            File file = database.File.Find(fileID);
+            var file = database.File.Find(fileID);
+
             database.File.Remove(file);
             database.SaveChanges();
         }
-
         /// <summary>
-        /// Function that returns a List of FileViewModels
+        /// Function that returns a List of FileViewModels belonging to a given project.
         /// </summary>
         /// <param name="projectID"></param>
         /// <returns>List<FileViewModel></returns>
@@ -167,44 +191,35 @@ namespace DOGEOnlineGeneralEditor.Services
             List<FileViewModel> fileViewModels = new List<FileViewModel>();
             var files = GetFilesForProject(projectID);
 
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 fileViewModels.Add(ConvertFileToViewModel(file));
             }
 
             return fileViewModels;
         }
-
-        /*
-        public FileViewModel GetFileViewModel(int fileID)
-        {
-            var file = (from x in database.File
-                        where x.ID == fileID
-                        select x).SingleOrDefault();
-            if(file == null)
-            {
-                throw new FileNotFoundException();
-            }
-            var fileViewModel = ConvertFileToViewModel(file);
-            return fileViewModel;
-        }
-        */
-
-        
+        /// <summary>
+        /// Function that returns a EditorViewModel for the given file ID containing
+        /// the users Ace Editor Theme.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="fileID"></param>
+        /// <returns></returns>
         public EditorViewModel GetEditorViewModel(string userName, int fileID)
         {
-            int userID = GetUserIDByName(userName);
-            var file = (from x in database.File
-                        where x.ID == fileID
-                        select x).SingleOrDefault();
-            if(file == null)
+            int userID = GetUserID(userName);
+
+            var file = (from f in database.File
+                        where f.ID == fileID
+                        select f).SingleOrDefault();
+            if (file == null)
             {
-                throw new FileNotFoundException();
+                throw new CustomFileNotFoundException();
             }
+
             var editorViewModel = ConvertFileToEditorViewModel(userID, file);
             return editorViewModel;
         }
-
         /// <summary>
         /// Returns a List of Files that a Project contains
         /// </summary>
@@ -212,40 +227,38 @@ namespace DOGEOnlineGeneralEditor.Services
         /// <returns>List<File></returns>
         public List<File> GetFilesForProject(int projectID)
         {
-            var files = (from x in database.File
-                         where x.ProjectID == projectID
-                         select x).ToList();
+            var files = (from f in database.File
+                         where f.ProjectID == projectID
+                         select f).ToList();
             return files;
         }
-
         /// <summary>
-        /// Function that creates a FileViewModel from a File.
+        /// Function which saves an updated file to the database.
         /// </summary>
-        /// <param name="file"></param>
-        /// <returns>FileViewModel</returns>
-        public FileViewModel ConvertFileToViewModel(File file)
+        /// <param name="model"></param>
+        public void SaveFile(EditorViewModel model)
         {
-            FileViewModel model = new FileViewModel
-            {
-                ProjectID = file.ProjectID,
-                ID = file.ID,
-                Name = file.Name,
-                Data = file.Data,
-                LanguageTypeID = file.LanguageTypeID
-            };
-            return model;
-        }
+            var file = database.File.Find(model.ID);
 
+            file.Name = model.Name;
+            file.Data = model.Data;
+            file.LanguageTypeID = model.LanguageTypeID;
+
+            database.Entry(file).State = EntityState.Modified;
+            database.SaveChanges();
+        }
+        #region Private FileService
         /// <summary>
         /// Function that creates a EditorViewModel from a file.
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="file"></param>
         /// <returns>EditorViewModel</returns>
-        public EditorViewModel ConvertFileToEditorViewModel(int userID, File file)
+        private EditorViewModel ConvertFileToEditorViewModel(int userID, File file)
         {
             string aceTheme = GetUserTheme(userID);
-            EditorViewModel model = new EditorViewModel
+
+            return new EditorViewModel
             {
                 ProjectID = file.ProjectID,
                 ID = file.ID,
@@ -253,57 +266,57 @@ namespace DOGEOnlineGeneralEditor.Services
                 Data = file.Data,
                 LanguageTypeID = file.LanguageTypeID,
                 UserThemeID = aceTheme,
-                LanguageTypes = GetLanguageTypeList(file.LanguageTypeID),
+                LanguageTypes = GetLanguageTypeList()
             };
-            return model;
         }
-
         /// <summary>
-        /// Function which saves an updated file to the database.
+        /// Function that creates a FileViewModel from a file.
         /// </summary>
-        /// <param name="model"></param>
-        public void SaveFile(EditorViewModel model)
+        /// <param name="file"></param>
+        /// <returns>FileViewModel</returns>
+        private FileViewModel ConvertFileToViewModel(File file)
         {
-            File file = database.File.Find(model.ID);
-            file.Name = model.Name;
-            file.Data = model.Data;
-            file.LanguageTypeID = model.LanguageTypeID;
-            database.Entry(file).State = EntityState.Modified;
-            database.SaveChanges();
+            return new FileViewModel
+            {
+                ProjectID = file.ProjectID,
+                ID = file.ID,
+                Name = file.Name,
+                Data = file.Data,
+                LanguageTypeID = file.LanguageTypeID
+            };
         }
+        #endregion
         #endregion
 
         #region ProjectService
         /// <summary>
         /// Function that returns true if a User is the owner of the Project
         /// </summary>
-        /// <param name="userID"></param>
+        /// <param name="userName"></param>
         /// <param name="projectName"></param>
         /// <returns>bool</returns>
         public bool ProjectExists(string userName, string projectName)
         {
-            int userID = GetUserIDByName(userName);
+            int userID = GetUserID(userName);
 
-            var project = (from x in database.UserProject
-                           where x.UserID == userID
-                           && x.Project.Name == projectName
-                           && x.Project.OwnerID == userID
-                           select x.Project).SingleOrDefault();
-
+            var project = (from up in database.UserProject
+                           where up.UserID == userID
+                           && up.Project.Name == projectName
+                           && up.Project.OwnerID == userID
+                           select up.Project).SingleOrDefault();
             if (project != null)
             {
                 return true;
             }
             return false;
         }
-
         /// <summary>
         /// Function that adds a Project to the database.
         /// </summary>
         /// <param name="model"></param>
-        public void AddProjectToDatabase(ProjectViewModel model)
+        public void CreateProject(ProjectViewModel model)
         {
-            int ownerID = GetUserIDByName(model.Owner);
+            int ownerID = GetUserID(model.Owner);
 
             Project project = new Project
             {
@@ -313,37 +326,37 @@ namespace DOGEOnlineGeneralEditor.Services
                 DateCreated = DateTime.Now,
                 LanguageTypeID = model.LanguageTypeID,
             };
+
             database.Project.Add(project);
             database.SaveChanges();
 
             int projectID = GetProjectID(ownerID, model.Name);
             CreateDefaultFile(projectID);
         }
-        
         /// <summary>
         /// Function that returns the ID of a Project whose Name is name and is owned by 
-        /// the User with the ID ownerID.
+        /// the User with the ID userID.
         /// </summary>
-        /// <param name="ownerID"></param>
+        /// <param name="userID"></param>
         /// <param name="name"></param>
         /// <returns>int</returns>
-        public int GetProjectID(int ownerID, string name)
+        public int GetProjectID(int userID, string name)
         {
-            int id = (from x in database.Project
-                      where x.Name == name
-                      && x.OwnerID == ownerID
-                      select x.ID).First();
-            return id;
+            int projectID = (from p in database.Project
+                             where p.Name == name
+                             && p.OwnerID == userID
+                             select p.ID).FirstOrDefault();
+            return projectID;
         }
         /// <summary>
         /// Function which returns a MyProjectsViewModel containing both a
-        /// list of project the user owns and list of projects he is collaborating on.
+        /// List of project the user owns and List of projects he is collaborating on.
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
-        public MyProjectsViewModel GetMyProjectsByName(string userName)
+        public MyProjectsViewModel GetMyProjects(string userName)
         {
-            int userID = GetUserIDByName(userName);
+            int userID = GetUserID(userName);
 
             var ownedProjects = GetOwnedProjects(userID);
             List<ProjectViewModel> ownedProjectsViewModels = new List<ProjectViewModel>();
@@ -361,18 +374,20 @@ namespace DOGEOnlineGeneralEditor.Services
                 collaboartionProjectsViewModel.Add(projectVieModel);
             }
 
-            MyProjectsViewModel model = new MyProjectsViewModel
+            return new MyProjectsViewModel
             {
                 MyProjects = ownedProjectsViewModels,
                 CollaborationProjects = collaboartionProjectsViewModel
             };
-
-            return model;
         }
-
+        /// <summary>
+        /// Function which returns a List of all public Projects.
+        /// </summary>
+        /// <returns></returns>
         public PublicProjectsViewModel GetPublicProjects()
         {
             List<ProjectViewModel> publicProjects = new List<ProjectViewModel>();
+
             var result = (from p in database.Project
                           where p.IsPublic == true
                           select p).ToList();
@@ -383,62 +398,74 @@ namespace DOGEOnlineGeneralEditor.Services
                 publicProjects.Add(projectViewModel);
             }
 
-            PublicProjectsViewModel model = new PublicProjectsViewModel
+            PublicProjectsViewModel publicProjectsViewModel = new PublicProjectsViewModel
             {
                 PublicProjects = publicProjects
             };
 
-            return model;
+            return publicProjectsViewModel;
         }
-
-        public ProjectViewModel GetProjectViewModelByID(int id)
+        /// <summary>
+        /// Function that return a project viewmodel with a List of all the files
+        /// belonging to the given project.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        public ProjectViewModel GetProjectViewModel(int projectID)
         {
             var project = (from p in database.Project
-                           where p.ID == id
+                           where p.ID == projectID
                            select p).SingleOrDefault();
-            if(project == null)
+            if (project == null)
             {
-                //Project does not exist!
-                throw new Exception();
+                throw new CustomProjectNotFoundException();
             }
 
             var projectViewModel = ConvertProjectToViewModel(project);
-            projectViewModel.Files = GetFileViewModelsForProject(id);
-
+            projectViewModel.Files = GetFileViewModelsForProject(projectID);
 
             return projectViewModel;
         }
-
+        /// <summary>
+        /// Function that removes the project with the given ID from the database.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public bool RemoveProject(int projectID)
         {
-            Project project = database.Project.Find(projectID);
-            foreach(File file in project.Files.ToList())
+            var project = database.Project.Find(projectID);
+
+            foreach (File file in project.Files.ToList())
             {
                 database.File.Remove(file);
             }
-            foreach(UserProject userProject in project.UserProjects.ToList())
+            foreach (UserProject userProject in project.UserProjects.ToList())
             {
                 database.UserProject.Remove(userProject);
             }
+
             database.Project.Remove(project);
             database.SaveChanges();
             return true;
         }
-
-        public void EditProject(ProjectViewModel projectViewModel)
+        /// <summary>
+        /// Function that updates the general information of a project.
+        /// </summary>
+        /// <param name="model"></param>
+        public void UpdateProject(ProjectViewModel model)
         {
-            Project project = database.Project.Find(projectViewModel.ProjectID);
-            project.Name = projectViewModel.Name;
-            project.IsPublic = projectViewModel.IsPublic;
-            project.LanguageTypeID = projectViewModel.LanguageTypeID;
+            var project = database.Project.Find(model.ID);
+
+            project.Name = model.Name;
+            project.IsPublic = model.IsPublic;
+            project.LanguageTypeID = model.LanguageTypeID;
             database.Entry(project).State = EntityState.Modified;
             database.SaveChanges();
         }
 
-
         #region Private ProjectService
         /// <summary>
-        /// Function which returns a list of every project a user owns.
+        /// Function that returns a List of every project a user owns.
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
@@ -453,7 +480,7 @@ namespace DOGEOnlineGeneralEditor.Services
             return result;
         }
         /// <summary>
-        /// Function which returns a list of every project a user is
+        /// Function that returns a list of every project a user is
         /// collaborating on, excluding projects he owns.
         /// </summary>
         /// <param name="userID"></param>
@@ -468,208 +495,185 @@ namespace DOGEOnlineGeneralEditor.Services
                           select p).ToList();
             return result;
         }
-        private ProjectViewModel ConvertProjectToViewModel(Project project)
+        /// <summary>
+        /// Function that converts a project model into a ProjectViewModel.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private ProjectViewModel ConvertProjectToViewModel(Project model)
         {
-            string userName = GetUserNameByID(project.OwnerID);
-            ProjectViewModel model = new ProjectViewModel
+            string userName = GetUserName(model.OwnerID);
+
+            return new ProjectViewModel
             {
-                ProjectID = project.ID,
-                Name = project.Name,
+                ID = model.ID,
+                Name = model.Name,
                 Owner = userName,
-                DateCreated = project.DateCreated,
-                IsPublic = project.IsPublic
+                DateCreated = model.DateCreated,
+                IsPublic = model.IsPublic
             };
-
-            return model;
         }
-        /*private int GetProjectIDFromViewModel(ProjectViewModel model)
-        {
-            int userID = GetUserIDByName(model.Owner);
-            var project = (from x in database.Project
-                           where x.Name == model.Name
-                           && x.OwnerID == userID
-                           select x).SingleOrDefault();
-            return project.ID;
-        }*/
-
         #endregion
         #endregion
 
         #region UserService
-
+        /// <summary>
+        /// Function that returns whether a user has access to a given project or not.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public bool HasAccess(string userName, int projectID)
         {
-            int userID = GetUserIDByName(userName);
-            var result = (from x in database.UserProject
-                          where x.UserID == userID
-                          && x.ProjectID == projectID
-                          select x).SingleOrDefault();
+            var isPublic = (from p in database.Project
+                           where p.ID == projectID
+                           select p.IsPublic).SingleOrDefault();
+            if (isPublic)
+            {
+                return true;
+            }
 
-            if(result != null)
+            int userID = GetUserID(userName);
+            var result = (from up in database.UserProject
+                          where up.UserID == userID
+                          && up.ProjectID == projectID
+                          select up).SingleOrDefault();
+            if (result != null)
             {
                 return true;
             }
             return false;
         }
         /// <summary>
-        /// Function that returns a viewmodel of a user from the database. 
-        /// If a user is not found it throws UserNotFoundException.
+        /// Function that returns a IndexViewModel for a given users name.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+		public IndexViewModel GetUserIndexViewModel(string userName)
+        {
+            var user = (from u in database.User
+                        where u.Name == userName
+                        select u).SingleOrDefault();
+
+            return new IndexViewModel
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Gender = user.Gender,
+                UserTypeID = user.UserTypeID
+            };
+        }
+        /// <summary>
+        /// Function that returns a given users Ace Editor theme.
         /// </summary>
         /// <param name="userID"></param>
-        /// <returns>UserViewModel</returns>
-        /*public UserViewModel GetUserbyID(int userID)
-        {
-            User user = (from x in database.User
-                        where x.ID == userID
-                        select x).SingleOrDefault();
-            if(user == null)
-            {
-                throw new UserNotFoundException();
-            }
-            return new UserViewModel
-            {
-                UserID = user.ID,
-                UserName = user.Name
-            };
-        }*/
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="username"></param>
-        /// <returns>UserViewModel</returns>
-        /*public UserViewModel GetUserByUserName(string username)
-        {
-            User user = (from x in database.User
-                         where x.Name == username
-                         select x).SingleOrDefault();
-            if(user == null)
-            {
-                throw new UserNotFoundException();
-            }
-            return new UserViewModel
-            {
-                UserID = user.ID,
-                UserName = user.Name
-            };
-        }*/
-
-		public IndexViewModel GetUserAccountInfoByUserName(string username)
-		{
-			User user = (from x in database.User
-						 where x.Name == username
-						 select x).SingleOrDefault();
-			if (user == null)
-			{
-				throw new UserNotFoundException();
-			}
-			return new IndexViewModel
-			{
-				Name = user.Name,
-				Email = user.Email,
-				Gender = user.Gender,
-				UserTypeID = user.UserTypeID
-			};
-		}
-
+        /// <returns></returns>
         public string GetUserTheme(int userID)
         {
-            string result = (from x in database.User
-                             where x.ID == userID
-                             select x.AceThemeID).SingleOrDefault();
+            string result = (from u in database.User
+                             where u.ID == userID
+                             select u.AceThemeID).SingleOrDefault();
             return result;
         }
-
         /// <summary>
-        /// Function that adds a user to the database 
+        /// Function that creates and adds a user to the database.
         /// </summary>
         /// <param name="applicationUser"></param>
         /// <returns>bool</returns>
         public void CreateUser(RegisterViewModel model)
         {
-            var user = new User
+            User user = new User
             {
                 Name = model.Name,
                 Email = model.Email,
                 DateCreated = DateTime.Now,
                 Gender = model.Gender,
-                AceThemeID = "ace/theme/cobalt",
+                AceThemeID = "ace/theme/monokai",
                 UserTypeID = model.UserTypeID
             };
 
             database.User.Add(user);
             database.SaveChanges();
         }
-
-		/// <summary>
-		/// Function that adds a user to the database 
-		/// </summary>
-		/// <param name="applicationUser"></param>
-		/// <returns>bool</returns>
-		public void UpdateUser(IndexViewModel model)
-		{
-			int ID = GetUserIDByName(model.Name);
-			User user = database.User.Find(ID);
-			user.Email = model.Email;
-			user.Gender = model.Gender;
-			user.UserTypeID = model.UserTypeID;
-
-			database.Entry(user).State = EntityState.Modified;
-			database.SaveChanges();
-		}
-
-        public void UpdateUserTheme(int userID, string newTheme)
+        /// <summary>
+        /// Function that updates a users general information in the database.
+        /// </summary>
+        /// <param name="applicationUser"></param>
+        /// <returns>bool</returns>
+        public void UpdateUser(IndexViewModel model)
         {
-            User user = database.User.Find(userID);
-            user.AceThemeID = newTheme;
+            int ID = GetUserID(model.Name);
+            var user = database.User.Find(ID);
+
+            user.Email = model.Email;
+            user.Gender = model.Gender;
+            user.UserTypeID = model.UserTypeID;
+
             database.Entry(user).State = EntityState.Modified;
             database.SaveChanges();
         }
-
         /// <summary>
-        /// Function that returns true if a User with a given username exists in the database.
+        /// Function that updates a users Ace Editor theme in the database.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns>bool</returns>
-        /*public bool UserExists(string name)
+        /// <param name="userID"></param>
+        /// <param name="newTheme"></param>
+        public void UpdateUserTheme(int userID, string newTheme)
         {
-            User user = (from x in database.User
-                         where x.Name == name
-                         select x).SingleOrDefault();
-            if(user != null)
-            {
-                return true;
-            }
-            return false;
-        }*/
+            var user = database.User.Find(userID);
 
+            user.AceThemeID = newTheme;
+
+            database.Entry(user).State = EntityState.Modified;
+            database.SaveChanges();
+        }
+        /// <summary>
+        /// Function that returns true if the user ID is associated with a given project ID.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public bool UserProjectExists(int userID, int projectID)
         {
-            UserProject userProject = (from x in database.UserProject
-                                       where x.UserID == userID
-                                       && x.ProjectID == projectID
-                                       select x).SingleOrDefault();
-            if(userProject != null)
+            var userProject = (from up in database.UserProject
+                               where up.UserID == userID
+                               && up.ProjectID == projectID
+                               select up).SingleOrDefault();
+            if (userProject != null)
             {
                 return true;
             }
             return false;
         }
-        public int GetUserIDByName(string userName)
+        /// <summary>
+        /// Function that returns the user ID of a user with the given user name.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public int GetUserID(string userName)
         {
-            int id = (from x in database.User
-                      where x.Name == userName
-                      select x.ID).SingleOrDefault();
-            return id;
+            int userID = (from u in database.User
+                          where u.Name == userName
+                          select u.ID).SingleOrDefault();
+            return userID;
         }
-
-        public string GetUserNameByID(int userID)
+        /// <summary>
+        /// Function that returns the name of a given users ID.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public string GetUserName(int userID)
         {
-            string name = (from x in database.User
-                           where x.ID == userID
-                           select x.Name).SingleOrDefault();
-            return name;
+            string userName = (from u in database.User
+                               where u.ID == userID
+                               select u.Name).SingleOrDefault();
+            return userName;
         }
+        /// <summary>
+        /// Function that adds an association between a user and a project.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public bool AddUserToProject(int userID, int projectID)
         {
             UserProject userProject = new UserProject
@@ -679,48 +683,65 @@ namespace DOGEOnlineGeneralEditor.Services
             };
             if (UserProjectExists(userID, projectID))
             {
-                // duplicateexception
                 return false;
             }
+
             database.UserProject.Add(userProject);
             database.SaveChanges();
             return true;
         }
-
-        public void AddUserToProject(string userName, ProjectViewModel project)
+        /// <summary>
+        /// Function that adds an association between a user and a project.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="model"></param>
+        public void AddUserToProject(string userName, ProjectViewModel model)
         {
-            int userID = GetUserIDByName(userName);
-            int ownerID = GetUserIDByName(project.Owner);
-            int projectID = GetProjectID(ownerID, project.Name);
+            int userID = GetUserID(userName);
+            int ownerID = GetUserID(model.Owner);
+            int projectID = GetProjectID(ownerID, model.Name);
+
             UserProject userProject = new UserProject
             {
                 UserID = userID,
                 ProjectID = projectID
             };
-            if(UserProjectExists(userID, projectID))
-            {
-                // duplicateexception
-            }
+
             database.UserProject.Add(userProject);
-           database.SaveChanges();
+            database.SaveChanges();
         }
-        public bool RemoveUserProject (int userID, int projectID)
+        /// <summary>
+        /// Function that removes a connection between a user and a project.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        public bool RemoveUserProject(int userID, int projectID)
         {
             var userProject = (from up in database.UserProject
                                where up.UserID == userID
                                && up.ProjectID == projectID
                                select up).SingleOrDefault();
-            if(userProject == null)
+            if (userProject == null)
             {
                 return false;
             }
+
             database.UserProject.Remove(userProject);
             database.SaveChanges();
             return true;
         }
-        public UserCollabViewModel GetCollaboratorViewModel(string userName, int projectID)
+        /// <summary>
+        /// Function that returns two lists, one of users which are collaborators of a given
+        /// project and one of users which are not.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        public UserCollaboratorViewModel GetCollaboratorViewModel(string userName, int projectID)
         {
-            int userID = GetUserIDByName(userName);
+            int userID = GetUserID(userName);
+
             var allUsers = (from up in database.UserProject
                             where up.UserID != userID
                             select up.User);
@@ -732,10 +753,10 @@ namespace DOGEOnlineGeneralEditor.Services
                                  && u.ID != userID
                                  select u).Distinct();
 
-            List <UserViewModel> CollaboratorList = new List<UserViewModel>();
+            List<UserViewModel> CollaboratorList = new List<UserViewModel>();
             foreach (User user in Collaborators)
             {
-                UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };
+                UserViewModel viewModel = new UserViewModel { ID = user.ID, Name = user.Name };
                 CollaboratorList.Add(viewModel);
             }
 
@@ -744,53 +765,82 @@ namespace DOGEOnlineGeneralEditor.Services
             List<UserViewModel> notCollaboratorList = new List<UserViewModel>();
             foreach (User user in notCollaborators)
             {
-                UserViewModel viewModel = new UserViewModel { UserID = user.ID, UserName = user.Name };
+                UserViewModel viewModel = new UserViewModel { ID = user.ID, Name = user.Name };
                 notCollaboratorList.Add(viewModel);
             }
-            UserCollabViewModel userCollabViewModel = new UserCollabViewModel
+            UserCollaboratorViewModel userCollaboratorViewModel = new UserCollaboratorViewModel
             {
                 ProjectID = projectID,
                 Collaborators = CollaboratorList,
                 NotCollaborators = notCollaboratorList
             };
-            return userCollabViewModel;
-
+            return userCollaboratorViewModel;
         }
         #endregion
-
 
         #region HelperFunctions
         // A List of functions needed to populate dropdown lists within the website
         // some take in a parameter to assign the default selected item while others don't.
+
+        /// <summary>
+        /// Function that returns a SelectList of all user types currently in the database.
+        /// </summary>
+        /// <returns></returns>
         public SelectList GetUserTypes()
         {
             return new SelectList(database.UserType, "ID", "Name");
         }
+        /// <summary>
+        /// Function that returns a SelectList of all user types currently in the database
+        /// where the given type ID is selected.
+        /// </summary>
+        /// <param name="typeID"></param>
+        /// <returns></returns>
         public SelectList GetUserTypes(int typeID)
         {
             return new SelectList(database.UserType, "ID", "Name", typeID);
         }
+        /// <summary>
+        /// Function that returns a SelectList of all language types currently in the database.
+        /// </summary>
+        /// <returns></returns>
         public SelectList GetLanguageTypes()
         {
             return new SelectList(database.LanguageType, "ID", "Name");
         }
+        /// <summary>
+        /// Function that returns a SelectList of all language types currently in the database
+        /// where the given type ID is selected.
+        /// </summary>
+        /// <param name="typeID"></param>
+        /// <returns></returns>
         public SelectList GetLanguageTypes(int typeID)
         {
             return new SelectList(database.LanguageType, "ID", "Name", typeID);
         }
-        public List<LanguageType> GetLanguageTypeList(int typeID)
+        /// <summary>
+        /// Function that returns a List of Languagetypes 
+        /// </summary>
+        /// <param name="typeID"></param>
+        /// <returns></returns>
+        public List<LanguageType> GetLanguageTypeList()
         {
             List<LanguageType> list = new List<LanguageType>();
-            var result = (from x in database.LanguageType
-                          select x).ToList();
+            var result = (from lt in database.LanguageType
+                          select lt).ToList();
             result.ForEach(c => list.Add(c));
             return result;
         }
+        /// <summary>
+        /// Function that returns a SelectList of all Ace Editor themes currently in the database
+        /// where the given theme ID is selected.
+        /// </summary>
+        /// <param name="themeID"></param>
+        /// <returns></returns>
         public SelectList GetAceThemes(string themeID)
         {
             return new SelectList(database.AceTheme, "ID", "Theme", themeID);
         }
-
         #endregion
     }
 }

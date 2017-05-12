@@ -12,7 +12,7 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
     {
         public int ProjectID { get; set; }
         [Required]
-        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "The {0} must be between 3-30 characters long.", MinimumLength = 3)]
         [Display(Name = "Name")]
         public string Name { get; set; }
         public int LanguageTypeID { get; set; }
@@ -40,8 +40,8 @@ namespace DOGEOnlineGeneralEditor.Models.ViewModels
         public int ProjectID { get; set; }
         public int ID { get; set; }
         [Required]
-        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-        [Display(Name = "Name")]
+        [StringLength(30, ErrorMessage = "The {0} must be between 3-30 characters long.", MinimumLength = 3)]
+		[Display(Name = "Name")]
         public string Name { get; set; }
         [AllowHtml]
         public string  Data { get; set; }

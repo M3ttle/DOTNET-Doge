@@ -7,10 +7,18 @@
 
 @Scripts.Render("~/bundles/jquery")
 
-<div class="doge-header">Public Projects  <i class="glyphicon glyphicon-search"></i></div>
-
+<div class="doge-header">Public Projects  
+    <i data-toggle="tooltip" data-placement="bottom" title="Search for Projects" class="glyphicon glyphicon-search" id="glyphicon-public-search"></i>
+    <input type="text" class="table-searchbar" id="public-search" placeholder="Search..." />
+</div>
 <div class="table-container">
     <table id="public-projects-table" class="table">
         @{ Html.RenderPartial("_ProjectTable", Model.PublicProjects); }
     </table>
 </div>
+
+@section Scripts {
+
+    <script src="~/Scripts/table.js"></script>
+}
+

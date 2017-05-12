@@ -1,12 +1,15 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - DOGE</title>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <script src="~/Scripts/doge.js"></script>
+    <script src="~/Scripts/konami.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
     <div class="script">
@@ -18,14 +21,15 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <img class="doge-logo" src="~/Images/Doge_white.png" alt="DOGE logo">
+                    <a href="/Workspace/MyProjects">
+                        <img class="doge-logo" src="~/Images/Doge_small.png" alt="DOGE logo">
+                    </a>
                     @if (Request.IsAuthenticated)
                     {
-                        @Html.ActionLink("DOGE", "MyProjects", "Workspace", new { area = "" }, new { @class = "navbar-brand" })
-                    }
+                        <a class="navbar-brand" href="/Workspace/MyProjects">DOGE</a>}
                     else
                     {
-                        @Html.ActionLink("DOGE", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                        <a class="navbar-brand" href="/">DOGE</a>
                     }
                 </div>
                 <div class="navbar-collapse collapse">
@@ -33,8 +37,8 @@
 
                         @if (Request.IsAuthenticated)
                         {
-                            <li>@Html.ActionLink("My Projects", "MyProjects", "Workspace")</li>
-                            <li>@Html.ActionLink("Public Projects", "PublicProjects", "Workspace")</li>
+                            <li><a href="/Workspace/MyProjects">My Projects</a></li>
+                            <li><a href="/Workspace/PublicProjects">Public Projects</a></li>
                         }
                     </ul>
                     @Html.Partial("_LoginPartial")
@@ -53,13 +57,16 @@
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
+        <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+        <script src="~/signalr/hubs"></script>
+        <script src="~/Scripts/liveCounter.js"></script>
 
     </div>
+
     <div class="noscript">
-        <p>You need to enable javascript to use this website</p>
-        <img src="~/Images/Doge_white.png"/>
+        <div class="doge-header">You need to enable javascript to use this website</div>
+        <img src="~/Images/Doge.png" alt="DOGE Logo"/>
     </div>
 </body>
 </html>
 
-<script src="~/Scripts/Doge.js"></script>

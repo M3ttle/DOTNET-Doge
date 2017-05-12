@@ -3,129 +3,31 @@
 @{
     ViewBag.Title = "Details";
 }
+    
+<div class="small-table-container">
+    <div class="doge-header">@Model.Name  
+        <div class="doge-header-icons"><a data-toggle="tooltip" data-placement="bottom" title="Create File" href="@Url.Action("Create", "File", new { id = Model.ID }, null)"><i class="glyphicon glyphicon-plus-sign"></i></a><!--
+         --><a data-toggle="tooltip" data-placement="bottom" title="Add User to Project" href="@Url.Action("AddUserToProject", "Project", new { id = Model.ID }, null)"><i class="glyphicon glyphicon-send"></i></a><!--
+         --><a data-toggle="tooltip" data-placement="bottom" title="Edit Project" href="@Url.Action("Edit", "Project", new { id = Model.ID }, null)"><i class="glyphicon glyphicon-pencil"></i></a><!--
+         -->@if (Model.Owner == User.Identity.Name)
+            {<!--
+                 --><a data-toggle="tooltip" data-placement="bottom" title="Delete Project" href="@Url.Action("Delete", "Project", new { id = Model.ID }, null)"><i class="glyphicon glyphicon-trash"></i></a><!--
+         -->}<!--
+         --><i data-toggle="tooltip" data-placement="bottom" title="Search for Files" class="glyphicon glyphicon-search" id="glyphicon-files-search"></i><!--
+     --></div><!--
+     --><input type="text" id="files-search" class="table-searchbar" placeholder="Search..." />
+    </div>
+    <table id="files-table" class="table">
+        @{ Html.RenderPartial("_FileTable", Model.Files); }
+    </table>
+</div>
 
-@if(TempData["Success"] != null)
-{
-    <div>@TempData["Success"]</div>
+
+
+
+@section Scripts {
+
+    <script src="~/Scripts/table.js"></script>
 }
-@Html.ValidationSummary()
-
-<div class="file-container">
-    <div class="doge-header">@Model.Name  <i class="glyphicon glyphicon-plus-sign"></i><i class="glyphicon glyphicon-send"></i><i class="glyphicon glyphicon-pencil"></i><i class="glyphicon glyphicon-trash"></i><i class="glyphicon glyphicon-search"></i></div>
-    @{ Html.RenderPartial("_FileTable", Model.Files); }
-</div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@Html.ActionLink("Add File", "Create", "File", new { id = Model.ProjectID }, null)
-<br />
-@Html.ActionLink("Add User to project", "AddUserToProject", "Project", new { id = Model.ProjectID }, null)
-<br />
-@Html.ActionLink("Edit project", "Edit", "Project", new { id = Model.ProjectID }, null)
-<br />
-@Html.ActionLink("Delete Project", "Delete", "Project", new { id = Model.ProjectID }, null)
-
-<div>
-    <h4>Project</h4>
-    <hr />
-
-    <ol>
-        @foreach(var file in Model.Files)
-        {
-            <li>
-                @Html.ActionLink(file.Name, "Editor", "Workspace", new { id = file.ID }, null)
-                @using (Html.BeginForm("Delete", "File", FormMethod.Post, null))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("fileID", file.ID)
-                    <input type="submit" value="Delete"/>
-                }
-            </li>
-        }
-    </ol>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LanguageType.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LanguageType.Name)
-        </dd>
-
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FileCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FileCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Owner)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Owner)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsPublic)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsPublic)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Back to MyProjects", "MyProjects","Workspace")
-</p>

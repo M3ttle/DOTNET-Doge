@@ -21,13 +21,13 @@ namespace DOGEOnlineGeneralEditor.Controllers
  
  		public ActionResult Editor(int? id)
  		{
-            if(id == null)
+            if (id == null)
             {
-                throw new FileNotFoundException();
+                throw new CustomFileNotFoundException();
             }
             var model = service.GetEditorViewModel(User.Identity.Name, id.Value);
 
-            if(service.HasAccess(User.Identity.Name, model.ProjectID) == false)
+            if (service.HasAccess(User.Identity.Name, model.ProjectID) == false)
             {
                 throw new UnauthorizedAccessException();
             }
@@ -41,7 +41,7 @@ namespace DOGEOnlineGeneralEditor.Controllers
  		public ActionResult MyProjects()
  		{
             var userName = User.Identity.GetUserName();
-            var model = service.GetMyProjectsByName(userName); 
+            var model = service.GetMyProjects(userName); 
             return View(model);
  		}
  

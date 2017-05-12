@@ -5,57 +5,59 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<div class="small-table-container">
+    <div class="doge-header">Edit @Model.Name</div>
+    <div class="form-container">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID)
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Project</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ProjectID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                @if (Model.Owner == User.Identity.Name)
+                {
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                }
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label" })
+                @if (Model.Owner == User.Identity.Name)
+                {
                     @Html.EditorFor(model => model.IsPublic)
                     @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
-                </div>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.IsPublic)
+                }
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LanguageTypeID, "LanguageTypeID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.LanguageTypeID, "LanguageTypeID", htmlAttributes: new { @class = "control-label" })
                 @Html.DropDownList("LanguageTypeID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.LanguageTypeID, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
-        </div>
-    </div>
-}
+        }
 
-<div>
-    @Html.ActionLink("Back to project", "Details", "Project", new { id = Model.ProjectID }, null)
+        <div>
+            @Html.ActionLink("Back to project", "Details", "Project", new { id = Model.ID }, null)
+        </div>
+
+    </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }

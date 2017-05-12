@@ -5,69 +5,50 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<div class="small-table-container">
+    <div class="doge-header">@ViewBag.Title</div>
+    <div class="form-container">
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LanguageType.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.LanguageType.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Owner)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Owner)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FileCount)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.IsPublic)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FileCount)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.IsPublic)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
+        </dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Owner)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Owner)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsPublic)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsPublic)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to project", "Details", "Project", new { id = Model.ProjectID }, null)
-        </div>
-    }
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <input type="submit" value="Delete" class="btn btn-default" />
+            </div>
+            @Html.ActionLink("Back to project", "Details", "Project", new { id = Model.ID }, null)
+        }
+    </div>
 </div>
